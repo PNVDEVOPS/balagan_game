@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dialogue_box"]
+
+[ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="1"]
+
+[node name="DialogueBox" type="CanvasLayer"]
+layer = 8
+script = ExtResource("1")
+
+[node name="Panel" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+self_modulate = Color(0.1, 0.08, 0.06, 0.85)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="SpeakerLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Speaker"
+uppercase = true
+
+[node name="TextLabel" type="RichTextLabel" parent="Panel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+theme_override_font_sizes/normal_font_size = 14
+fit_content = true
+scroll_active = false
