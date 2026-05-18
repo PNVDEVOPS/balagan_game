@@ -15,6 +15,7 @@ var _screen_fade: Node = null
 
 func _ready() -> void:
 	_load_room_graph()
+	artifact_collected.connect(_on_artifact_collected)
 
 func _load_room_graph() -> void:
 	var file := FileAccess.open("res://data/room_graph.json", FileAccess.READ)
@@ -92,6 +93,16 @@ func collect_artifact(artifact_id: String) -> void:
 	if not artifacts_collected.has(artifact_id):
 		artifacts_collected.append(artifact_id)
 		artifact_collected.emit(artifact_id)
+
+func _on_artifact_collected(artifact_id: String) -> void:
+	match artifact_id:
+		"bone_amulet":
+			mutate_door("corridor", "door_right", "main_hall")
+		"shaman_drum":
+			mutate_door("entrance", "door_inside", "corridor")
+			mutate_door("bedroom", "door_back", "storage")
+		"earring":
+			reset_room_graph()
 
 func teleport_to_random_room() -> void:
 	var room_ids: Array = room_graph["rooms"].keys()
