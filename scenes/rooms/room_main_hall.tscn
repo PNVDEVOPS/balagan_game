@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://room_main_hall"]
+[gd_scene load_steps=5 format=3 uid="uid://room_main_hall"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -41,3 +42,5 @@ door_id = "door_left"
 [node name="DoorRight" parent="." instance=ExtResource("2")]
 position = Vector2(550, 320)
 door_id = "door_right"
+
+[node name="HUD" parent="." instance=ExtResource("3")]
