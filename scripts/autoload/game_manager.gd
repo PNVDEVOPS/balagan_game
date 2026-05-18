@@ -8,6 +8,7 @@ var artifacts_collected: Array[String] = []
 var room_graph: Dictionary = {}
 var transition_count: int = 0
 var is_transitioning: bool = false
+var spawn_door_id: String = ""
 
 var _room_graph_original: Dictionary = {}
 var _screen_fade: Node = null
@@ -46,6 +47,7 @@ func change_room(door_id: String) -> void:
 		return
 
 	is_transitioning = true
+	spawn_door_id = door_id
 
 	_ensure_fade()
 	await _screen_fade.fade_out(0.5)
@@ -56,11 +58,20 @@ func change_room(door_id: String) -> void:
 
 	await get_tree().process_frame
 	await get_tree().process_frame
+	_place_player_at_door()
 	_ensure_fade()
 	await _screen_fade.fade_in(0.5)
 
 	is_transitioning = false
 	room_changed.emit(target_room)
+
+func _place_player_at_door() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if not player:
+		return
+	var spawn := get_tree().current_scene.get_node_or_null("SpawnPoint")
+	if spawn:
+		player.global_position = spawn.global_position
 
 func _ensure_fade() -> void:
 	_screen_fade = get_tree().get_first_node_in_group("screen_fade")
