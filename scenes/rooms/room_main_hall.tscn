@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://room_main_hall"]
+[gd_scene load_steps=4 format=3 uid="uid://room_main_hall"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -28,3 +29,15 @@ position = Vector2(100, 300)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(100, 300)
+
+[node name="DoorEntrance" parent="." instance=ExtResource("2")]
+position = Vector2(30, 320)
+door_id = "door_entrance"
+
+[node name="DoorLeft" parent="." instance=ExtResource("2")]
+position = Vector2(250, 320)
+door_id = "door_left"
+
+[node name="DoorRight" parent="." instance=ExtResource("2")]
+position = Vector2(550, 320)
+door_id = "door_right"
