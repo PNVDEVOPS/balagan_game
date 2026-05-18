@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://player001"]
+[gd_scene load_steps=5 format=3 uid="uid://player001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/player/flashlight.gd" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(16, 64)
@@ -25,6 +26,8 @@ color = Color(1, 0.957, 0.839, 1)
 energy = 1.5
 texture = null
 texture_scale = 2.0
+shadow_enabled = true
+script = ExtResource("2")
 
 [node name="InteractionRay" type="RayCast2D" parent="."]
 target_position = Vector2(30, 0)

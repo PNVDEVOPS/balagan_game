@@ -11,7 +11,7 @@ var nearest_interactable: Node2D = null
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var ray: RayCast2D = $InteractionRay
-@onready var flashlight: PointLight2D = $Flashlight
+@onready var flashlight_ctrl: PointLight2D = $Flashlight
 @onready var camera: Camera2D = $Camera2D
 @onready var prompt: Sprite2D = $InteractionPrompt
 
@@ -73,12 +73,33 @@ func _check_interaction() -> void:
 	prompt.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact") and nearest_interactable:
-		if nearest_interactable.has_method("interact"):
+	if DialogueManager.is_active:
+		if event.is_action_pressed("advance_dialogue"):
+			DialogueManager.advance()
+		return
+
+	if flashlight_ctrl.is_qte_active:
+		if event.is_action_pressed("interact"):
+			flashlight_ctrl.qte_press()
+		return
+
+	if event.is_action_pressed("interact"):
+		if nearest_interactable:
 			nearest_interactable.interact(self)
+		else:
+			_start_crank()
+	elif event.is_action_released("interact"):
+		_stop_crank()
 	elif event.is_action_pressed("hide") and nearest_interactable:
 		if nearest_interactable.has_method("hide_player"):
 			nearest_interactable.hide_player(self)
-	elif event.is_action_pressed("advance_dialogue"):
-		if DialogueManager.is_active:
-			DialogueManager.advance()
+
+func _start_crank() -> void:
+	if nearest_interactable:
+		return
+	is_interacting = true
+	flashlight_ctrl.crank()
+
+func _stop_crank() -> void:
+	is_interacting = false
+	flashlight_ctrl.stop_crank()
