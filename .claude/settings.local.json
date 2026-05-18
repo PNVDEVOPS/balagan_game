@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(superpowers:brainstorming)",
+      "Skill(superpowers:writing-plans)",
+      "PowerShell(New-Item *)",
+      "Skill(superpowers:subagent-driven-development)",
+      "Bash(git init *)",
+      "Skill(superpowers:using-superpowers)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

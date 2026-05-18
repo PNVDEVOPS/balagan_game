@@ -1,0 +1,44 @@
+extends Node
+
+signal dialogue_started()
+signal dialogue_line(speaker: String, text: String)
+signal dialogue_finished()
+
+var is_active: bool = false
+var current_lines: Array = []
+var current_index: int = 0
+
+func start_dialogue(dialogue_id: String) -> void:
+	var path := "res://data/dialogues/%s.json" % dialogue_id
+	var file := FileAccess.open(path, FileAccess.READ)
+	if not file:
+		return
+	var json := JSON.new()
+	json.parse(file.get_as_text())
+	file.close()
+	current_lines = json.data.get("lines", [])
+	current_index = 0
+	is_active = true
+	dialogue_started.emit()
+	_show_next_line()
+
+func advance() -> void:
+	if not is_active:
+		return
+	current_index += 1
+	if current_index >= current_lines.size():
+		is_active = false
+		dialogue_finished.emit()
+		return
+	_show_next_line()
+
+func _show_next_line() -> void:
+	var line: Dictionary = current_lines[current_index]
+	dialogue_line.emit(line.get("speaker", ""), line.get("text", ""))
+
+func show_text(speaker: String, text: String) -> void:
+	current_lines = [{"speaker": speaker, "text": text}]
+	current_index = 0
+	is_active = true
+	dialogue_started.emit()
+	_show_next_line()

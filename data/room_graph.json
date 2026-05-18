@@ -1,0 +1,44 @@
+{
+  "rooms": {
+    "entrance": {
+      "scene": "res://scenes/rooms/room_entrance.tscn",
+      "doors": {
+        "door_inside": "main_hall"
+      }
+    },
+    "main_hall": {
+      "scene": "res://scenes/rooms/room_main_hall.tscn",
+      "doors": {
+        "door_entrance": "entrance",
+        "door_left": "bedroom",
+        "door_right": "corridor"
+      }
+    },
+    "bedroom": {
+      "scene": "res://scenes/rooms/room_bedroom.tscn",
+      "doors": {
+        "door_back": "main_hall"
+      }
+    },
+    "corridor": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": {
+        "door_left": "main_hall",
+        "door_right": "storage",
+        "door_down": "basement"
+      }
+    },
+    "storage": {
+      "scene": "res://scenes/rooms/room_storage.tscn",
+      "doors": {
+        "door_back": "corridor"
+      }
+    },
+    "basement": {
+      "scene": "res://scenes/rooms/room_basement.tscn",
+      "doors": {
+        "door_up": "corridor"
+      }
+    }
+  }
+}
