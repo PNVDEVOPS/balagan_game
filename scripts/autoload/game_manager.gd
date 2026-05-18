@@ -1,9 +1,16 @@
 extends Node
 
+signal room_changed(room_id: String)
+signal artifact_collected(artifact_id: String)
+
 var current_room: String = "main_hall"
 var artifacts_collected: Array[String] = []
 var room_graph: Dictionary = {}
 var transition_count: int = 0
+var is_transitioning: bool = false
+
+var _room_graph_original: Dictionary = {}
+var _screen_fade: Node = null
 
 func _ready() -> void:
 	_load_room_graph()
@@ -14,6 +21,7 @@ func _load_room_graph() -> void:
 		var json := JSON.new()
 		json.parse(file.get_as_text())
 		room_graph = json.data
+		_room_graph_original = json.data.duplicate(true)
 		file.close()
 
 func get_door_target(room_id: String, door_id: String) -> String:
@@ -28,12 +36,69 @@ func get_room_scene(room_id: String) -> String:
 	return ""
 
 func change_room(door_id: String) -> void:
+	if is_transitioning:
+		return
 	var target_room := get_door_target(current_room, door_id)
 	if target_room.is_empty():
 		return
 	var scene_path := get_room_scene(target_room)
 	if scene_path.is_empty():
 		return
+
+	is_transitioning = true
+
+	_ensure_fade()
+	await _screen_fade.fade_out(0.5)
+
 	current_room = target_room
 	transition_count += 1
 	get_tree().change_scene_to_file(scene_path)
+
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_ensure_fade()
+	await _screen_fade.fade_in(0.5)
+
+	is_transitioning = false
+	room_changed.emit(target_room)
+
+func _ensure_fade() -> void:
+	_screen_fade = get_tree().get_first_node_in_group("screen_fade")
+	if not _screen_fade:
+		var fade_scene := preload("res://scenes/ui/screen_fade.tscn")
+		_screen_fade = fade_scene.instantiate()
+		_screen_fade.add_to_group("screen_fade")
+		get_tree().current_scene.add_child(_screen_fade)
+
+func mutate_door(room_id: String, door_id: String, new_target: String) -> void:
+	if room_graph["rooms"].has(room_id):
+		room_graph["rooms"][room_id]["doors"][door_id] = new_target
+
+func reset_room_graph() -> void:
+	room_graph = _room_graph_original.duplicate(true)
+
+func collect_artifact(artifact_id: String) -> void:
+	if not artifacts_collected.has(artifact_id):
+		artifacts_collected.append(artifact_id)
+		artifact_collected.emit(artifact_id)
+
+func teleport_to_random_room() -> void:
+	var room_ids: Array = room_graph["rooms"].keys()
+	room_ids.erase(current_room)
+	if room_ids.is_empty():
+		return
+	var random_room: String = room_ids[randi() % room_ids.size()]
+	var scene_path := get_room_scene(random_room)
+	if scene_path.is_empty():
+		return
+
+	is_transitioning = true
+	_ensure_fade()
+	await _screen_fade.fade_out(0.3)
+	current_room = random_room
+	get_tree().change_scene_to_file(scene_path)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_ensure_fade()
+	await _screen_fade.fade_in(0.8)
+	is_transitioning = false
