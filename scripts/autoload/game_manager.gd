@@ -103,6 +103,11 @@ func _on_artifact_collected(artifact_id: String) -> void:
 			mutate_door("bedroom", "door_back", "storage")
 		"earring":
 			reset_room_graph()
+			mutate_door("entrance", "door_outside", "finale")
+			room_graph["rooms"]["finale"] = {
+				"scene": "res://scenes/rooms/room_finale.tscn",
+				"doors": {}
+			}
 
 func teleport_to_random_room() -> void:
 	var room_ids: Array = room_graph["rooms"].keys()
