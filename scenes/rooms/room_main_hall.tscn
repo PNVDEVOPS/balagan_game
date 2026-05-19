@@ -77,6 +77,7 @@ examine_text = ""
 [node name="KeyPickable" parent="." instance=ExtResource("7")]
 position = Vector2(2000, 660)
 visible = false
+monitoring = false
 item_id = "chest_key_1"
 item_name = "Ключ от сундука"
 pickup_text = "Старый ключ. Нашёлся среди углей камелька."
@@ -90,6 +91,7 @@ fail_text = "Сундук заперт. Нужен ключ."
 [node name="AmuletPickable" parent="." instance=ExtResource("7")]
 position = Vector2(2200, 660)
 visible = false
+monitoring = false
 item_id = "amulet"
 item_name = "Амулет"
 pickup_text = "Древняя косточка. Тёплая на ощупь, будто живая."
