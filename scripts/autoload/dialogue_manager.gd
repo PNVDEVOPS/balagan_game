@@ -9,14 +9,23 @@ var current_lines: Array = []
 var current_index: int = 0
 
 func start_dialogue(dialogue_id: String) -> void:
-	var path := "res://data/dialogues/%s.json" % dialogue_id
+	var parts := dialogue_id.split("/", false, 1)
+	var file_name := parts[0]
+	var key := parts[1] if parts.size() > 1 else ""
+
+	var path := "res://data/dialogues/%s.json" % file_name
 	var file := FileAccess.open(path, FileAccess.READ)
 	if not file:
 		return
 	var json := JSON.new()
 	json.parse(file.get_as_text())
 	file.close()
-	current_lines = json.data.get("lines", [])
+
+	if key.is_empty():
+		current_lines = json.data.get("lines", [])
+	else:
+		current_lines = json.data.get(key, [])
+
 	current_index = 0
 	is_active = true
 	dialogue_started.emit()

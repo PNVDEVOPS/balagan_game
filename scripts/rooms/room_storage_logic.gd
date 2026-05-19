@@ -53,7 +53,7 @@ func _trigger_flashback() -> void:
 	tween.tween_property(bg, "color", Color(0.24, 0.17, 0.1), 1.0)
 	await tween.finished
 	await get_tree().create_timer(2.0).timeout
-	DialogueManager.show_text("", "Видение: Айыына сидит у огня с бубном. Она поёт, но что-то идёт не так — тени на стенах начинают двигаться...")
+	DialogueManager.start_dialogue("chapter2_balagan/flashback_drum")
 	await DialogueManager.dialogue_finished
 	tween = create_tween()
 	tween.tween_property(bg, "color", original_color, 1.0)
