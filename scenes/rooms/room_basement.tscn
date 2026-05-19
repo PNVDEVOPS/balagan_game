@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://room_basement"]
+[gd_scene load_steps=9 format=3 uid="uid://room_basement"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/rooms/room_basement_logic.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://spirit_guardian" path="res://scenes/characters/spirit_guardian.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -14,61 +16,70 @@ script = ExtResource("4")
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 2200.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.02, 0.008, 0.012, 1)
 
 [node name="FloorVisual" type="ColorRect" parent="."]
-offset_top = 320.0
+offset_top = 660.0
 offset_right = 2200.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.05, 0.03, 0.035, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(0, 320)
+position = Vector2(0, 660)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
 [node name="Player" parent="." instance=ExtResource("1")]
-position = Vector2(100, 300)
+position = Vector2(100, 640)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(100, 300)
+position = Vector2(100, 640)
 
 [node name="RoomRight" type="Marker2D" parent="."]
 position = Vector2(2200, 180)
 
 [node name="DoorUp" parent="." instance=ExtResource("2")]
-position = Vector2(50, 320)
+position = Vector2(50, 660)
 door_id = "door_up"
 
-[node name="MirrorFragment1" parent="." instance=ExtResource("5")]
-position = Vector2(400, 320)
-item_id = "mirror_fragment_1"
-item_name = "Осколок зеркала"
-pickup_text = "Острый осколок. В отражении на миг — чужое лицо."
+[node name="NoteAiyyna5" parent="." instance=ExtResource("7")]
+position = Vector2(400, 620)
+examine_text = ""
 
-[node name="MirrorFragment2" parent="." instance=ExtResource("5")]
-position = Vector2(900, 320)
-item_id = "mirror_fragment_2"
-item_name = "Осколок зеркала"
-pickup_text = "Ещё один. Тёплый на ощупь."
+[node name="RiddleMirror" parent="." instance=ExtResource("7")]
+position = Vector2(850, 620)
+examine_text = ""
 
-[node name="MirrorFragment3" parent="." instance=ExtResource("5")]
-position = Vector2(1700, 320)
-item_id = "mirror_fragment_3"
-item_name = "Осколок зеркала"
-pickup_text = "Последний. Три вместе — целое зеркало."
+[node name="OldMirror" parent="." instance=ExtResource("7")]
+position = Vector2(900, 660)
+examine_text = ""
+
+[node name="KeyPickable" parent="." instance=ExtResource("5")]
+position = Vector2(1100, 660)
+visible = false
+item_id = "chest_key_3"
+item_name = "Ключ"
+pickup_text = "За зеркалом. Холодный. Как будто ждал."
+
+[node name="ChestEarring" parent="." instance=ExtResource("8")]
+position = Vector2(1700, 660)
+required_item = "chest_key_3"
+success_text = "Сундук открыт. Внутри — что-то серебристое."
+fail_text = "Сундук заперт."
 
 [node name="EarringPickable" parent="." instance=ExtResource("5")]
-position = Vector2(900, 320)
+position = Vector2(1700, 660)
 visible = false
-monitoring = false
 item_id = "earring"
-item_name = "Серьга"
-pickup_text = "Серебряная серьга. На внутренней стороне — имя: «Айыына»."
+item_name = "Серёжка"
+pickup_text = "Серебряная. Одна. На внутренней стороне — имя: «Сардаана»."
 
 [node name="SpiritGuardian" parent="." instance=ExtResource("6")]
-position = Vector2(1500, 320)
+position = Vector2(1500, 660)
+
+[node name="RoomBottom" type="Marker2D" parent="."]
+position = Vector2(0, 700)
 
 [node name="HUD" parent="." instance=ExtResource("3")]
