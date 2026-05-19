@@ -9,6 +9,8 @@ var room_graph: Dictionary = {}
 var transition_count: int = 0
 var is_transitioning: bool = false
 var spawn_door_id: String = ""
+var loop_state: int = 0
+var ritual_result: String = ""
 
 var _room_graph_original: Dictionary = {}
 var _screen_fade: Node = null
@@ -66,6 +68,20 @@ func change_room(door_id: String) -> void:
 	is_transitioning = false
 	room_changed.emit(target_room)
 
+func start_finale(result: String) -> void:
+	ritual_result = result
+	SaveManager.autosave()
+	is_transitioning = true
+	_ensure_fade()
+	await _screen_fade.fade_out(0.8)
+	current_room = "finale"
+	get_tree().change_scene_to_file("res://scenes/rooms/room_finale.tscn")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_ensure_fade()
+	await _screen_fade.fade_in(0.5)
+	is_transitioning = false
+
 func _place_player_at_door() -> void:
 	var player := get_tree().get_first_node_in_group("player")
 	if not player:
@@ -78,10 +94,12 @@ func _place_player_at_door() -> void:
 	if camera:
 		var room_right := get_tree().current_scene.get_node_or_null("RoomRight")
 		var right_limit: int = int(room_right.global_position.x) if room_right else 640
+		var room_bottom := get_tree().current_scene.get_node_or_null("RoomBottom")
+		var bottom_limit: int = int(room_bottom.global_position.y) if room_bottom else 700
 		camera.limit_left = 0
 		camera.limit_right = right_limit
 		camera.limit_top = 0
-		camera.limit_bottom = 360
+		camera.limit_bottom = bottom_limit
 
 func _ensure_fade() -> void:
 	_screen_fade = get_tree().get_first_node_in_group("screen_fade")
@@ -103,29 +121,13 @@ func collect_artifact(artifact_id: String) -> void:
 		artifacts_collected.append(artifact_id)
 		artifact_collected.emit(artifact_id)
 
-func _on_artifact_collected(artifact_id: String) -> void:
-	_apply_artifact_graph_mutation(artifact_id)
+func _on_artifact_collected(_artifact_id: String) -> void:
+	loop_state = artifacts_collected.size()
 	SaveManager.autosave()
-
-func _apply_artifact_graph_mutation(artifact_id: String) -> void:
-	match artifact_id:
-		"bone_amulet":
-			mutate_door("corridor", "door_right", "main_hall")
-		"shaman_drum":
-			mutate_door("entrance", "door_inside", "corridor")
-			mutate_door("bedroom", "door_back", "storage")
-		"earring":
-			reset_room_graph()
-			mutate_door("entrance", "door_outside", "finale")
-			room_graph["rooms"]["finale"] = {
-				"scene": "res://scenes/rooms/room_finale.tscn",
-				"doors": {}
-			}
 
 func restore_from_save() -> void:
 	_load_room_graph()
-	for artifact_id in artifacts_collected:
-		_apply_artifact_graph_mutation(artifact_id)
+	loop_state = artifacts_collected.size()
 
 func teleport_to_random_room() -> void:
 	var room_ids: Array = room_graph["rooms"].keys()
