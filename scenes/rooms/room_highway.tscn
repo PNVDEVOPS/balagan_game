@@ -1,0 +1,246 @@
+[gd_scene load_steps=10 format=3 uid="uid://room_highway"]
+
+[ext_resource type="Script" path="res://scripts/rooms/room_highway_logic.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/light_gradient.png" id="5"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_car"]
+size = Vector2(200.0, 64.0)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(40.0, 360.0)
+[sub_resource type="CircleShape2D" id="CircleShape2D_headlight"]
+radius = 20.0
+
+[node name="RoomHighway" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1800.0
+offset_bottom = 360.0
+color = Color(0.02, 0.04, 0.09, 1)
+
+[node name="StarsFar" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = 20.0
+offset_right = 84.0
+offset_bottom = 24.0
+color = Color(0.9, 0.9, 1.0, 0.7)
+
+[node name="StarsMid" type="ColorRect" parent="."]
+offset_left = 320.0
+offset_top = 10.0
+offset_right = 324.0
+offset_bottom = 14.0
+color = Color(0.9, 0.9, 1.0, 0.7)
+
+[node name="StarsFar2" type="ColorRect" parent="."]
+offset_left = 600.0
+offset_top = 30.0
+offset_right = 604.0
+offset_bottom = 34.0
+color = Color(0.9, 0.9, 1.0, 0.7)
+
+[node name="StarsFar3" type="ColorRect" parent="."]
+offset_left = 900.0
+offset_top = 15.0
+offset_right = 904.0
+offset_bottom = 19.0
+color = Color(0.9, 0.9, 1.0, 0.7)
+
+[node name="StarsFar4" type="ColorRect" parent="."]
+offset_left = 1200.0
+offset_top = 25.0
+offset_right = 1204.0
+offset_bottom = 29.0
+color = Color(0.9, 0.9, 1.0, 0.7)
+
+[node name="TreeLeft1" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 100.0
+offset_right = 40.0
+offset_bottom = 320.0
+color = Color(0.04, 0.07, 0.03, 1)
+
+[node name="TreeLeft2" type="ColorRect" parent="."]
+offset_left = 50.0
+offset_top = 60.0
+offset_right = 80.0
+offset_bottom = 320.0
+color = Color(0.03, 0.06, 0.02, 1)
+
+[node name="TreeRight1" type="ColorRect" parent="."]
+offset_left = 520.0
+offset_top = 80.0
+offset_right = 560.0
+offset_bottom = 320.0
+color = Color(0.04, 0.07, 0.03, 1)
+
+[node name="TreeRight2" type="ColorRect" parent="."]
+offset_left = 800.0
+offset_top = 50.0
+offset_right = 828.0
+offset_bottom = 320.0
+color = Color(0.03, 0.06, 0.02, 1)
+
+[node name="TreeRight3" type="ColorRect" parent="."]
+offset_left = 1100.0
+offset_top = 90.0
+offset_right = 1136.0
+offset_bottom = 320.0
+color = Color(0.04, 0.07, 0.03, 1)
+
+[node name="TreeRight4" type="ColorRect" parent="."]
+offset_left = 1400.0
+offset_top = 65.0
+offset_right = 1432.0
+offset_bottom = 320.0
+color = Color(0.03, 0.06, 0.02, 1)
+
+[node name="TreeRight5" type="ColorRect" parent="."]
+offset_left = 1650.0
+offset_top = 75.0
+offset_right = 1682.0
+offset_bottom = 320.0
+color = Color(0.04, 0.07, 0.03, 1)
+
+[node name="RoadSurface" type="ColorRect" parent="."]
+offset_top = 300.0
+offset_right = 1800.0
+offset_bottom = 320.0
+color = Color(0.18, 0.17, 0.16, 1)
+
+[node name="CenterLineDash1" type="ColorRect" parent="."]
+offset_left = 200.0
+offset_top = 308.0
+offset_right = 260.0
+offset_bottom = 312.0
+color = Color(0.8, 0.8, 0.7, 0.6)
+
+[node name="CenterLineDash2" type="ColorRect" parent="."]
+offset_left = 400.0
+offset_top = 308.0
+offset_right = 460.0
+offset_bottom = 312.0
+color = Color(0.8, 0.8, 0.7, 0.6)
+
+[node name="CenterLineDash3" type="ColorRect" parent="."]
+offset_left = 700.0
+offset_top = 308.0
+offset_right = 760.0
+offset_bottom = 312.0
+color = Color(0.8, 0.8, 0.7, 0.6)
+
+[node name="CenterLineDash4" type="ColorRect" parent="."]
+offset_left = 1000.0
+offset_top = 308.0
+offset_right = 1060.0
+offset_bottom = 312.0
+color = Color(0.8, 0.8, 0.7, 0.6)
+
+[node name="CenterLineDash5" type="ColorRect" parent="."]
+offset_left = 1300.0
+offset_top = 308.0
+offset_right = 1360.0
+offset_bottom = 312.0
+color = Color(0.8, 0.8, 0.7, 0.6)
+
+[node name="CenterLineDash6" type="ColorRect" parent="."]
+offset_left = 1600.0
+offset_top = 308.0
+offset_right = 1660.0
+offset_bottom = 312.0
+color = Color(0.8, 0.8, 0.7, 0.6)
+
+[node name="FloorVisual" type="ColorRect" parent="."]
+offset_top = 320.0
+offset_right = 1800.0
+offset_bottom = 360.0
+color = Color(0.12, 0.11, 0.10, 1)
+
+[node name="CarBody" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = 264.0
+offset_right = 280.0
+offset_bottom = 320.0
+color = Color(0.12, 0.12, 0.14, 1)
+
+[node name="CarRoof" type="ColorRect" parent="."]
+offset_left = 110.0
+offset_top = 240.0
+offset_right = 250.0
+offset_bottom = 268.0
+color = Color(0.10, 0.10, 0.12, 1)
+
+[node name="CarWindshield" type="ColorRect" parent="."]
+offset_left = 112.0
+offset_top = 242.0
+offset_right = 200.0
+offset_bottom = 266.0
+color = Color(0.15, 0.18, 0.22, 1)
+
+[node name="CarWheel1" type="ColorRect" parent="."]
+offset_left = 96.0
+offset_top = 316.0
+offset_right = 120.0
+offset_bottom = 324.0
+color = Color(0.08, 0.08, 0.08, 1)
+
+[node name="CarWheel2" type="ColorRect" parent="."]
+offset_left = 240.0
+offset_top = 316.0
+offset_right = 264.0
+offset_bottom = 324.0
+color = Color(0.08, 0.08, 0.08, 1)
+
+[node name="HeadlightGlow" type="PointLight2D" parent="."]
+position = Vector2(280.0, 288.0)
+color = Color(0.9, 0.85, 0.7, 1)
+energy = 0.6
+texture = ExtResource("5")
+texture_scale = 1.2
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_floor")
+
+[node name="CarCollision" type="StaticBody2D" parent="."]
+position = Vector2(180.0, 288.0)
+
+[node name="CarShape" type="CollisionShape2D" parent="CarCollision"]
+shape = SubResource("RectangleShape2D_car")
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(380.0, 300.0)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(380.0, 300.0)
+
+[node name="RoomRight" type="Marker2D" parent="."]
+position = Vector2(1800.0, 180.0)
+
+[node name="PhoneExamine" parent="." instance=ExtResource("4")]
+position = Vector2(160.0, 320.0)
+examine_text = "Телефон. Три полоски сигнала — и вдруг ноль. Метель глушит всё."
+
+[node name="HoodExamine" parent="." instance=ExtResource("4")]
+position = Vector2(280.0, 320.0)
+examine_text = "Капот холодный. Мотор не схватывается. Дорога назад закрыта."
+
+[node name="SnowSign" parent="." instance=ExtResource("4")]
+position = Vector2(900.0, 300.0)
+examine_text = "Указатель занесло снегом. Цифры не разобрать."
+
+[node name="TriggerZone" type="Area2D" parent="."]
+position = Vector2(1770.0, 180.0)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerZone"]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="HUD" parent="." instance=ExtResource("3")]

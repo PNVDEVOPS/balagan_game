@@ -1,5 +1,15 @@
 {
   "rooms": {
+    "highway": {
+      "scene": "res://scenes/rooms/room_highway.tscn",
+      "doors": {
+        "door_continue": "forest"
+      }
+    },
+    "forest": {
+      "scene": "res://scenes/rooms/room_forest.tscn",
+      "doors": {}
+    },
     "entrance": {
       "scene": "res://scenes/rooms/room_entrance.tscn",
       "doors": {
