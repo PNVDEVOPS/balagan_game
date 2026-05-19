@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://spirit_guardian"]
+[gd_scene load_steps=6 format=3 uid="uid://spirit_guardian"]
 
 [ext_resource type="Script" path="res://scripts/characters/spirit_guardian.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/spirit_frames.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/light_gradient.png" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(24, 48)
@@ -20,6 +22,9 @@ shape = SubResource("RectangleShape2D_body")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -24)
 modulate = Color(0.2, 0.1, 0.3, 0.7)
+sprite_frames = ExtResource("2")
+animation = &"default"
+autoplay = "default"
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -31,4 +36,5 @@ shape = SubResource("CircleShape2D_detect")
 [node name="Glow" type="PointLight2D" parent="."]
 color = Color(0.165, 0, 0.251, 1)
 energy = 0.3
+texture = ExtResource("3")
 texture_scale = 1.0

@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 
 func _patrol(_delta: float) -> void:
 	var target: Vector2 = patrol_points[current_patrol_index]
-	var direction := sign(target.x - global_position.x)
+	var direction: float = sign(target.x - global_position.x)
 	velocity.x = direction * PATROL_SPEED
 	facing_right = direction > 0
 	sprite.flip_h = not facing_right
@@ -72,7 +72,7 @@ func _chase(_delta: float) -> void:
 		state = State.PATROL
 		player_ref = null
 		return
-	var direction := sign(player_ref.global_position.x - global_position.x)
+	var direction: float = sign(player_ref.global_position.x - global_position.x)
 	velocity.x = direction * CHASE_SPEED
 	facing_right = direction > 0
 	sprite.flip_h = not facing_right

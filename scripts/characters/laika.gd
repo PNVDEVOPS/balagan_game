@@ -60,7 +60,7 @@ func _follow_player(_delta: float) -> void:
 		return
 	var dist := global_position.x - player_ref.global_position.x
 	if abs(dist) > FOLLOW_DISTANCE:
-		var dir := -sign(dist)
+		var dir: float = -sign(dist)
 		velocity.x = dir * MOVE_SPEED
 		sprite.flip_h = dir < 0
 	else:
@@ -69,7 +69,7 @@ func _follow_player(_delta: float) -> void:
 func _lead_to_target(_delta: float) -> void:
 	var dist := lead_target.x - global_position.x
 	if abs(dist) > HINT_DISTANCE:
-		var dir := sign(dist)
+		var dir: float = sign(dist)
 		velocity.x = dir * MOVE_SPEED
 		sprite.flip_h = dir < 0
 	else:

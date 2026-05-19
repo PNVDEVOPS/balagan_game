@@ -1,14 +1,22 @@
 ; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
-; but it can also be edited using a text editor.
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="Балаган"
-run/main_scene="res://scenes/rooms/room_main_hall.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+run/main_scene="res://scenes/ui/main_menu.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [autoload]
 
@@ -16,6 +24,8 @@ GameManager="*res://scripts/autoload/game_manager.gd"
 Inventory="*res://scripts/autoload/inventory.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
 DialogueManager="*res://scripts/autoload/dialogue_manager.gd"
+SaveManager="*res://scripts/autoload/save_manager.gd"
+ChapterManager="*res://scripts/autoload/chapter_manager.gd"
 
 [display]
 

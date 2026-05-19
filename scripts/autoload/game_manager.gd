@@ -104,6 +104,10 @@ func collect_artifact(artifact_id: String) -> void:
 		artifact_collected.emit(artifact_id)
 
 func _on_artifact_collected(artifact_id: String) -> void:
+	_apply_artifact_graph_mutation(artifact_id)
+	SaveManager.autosave()
+
+func _apply_artifact_graph_mutation(artifact_id: String) -> void:
 	match artifact_id:
 		"bone_amulet":
 			mutate_door("corridor", "door_right", "main_hall")
@@ -117,6 +121,11 @@ func _on_artifact_collected(artifact_id: String) -> void:
 				"scene": "res://scenes/rooms/room_finale.tscn",
 				"doors": {}
 			}
+
+func restore_from_save() -> void:
+	_load_room_graph()
+	for artifact_id in artifacts_collected:
+		_apply_artifact_graph_mutation(artifact_id)
 
 func teleport_to_random_room() -> void:
 	var room_ids: Array = room_graph["rooms"].keys()
