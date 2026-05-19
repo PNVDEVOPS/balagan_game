@@ -74,6 +74,15 @@ func _place_player_at_door() -> void:
 	if spawn:
 		player.global_position = spawn.global_position
 
+	var camera: Camera2D = player.get_node_or_null("Camera2D")
+	if camera:
+		var room_right := get_tree().current_scene.get_node_or_null("RoomRight")
+		var right_limit: int = int(room_right.global_position.x) if room_right else 640
+		camera.limit_left = 0
+		camera.limit_right = right_limit
+		camera.limit_top = 0
+		camera.limit_bottom = 360
+
 func _ensure_fade() -> void:
 	_screen_fade = get_tree().get_first_node_in_group("screen_fade")
 	if not _screen_fade:
