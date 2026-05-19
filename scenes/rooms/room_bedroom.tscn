@@ -1,13 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://room_bedroom"]
+[gd_scene load_steps=8 format=3 uid="uid://room_bedroom"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://hideable001" path="res://scenes/objects/hideable.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/rooms/room_bedroom_logic.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="7"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
 [node name="RoomBedroom" type="Node2D"]
+script = ExtResource("5")
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 640.0
@@ -38,5 +42,23 @@ door_id = "door_back"
 
 [node name="Wardrobe" parent="." instance=ExtResource("4")]
 position = Vector2(100, 320)
+
+[node name="NotePickable" parent="." instance=ExtResource("6")]
+position = Vector2(300, 320)
+item_id = "note_shelf"
+item_name = "Записка"
+pickup_text = "Рукописная записка: «За третьей иконой слева — тайник»."
+
+[node name="Shelf" parent="." instance=ExtResource("7")]
+position = Vector2(450, 320)
+examine_text = "Иконы в ряд. За одной что-то поблёскивает."
+
+[node name="AmuletPickable" parent="." instance=ExtResource("6")]
+position = Vector2(460, 320)
+visible = false
+monitoring = false
+item_id = "bone_amulet"
+item_name = "Костяной амулет"
+pickup_text = "Холодный. Форма — собачья лапа. Как будто сделан давно, но специально."
 
 [node name="HUD" parent="." instance=ExtResource("3")]

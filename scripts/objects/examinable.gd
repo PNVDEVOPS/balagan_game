@@ -1,5 +1,7 @@
 extends Interactable
 
+signal examined()
+
 @export_multiline var examine_text: String = ""
 
 func _ready() -> void:
@@ -9,3 +11,4 @@ func _ready() -> void:
 func interact(player: CharacterBody2D) -> void:
 	if not examine_text.is_empty():
 		DialogueManager.show_text("", examine_text)
+	examined.emit()

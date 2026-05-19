@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://player001"]
+[gd_scene load_steps=7 format=3 uid="uid://player001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/player/flashlight.gd" id="2"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/player_frames.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/light_gradient.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/interaction_prompt.png" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(16, 64)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ray"]
-size = Vector2(4, 4)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 1
@@ -20,22 +20,28 @@ shape = SubResource("RectangleShape2D_col")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
+sprite_frames = ExtResource("3")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="Flashlight" type="PointLight2D" parent="."]
 color = Color(1, 0.957, 0.839, 1)
 energy = 1.5
-texture = null
+texture = ExtResource("4")
 texture_scale = 2.0
 shadow_enabled = true
 script = ExtResource("2")
 
 [node name="InteractionRay" type="RayCast2D" parent="."]
+position = Vector2(0, -16)
 target_position = Vector2(30, 0)
 collision_mask = 2
+collide_with_areas = true
 
 [node name="InteractionPrompt" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -72)
+texture = ExtResource("5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

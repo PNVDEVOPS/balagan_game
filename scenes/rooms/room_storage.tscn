@@ -1,13 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://room_storage"]
+[gd_scene load_steps=8 format=3 uid="uid://room_storage"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://hideable001" path="res://scenes/objects/hideable.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/rooms/room_storage_logic.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="7"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
 [node name="RoomStorage" type="Node2D"]
+script = ExtResource("5")
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 640.0
@@ -38,5 +42,29 @@ door_id = "door_back"
 
 [node name="HideableBox" parent="." instance=ExtResource("4")]
 position = Vector2(150, 320)
+
+[node name="StoneDeer" parent="." instance=ExtResource("6")]
+position = Vector2(80, 320)
+examine_text = "Камень с оленем. Острые рога уходят в снег."
+
+[node name="StoneRaven" parent="." instance=ExtResource("6")]
+position = Vector2(200, 320)
+examine_text = "Камень с вороном. Крылья сложены, как у спящего."
+
+[node name="StoneBear" parent="." instance=ExtResource("6")]
+position = Vector2(340, 320)
+examine_text = "Камень с медведем. Встал на задние лапы."
+
+[node name="StoneFish" parent="." instance=ExtResource("6")]
+position = Vector2(460, 320)
+examine_text = "Камень с рыбой. Плывёт против течения."
+
+[node name="DrumPickable" parent="." instance=ExtResource("7")]
+position = Vector2(300, 320)
+visible = false
+monitoring = false
+item_id = "shaman_drum"
+item_name = "Шаманский бубен"
+pickup_text = "Бубен. Кожа натянута туго. Когда берёшь — тихий гул."
 
 [node name="HUD" parent="." instance=ExtResource("3")]

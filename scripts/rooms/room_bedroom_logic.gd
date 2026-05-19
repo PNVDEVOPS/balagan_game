@@ -10,6 +10,19 @@ func _ready() -> void:
 		var note = get_node_or_null("NotePickable")
 		if note:
 			note.queue_free()
+		return
+
+	var note = get_node_or_null("NotePickable")
+	if note:
+		note.picked_up.connect(func(_id): on_note_picked_up())
+
+	var shelf = get_node_or_null("Shelf")
+	if shelf:
+		shelf.examined.connect(on_shelf_examined)
+
+	var amulet = get_node_or_null("AmuletPickable")
+	if amulet:
+		amulet.picked_up.connect(func(_id): on_amulet_picked_up())
 
 func on_note_picked_up() -> void:
 	note_read = true

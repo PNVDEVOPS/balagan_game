@@ -9,11 +9,22 @@ func _ready() -> void:
 		var drum = get_node_or_null("DrumPickable")
 		if drum:
 			drum.queue_free()
+		return
+
+	for stone_data in [["StoneDeer", "deer"], ["StoneRaven", "raven"], ["StoneBear", "bear"], ["StoneFish", "fish"]]:
+		var stone = get_node_or_null(stone_data[0])
+		if stone:
+			var symbol: String = stone_data[1]
+			stone.examined.connect(func(): place_stone(symbol))
+
+	var drum = get_node_or_null("DrumPickable")
+	if drum:
+		drum.picked_up.connect(func(_id): on_drum_picked_up())
 
 func place_stone(symbol: String) -> void:
 	placed_stones.append(symbol)
 	if placed_stones.size() == correct_order.size():
-		_check_solution()
+		call_deferred("_check_solution")
 
 func _check_solution() -> void:
 	if placed_stones == correct_order:

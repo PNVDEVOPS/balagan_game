@@ -7,6 +7,25 @@ func _ready() -> void:
 		var earring = get_node_or_null("EarringPickable")
 		if earring:
 			earring.queue_free()
+		return
+
+	# Pre-count fragments already in inventory (save/load resilience)
+	for frag_id in ["mirror_fragment_1", "mirror_fragment_2", "mirror_fragment_3"]:
+		if Inventory.has_item(frag_id):
+			fragments_placed += 1
+
+	if fragments_placed >= 3:
+		_mirror_complete()
+		return
+
+	for frag_name in ["MirrorFragment1", "MirrorFragment2", "MirrorFragment3"]:
+		var frag = get_node_or_null(frag_name)
+		if frag:
+			frag.picked_up.connect(func(_id): place_fragment())
+
+	var earring = get_node_or_null("EarringPickable")
+	if earring:
+		earring.picked_up.connect(func(_id): on_earring_picked_up())
 
 func place_fragment() -> void:
 	fragments_placed += 1
