@@ -6,6 +6,7 @@ func _ready() -> void:
 	$Buttons/ContinueBtn.pressed.connect(_on_continue_pressed)
 	$Buttons/SettingsBtn.pressed.connect(_on_settings_pressed)
 	$Buttons/QuitBtn.pressed.connect(_on_quit_pressed)
+	$Buttons/NewGameBtn.grab_focus()
 
 func _on_new_game_pressed() -> void:
 	_disable_buttons()

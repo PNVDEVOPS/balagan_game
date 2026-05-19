@@ -19,6 +19,7 @@ func _ready() -> void:
 	_fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_fade_rect.color = Color.BLACK
 	_fade_rect.modulate.a = 0.0
+	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fade_layer.add_child(_fade_rect)
 
 	_title_label = Label.new()
@@ -27,6 +28,7 @@ func _ready() -> void:
 	_title_label.grow_vertical = Control.GROW_DIRECTION_BOTH
 	_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title_label.modulate.a = 0.0
+	_title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_title_label.add_theme_font_size_override("font_size", 24)
 	_fade_layer.add_child(_title_label)
 
