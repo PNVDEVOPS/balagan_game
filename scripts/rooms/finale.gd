@@ -5,6 +5,8 @@ func _ready() -> void:
 		GameManager.current_room = "main_hall"
 		get_tree().change_scene_to_file("res://scenes/rooms/room_main_hall.tscn")
 		return
+	ChapterManager.current_chapter = ChapterManager.Chapter.RELEASE
+	SaveManager.autosave()
 	_start_finale()
 
 func _start_finale() -> void:
