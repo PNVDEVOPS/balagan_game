@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://room_bedroom"]
+[gd_scene load_steps=9 format=3 uid="uid://room_bedroom"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/rooms/room_bedroom_logic.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -15,57 +16,86 @@ script = ExtResource("5")
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 1800.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.102, 0.051, 0.071, 1)
 
 [node name="FloorVisual" type="ColorRect" parent="."]
-offset_top = 320.0
+offset_top = 660.0
 offset_right = 1800.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.14, 0.08, 0.1, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(0, 320)
+position = Vector2(0, 660)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
 [node name="Player" parent="." instance=ExtResource("1")]
-position = Vector2(1700, 300)
+position = Vector2(1700, 640)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1700, 300)
+position = Vector2(1700, 640)
 
 [node name="RoomRight" type="Marker2D" parent="."]
 position = Vector2(1800, 180)
 
 [node name="DoorBack" parent="." instance=ExtResource("2")]
-position = Vector2(1750, 320)
+position = Vector2(1750, 660)
 door_id = "door_back"
 
 [node name="Wardrobe" parent="." instance=ExtResource("4")]
-position = Vector2(100, 320)
+position = Vector2(100, 660)
 
 [node name="BedExamine" parent="." instance=ExtResource("7")]
-position = Vector2(700, 320)
+position = Vector2(800, 660)
 examine_text = "Кровать. Постель смята, будто кто-то спал совсем недавно."
 
-[node name="NotePickable" parent="." instance=ExtResource("6")]
-position = Vector2(400, 320)
-item_id = "note_shelf"
-item_name = "Записка"
-pickup_text = "Рукописная записка: «За третьей иконой слева — тайник»."
+[node name="RiddleBishik" parent="." instance=ExtResource("7")]
+position = Vector2(550, 620)
+examine_text = ""
 
-[node name="Shelf" parent="." instance=ExtResource("7")]
-position = Vector2(1200, 320)
-examine_text = "Иконы в ряд. За одной что-то поблёскивает."
+[node name="Bishik" parent="." instance=ExtResource("7")]
+position = Vector2(600, 660)
+examine_text = ""
 
-[node name="AmuletPickable" parent="." instance=ExtResource("6")]
-position = Vector2(1210, 320)
+[node name="KeyPickable" parent="." instance=ExtResource("6")]
+position = Vector2(600, 660)
 visible = false
-monitoring = false
-item_id = "bone_amulet"
-item_name = "Костяной амулет"
-pickup_text = "Холодный. Форма — собачья лапа. Как будто сделан давно, но специально."
+item_id = "chest_key_2"
+item_name = "Старый ключ"
+pickup_text = "Под пелёнкой. Холодный. Кто-то спрятал давно."
+
+[node name="ChestDoll" parent="." instance=ExtResource("8")]
+position = Vector2(1400, 660)
+required_item = "chest_key_2"
+success_text = "Крышка поддаётся. Пахнет старым шёлком."
+fail_text = "Сундук заперт."
+
+[node name="DollPickable" parent="." instance=ExtResource("6")]
+position = Vector2(1400, 660)
+visible = false
+item_id = "doll"
+item_name = "Тряпичная кукла"
+pickup_text = "Маленькая, в шёлке. Одно ухо надорвано. Тёплая."
+
+[node name="NoteMother1" parent="." instance=ExtResource("7")]
+position = Vector2(200, 620)
+examine_text = ""
+
+[node name="NoteMother2" parent="." instance=ExtResource("7")]
+position = Vector2(380, 620)
+examine_text = ""
+
+[node name="NoteMother3" parent="." instance=ExtResource("7")]
+position = Vector2(1600, 620)
+examine_text = ""
+
+[node name="NoteAiyyna3" parent="." instance=ExtResource("7")]
+position = Vector2(1000, 620)
+examine_text = ""
+
+[node name="RoomBottom" type="Marker2D" parent="."]
+position = Vector2(0, 700)
 
 [node name="HUD" parent="." instance=ExtResource("3")]
