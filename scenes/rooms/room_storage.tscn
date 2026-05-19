@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://room_storage"]
+[gd_scene load_steps=7 format=3 uid="uid://room_storage"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://hideable001" path="res://scenes/objects/hideable.tscn" id="4"]
 [ext_resource type="Script" path="res://scripts/rooms/room_storage_logic.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="6"]
-[ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="7"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -15,59 +14,50 @@ script = ExtResource("5")
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 2000.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.071, 0.051, 0.031, 1)
 
 [node name="FloorVisual" type="ColorRect" parent="."]
-offset_top = 320.0
+offset_top = 660.0
 offset_right = 2000.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.11, 0.08, 0.05, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(0, 320)
+position = Vector2(0, 660)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
 [node name="Player" parent="." instance=ExtResource("1")]
-position = Vector2(1900, 300)
+position = Vector2(1900, 640)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1900, 300)
+position = Vector2(1900, 640)
 
 [node name="RoomRight" type="Marker2D" parent="."]
 position = Vector2(2000, 180)
 
 [node name="DoorBack" parent="." instance=ExtResource("2")]
-position = Vector2(1950, 320)
+position = Vector2(1950, 660)
 door_id = "door_back"
 
 [node name="HideableBox" parent="." instance=ExtResource("4")]
-position = Vector2(150, 320)
+position = Vector2(150, 660)
 
-[node name="StoneDeer" parent="." instance=ExtResource("6")]
-position = Vector2(300, 320)
-examine_text = "Камень с оленем. Острые рога уходят в снег."
+[node name="StorageShelf" parent="." instance=ExtResource("6")]
+position = Vector2(600, 660)
+examine_text = "Полки с припасами. Всё в порядке — кто-то хозяйничал здесь недавно."
 
-[node name="StoneRaven" parent="." instance=ExtResource("6")]
-position = Vector2(650, 320)
-examine_text = "Камень с вороном. Крылья сложены, как у спящего."
+[node name="OldTrap" parent="." instance=ExtResource("6")]
+position = Vector2(1200, 660)
+examine_text = "Охотничий капкан. Ржавый. Давно не использовался."
 
-[node name="StoneBear" parent="." instance=ExtResource("6")]
-position = Vector2(1000, 320)
-examine_text = "Камень с медведем. Встал на задние лапы."
+[node name="NoteAiyyna4" parent="." instance=ExtResource("6")]
+position = Vector2(900, 620)
+examine_text = ""
 
-[node name="StoneFish" parent="." instance=ExtResource("6")]
-position = Vector2(1350, 320)
-examine_text = "Камень с рыбой. Плывёт против течения."
-
-[node name="DrumPickable" parent="." instance=ExtResource("7")]
-position = Vector2(800, 320)
-visible = false
-monitoring = false
-item_id = "shaman_drum"
-item_name = "Шаманский бубен"
-pickup_text = "Бубен. Кожа натянута туго. Когда берёшь — тихий гул."
+[node name="RoomBottom" type="Marker2D" parent="."]
+position = Vector2(0, 700)
 
 [node name="HUD" parent="." instance=ExtResource("3")]
