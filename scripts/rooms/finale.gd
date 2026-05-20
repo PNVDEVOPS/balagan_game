@@ -41,7 +41,7 @@ func _start_good_ending() -> void:
 		laika_tween.parallel().tween_property(laika.glow, "energy", 2.0, 1.5)
 		laika_tween.parallel().tween_property(laika.glow, "energy", 0.0, 1.5).set_delay(1.5)
 		await get_tree().create_timer(1.5).timeout
-		DialogueManager.show_text("", "Тихий скулёж. Она светится — так же, как Айыына.")
+		DialogueManager.show_text("", "Тихий скулёж. Она светится — так же, как Кыдаана.")
 		await DialogueManager.dialogue_finished
 		await laika_tween.finished
 
@@ -62,8 +62,21 @@ func _start_bad_ending() -> void:
 	DialogueManager.start_dialogue("finale/bad")
 	await DialogueManager.dialogue_finished
 
-	await get_tree().create_timer(3.0).timeout
-	get_tree().change_scene_to_file("res://scenes/ui/credits.tscn")
+	await get_tree().create_timer(1.5).timeout
+
+	DialogueManager.start_dialogue("finale/bad_loop")
+	await DialogueManager.dialogue_finished
+
+	await get_tree().create_timer(2.0).timeout
+
+	# Wipe save — bad ending means starting over
+	SaveManager.delete_save()
+	GameManager.artifacts_collected.clear()
+	GameManager.notes_found.clear()
+	GameManager.loop_state = 0
+	GameManager.ritual_result = ""
+
+	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 func _post_credits(bg: ColorRect) -> void:
 	var tween := create_tween()
