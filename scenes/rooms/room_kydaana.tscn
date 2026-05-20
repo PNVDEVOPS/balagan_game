@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/room_kydaana_logic.gd" id="1_kyd"]
+[ext_resource type="PackedScene" path="res://scenes/objects/examinable.tscn" id="2_exam"]
+[ext_resource type="PackedScene" path="res://scenes/objects/pickable.tscn" id="3_pick"]
+[ext_resource type="PackedScene" path="res://scenes/characters/laika.tscn" id="4_laika"]
+
+[sub_resource type="RectangleShape2D" id="FwdShape"]
+size = Vector2(60, 140)
+
+[sub_resource type="RectangleShape2D" id="LaikaShape"]
+size = Vector2(100, 160)
+
+[node name="RoomKydaana" type="Node2D"]
+script = ExtResource("1_kyd")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.06, 0.04, 0.07, 1)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(80, 290)
+
+[node name="RoomRight" type="Marker2D" parent="."]
+position = Vector2(640, 0)
+
+[node name="RoomBottom" type="Marker2D" parent="."]
+position = Vector2(0, 360)
+
+[node name="ForwardZone" type="Area2D" parent="."]
+position = Vector2(590, 260)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone"]
+shape = SubResource("FwdShape")
+
+[node name="OldMirror" parent="." instance=ExtResource("2_exam")]
+position = Vector2(480, 220)
+interaction_text = "Осмотреть"
+examine_text = "Разбитое зеркало в деревянной раме."
+
+[node name="RiddleMirror" parent="." instance=ExtResource("2_exam")]
+position = Vector2(500, 200)
+interaction_text = "Прочитать"
+examine_text = "Царапина на раме — слова."
+
+[node name="BedExaminable" parent="." instance=ExtResource("2_exam")]
+position = Vector2(200, 270)
+interaction_text = "Осмотреть"
+examine_text = "Узкая кровать. Лоскутное одеяло, аккуратно сложено."
+
+[node name="DrawingsExaminable" parent="." instance=ExtResource("2_exam")]
+position = Vector2(340, 200)
+interaction_text = "Осмотреть"
+examine_text = "Детские рисунки — наклеены прямо на бревно. Дом, собака, солнце."
+
+[node name="ClothesExaminable" parent="." instance=ExtResource("2_exam")]
+position = Vector2(120, 230)
+interaction_text = "Осмотреть"
+examine_text = "Праздничная одежда. Вышивка по воротнику — северный орнамент."
+
+[node name="NoteKydaana4" parent="." instance=ExtResource("2_exam")]
+position = Vector2(280, 260)
+interaction_text = "Прочитать"
+examine_text = "Несколько строк на свёрнутом листе."
+
+[node name="NoteKydaana5" parent="." instance=ExtResource("2_exam")]
+position = Vector2(380, 260)
+interaction_text = "Прочитать"
+examine_text = "Последняя записка."
+
+[node name="SecretFloorboard" parent="." instance=ExtResource("2_exam")]
+position = Vector2(300, 310)
+interaction_text = "Осмотреть"
+examine_text = "Половица с необычным сучком — похожим на звезду."
+visible = false
+
+[node name="EarringPickable" parent="." instance=ExtResource("3_pick")]
+position = Vector2(300, 295)
+item_id = "earring"
+item_name = "Серёжка"
+pickup_text = "Серёжка. Одна. Вторую ты уже не найдёшь."
+visible = false
+
+[node name="Laika" parent="." instance=ExtResource("4_laika")]
+position = Vector2(210, 285)
+auto_appear = false
+
+[node name="LaikaTrigger" type="Area2D" parent="."]
+position = Vector2(230, 270)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger"]
+shape = SubResource("LaikaShape")
