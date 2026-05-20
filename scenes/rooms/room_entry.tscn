@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/room_entry_logic.gd" id="1_entry"]
+[ext_resource type="PackedScene" path="res://scenes/characters/laika.tscn" id="2_laika"]
+[ext_resource type="PackedScene" path="res://scenes/objects/examinable.tscn" id="3_exam"]
+
+[sub_resource type="RectangleShape2D" id="ExitShape"]
+size = Vector2(60, 140)
+
+[sub_resource type="RectangleShape2D" id="FwdShape"]
+size = Vector2(60, 140)
+
+[sub_resource type="RectangleShape2D" id="LaikaShape"]
+size = Vector2(80, 160)
+
+[node name="RoomEntry" type="Node2D"]
+script = ExtResource("1_entry")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.04, 0.02, 0.06, 1)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(320, 290)
+
+[node name="RoomRight" type="Marker2D" parent="."]
+position = Vector2(640, 0)
+
+[node name="RoomBottom" type="Marker2D" parent="."]
+position = Vector2(0, 360)
+
+[node name="ExitZone" type="Area2D" parent="."]
+position = Vector2(30, 260)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone"]
+shape = SubResource("ExitShape")
+
+[node name="ForwardZone" type="Area2D" parent="."]
+position = Vector2(590, 260)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone"]
+shape = SubResource("FwdShape")
+
+[node name="ClothesExaminable" parent="." instance=ExtResource("3_exam")]
+position = Vector2(200, 270)
+interaction_text = "Осмотреть"
+examine_text = "Тяжёлая шуба. Чья-то — не понять. Давно не надевали."
+
+[node name="LaikaTrigger" type="Area2D" parent="."]
+position = Vector2(420, 260)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger"]
+shape = SubResource("LaikaShape")
+
+[node name="Laika" parent="." instance=ExtResource("2_laika")]
+position = Vector2(560, 280)
+auto_appear = false
