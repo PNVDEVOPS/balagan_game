@@ -64,7 +64,7 @@ func _get_chapter_scene(chapter: Chapter) -> String:
 			var path := "res://scenes/rooms/room_highway.tscn"
 			return path if ResourceLoader.exists(path) else "res://scenes/rooms/room_main_hall.tscn"
 		Chapter.BALAGAN:
-			return "res://scenes/rooms/room_main_hall.tscn"
+			return "res://scenes/rooms/room_entry.tscn"
 		Chapter.RELEASE:
 			return "res://scenes/rooms/room_finale.tscn"
 	return "res://scenes/rooms/room_main_hall.tscn"
@@ -72,7 +72,7 @@ func _get_chapter_scene(chapter: Chapter) -> String:
 func _get_chapter_room(chapter: Chapter) -> String:
 	match chapter:
 		Chapter.ROAD: return "highway" if ResourceLoader.exists("res://scenes/rooms/room_highway.tscn") else "main_hall"
-		Chapter.BALAGAN: return "main_hall"
+		Chapter.BALAGAN: return "entry"
 		Chapter.RELEASE: return "finale"
 	return "main_hall"
 
