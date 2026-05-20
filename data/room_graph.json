@@ -1,34 +1,64 @@
 {
   "rooms": {
-    "main_hall": {
-      "scene": "res://scenes/rooms/room_main_hall.tscn",
-      "doors": {
-        "door_bedroom": "bedroom",
-        "door_basement": "basement"
-      }
-    },
-    "bedroom": {
-      "scene": "res://scenes/rooms/room_bedroom.tscn",
-      "doors": {
-        "door_back": "main_hall"
-      }
-    },
-    "basement": {
-      "scene": "res://scenes/rooms/room_basement.tscn",
-      "doors": {
-        "door_up": "main_hall",
-        "door_forest_path": "highway"
-      }
-    },
     "highway": {
       "scene": "res://scenes/rooms/room_highway.tscn",
-      "doors": {
-        "door_continue": "forest"
-      }
+      "doors": { "door_continue": "forest" }
     },
     "forest": {
       "scene": "res://scenes/rooms/room_forest.tscn",
       "doors": {}
+    },
+    "entry": {
+      "scene": "res://scenes/rooms/room_entry.tscn",
+      "doors": { "door_forward": "closet", "door_exit": "main_hall" }
+    },
+    "closet": {
+      "scene": "res://scenes/rooms/room_closet.tscn",
+      "doors": { "door_forward": "entry2" }
+    },
+    "entry2": {
+      "scene": "res://scenes/rooms/room_entry.tscn",
+      "doors": { "door_forward": "main_hall", "door_exit": "main_hall" }
+    },
+    "main_hall": {
+      "scene": "res://scenes/rooms/room_main_hall.tscn",
+      "doors": { "door_bedroom": "corridor" }
+    },
+    "corridor": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "dining" }
+    },
+    "dining": {
+      "scene": "res://scenes/rooms/room_dining.tscn",
+      "doors": { "door_forward": "bedroom" }
+    },
+    "bedroom": {
+      "scene": "res://scenes/rooms/room_bedroom.tscn",
+      "doors": { "door_forward": "corridor2" }
+    },
+    "corridor2": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "corridor3" }
+    },
+    "corridor3": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "storage" }
+    },
+    "storage": {
+      "scene": "res://scenes/rooms/room_storage.tscn",
+      "doors": { "door_forward": "kydaana_room" }
+    },
+    "kydaana_room": {
+      "scene": "res://scenes/rooms/room_kydaana.tscn",
+      "doors": { "door_forward": "entry3" }
+    },
+    "entry3": {
+      "scene": "res://scenes/rooms/room_entry.tscn",
+      "doors": { "door_forward": "entry4", "door_exit": "main_hall" }
+    },
+    "entry4": {
+      "scene": "res://scenes/rooms/room_entry.tscn",
+      "doors": { "door_forward": "main_hall", "door_exit": "main_hall" }
     }
   }
 }
