@@ -67,9 +67,7 @@ func _ready() -> void:
 				GameManager.change_room("door_forward")
 		)
 
-	var cradle_sub := get_node_or_null("Cradle")
-	if not cradle_sub:
-		cradle_sub = get_node_or_null("Bed")
+	var cradle_sub := get_node_or_null("BedExamine")
 	if cradle_sub and not GameManager.artifacts_collected.has("doll"):
 		cradle_sub.examined.connect(func():
 			SubtitleManager.show_subtitle(

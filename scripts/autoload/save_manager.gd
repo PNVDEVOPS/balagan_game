@@ -12,6 +12,7 @@ func save() -> void:
 		"current_chapter": int(ChapterManager.current_chapter),
 		"current_room": GameManager.current_room,
 		"artifacts_collected": Array(GameManager.artifacts_collected),
+		"notes_found": Array(GameManager.notes_found),
 		"inventory": Array(Inventory.items),
 		"transition_count": GameManager.transition_count,
 		"timestamp": Time.get_unix_time_from_system()
@@ -45,6 +46,10 @@ func load_game() -> bool:
 	GameManager.artifacts_collected.clear()
 	for item in data.get("artifacts_collected", []):
 		GameManager.artifacts_collected.append(str(item))
+
+	GameManager.notes_found.clear()
+	for note_id in data.get("notes_found", []):
+		GameManager.notes_found.append(str(note_id))
 
 	Inventory.items.clear()
 	for item in data.get("inventory", []):

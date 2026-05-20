@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://room_bedroom"]
+[gd_scene load_steps=10 format=3 uid="uid://room_bedroom"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
@@ -96,6 +96,17 @@ examine_text = ""
 [node name="NoteAiyyna3" parent="." instance=ExtResource("7")]
 position = Vector2(1000, 620)
 examine_text = ""
+
+[sub_resource type="RectangleShape2D" id="FwdShape"]
+size = Vector2(60, 140)
+
+[node name="ForwardZone" type="Area2D" parent="."]
+position = Vector2(1775, 640)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone"]
+shape = SubResource("FwdShape")
 
 [node name="RoomBottom" type="Marker2D" parent="."]
 position = Vector2(0, 700)

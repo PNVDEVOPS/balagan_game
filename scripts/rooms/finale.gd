@@ -51,6 +51,7 @@ func _start_good_ending() -> void:
 		DialogueManager.show_text("", "Смотрит на Кыдаану. Потом — на тебя. И снова на неё.")
 		await DialogueManager.dialogue_finished
 
+		laika.set_physics_process(false)
 		laika.glow.energy = 1.0
 		var fade_tw := create_tween()
 		fade_tw.tween_property(laika, "modulate:a", 0.0, 3.0)
