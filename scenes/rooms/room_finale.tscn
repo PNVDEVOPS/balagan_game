@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://room_finale"]
+[gd_scene load_steps=6 format=3 uid="uid://room_finale"]
 
 [ext_resource type="Script" path="res://scripts/rooms/finale.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="4"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
 [node name="RoomFinale" type="Node2D"]
 script = ExtResource("1")
@@ -19,11 +21,18 @@ offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0.12, 0.071, 0.043, 1)
 
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_floor")
+
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(100, 300)
 
 [node name="Laika" parent="." instance=ExtResource("3")]
 position = Vector2(200, 308)
+auto_appear = false
 
 [node name="HUD" parent="." instance=ExtResource("4")]
 

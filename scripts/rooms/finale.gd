@@ -32,6 +32,8 @@ func _start_good_ending() -> void:
 	await DialogueManager.dialogue_finished
 
 	if laika:
+		laika.appear()
+		await get_tree().create_timer(0.8).timeout
 		var player := get_tree().get_first_node_in_group("player")
 		if player:
 			var target_x: float = player.global_position.x + 40.0

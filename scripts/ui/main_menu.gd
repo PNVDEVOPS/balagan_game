@@ -19,6 +19,10 @@ func _on_new_game_pressed() -> void:
 	_disable_buttons()
 	SaveManager.delete_save()
 	GameManager.artifacts_collected.clear()
+	GameManager.notes_found.clear()
+	GameManager.loop_state = 0
+	GameManager.escape_attempts = 0
+	GameManager.ritual_result = ""
 	Inventory.items.clear()
 	Inventory.selected_item = ""
 	GameManager.transition_count = 0
