@@ -28,22 +28,38 @@ func _start_good_ending() -> void:
 
 	await get_tree().create_timer(1.0).timeout
 
-	if laika:
-		laika.follow_player()
-
 	DialogueManager.start_dialogue("finale/good_part2")
 	await DialogueManager.dialogue_finished
 
 	if laika:
-		var laika_tween := create_tween()
-		laika.glow.energy = 1.0
-		laika_tween.tween_property(laika, "modulate:a", 0.0, 3.0)
-		laika_tween.parallel().tween_property(laika.glow, "energy", 2.0, 1.5)
-		laika_tween.parallel().tween_property(laika.glow, "energy", 0.0, 1.5).set_delay(1.5)
-		await get_tree().create_timer(1.5).timeout
-		DialogueManager.show_text("", "Тихий скулёж. Она светится — так же, как Кыдаана.")
+		var player := get_tree().get_first_node_in_group("player")
+		if player:
+			var target_x: float = player.global_position.x + 40.0
+			var approach_tw := create_tween()
+			approach_tw.tween_property(laika, "global_position:x", target_x, 1.5)
+			await approach_tw.finished
+
+		await get_tree().create_timer(0.8).timeout
+		DialogueManager.show_text("", "Она подходит. Впервые — не убегает.")
 		await DialogueManager.dialogue_finished
-		await laika_tween.finished
+
+		await get_tree().create_timer(0.5).timeout
+		DialogueManager.show_text("", "Тычется носом в руку. Тепло. Живое.")
+		await DialogueManager.dialogue_finished
+
+		await get_tree().create_timer(0.8).timeout
+		DialogueManager.show_text("", "Смотрит на Кыдаану. Потом — на тебя. И снова на неё.")
+		await DialogueManager.dialogue_finished
+
+		laika.glow.energy = 1.0
+		var fade_tw := create_tween()
+		fade_tw.tween_property(laika, "modulate:a", 0.0, 3.0)
+		fade_tw.parallel().tween_property(laika.glow, "energy", 2.0, 1.5)
+		fade_tw.parallel().tween_property(laika.glow, "energy", 0.0, 1.5).set_delay(1.5)
+		await get_tree().create_timer(1.5).timeout
+		DialogueManager.show_text("", "Она уходит вместе с ней. В свет.")
+		await DialogueManager.dialogue_finished
+		await fade_tw.finished
 
 	await get_tree().create_timer(2.0).timeout
 	_post_credits(bg)
