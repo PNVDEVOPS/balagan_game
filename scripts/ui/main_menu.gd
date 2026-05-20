@@ -2,11 +2,18 @@ extends Control
 
 func _ready() -> void:
 	$Buttons/ContinueBtn.disabled = not SaveManager.has_save()
+	_update_note_counter()
 	$Buttons/NewGameBtn.pressed.connect(_on_new_game_pressed)
 	$Buttons/ContinueBtn.pressed.connect(_on_continue_pressed)
 	$Buttons/SettingsBtn.pressed.connect(_on_settings_pressed)
 	$Buttons/QuitBtn.pressed.connect(_on_quit_pressed)
 	$Buttons/NewGameBtn.grab_focus()
+
+func _update_note_counter() -> void:
+	var label := get_node_or_null("NoteCounterLabel")
+	if label:
+		var count: int = GameManager.notes_found.size()
+		label.text = "Записки: %d / %d" % [count, GameManager.TOTAL_NOTES]
 
 func _on_new_game_pressed() -> void:
 	_disable_buttons()

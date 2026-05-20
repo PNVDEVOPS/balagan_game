@@ -3,8 +3,11 @@ extends Node
 signal room_changed(room_id: String)
 signal artifact_collected(artifact_id: String)
 
+const TOTAL_NOTES: int = 18
+
 var current_room: String = "main_hall"
 var artifacts_collected: Array[String] = []
+var notes_found: Array[String] = []
 var room_graph: Dictionary = {}
 var transition_count: int = 0
 var is_transitioning: bool = false
@@ -120,6 +123,11 @@ func collect_artifact(artifact_id: String) -> void:
 	if not artifacts_collected.has(artifact_id):
 		artifacts_collected.append(artifact_id)
 		artifact_collected.emit(artifact_id)
+
+func mark_note_found(note_id: String) -> void:
+	if not notes_found.has(note_id):
+		notes_found.append(note_id)
+		SaveManager.autosave()
 
 func _on_artifact_collected(_artifact_id: String) -> void:
 	loop_state = artifacts_collected.size()
