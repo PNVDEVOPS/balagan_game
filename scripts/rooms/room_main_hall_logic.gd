@@ -6,6 +6,8 @@ static var _wake_up_shown: bool = false
 
 var kamylok_state: KamylokState = KamylokState.COLD
 var ritual_items: Array[String] = []
+var _idle_subtitle_timer: float = 0.0
+var _idle_subtitle_shown: bool = false
 const CORRECT_ORDER: Array[String] = ["amulet", "doll", "earring"]
 const ARTIFACT_NAMES: Dictionary = {
 	"amulet": "амулет",
@@ -23,6 +25,10 @@ func _ready() -> void:
 
 	_apply_loop_visuals()
 	_setup_puzzle()
+
+	if _all_artifacts_collected():
+		await get_tree().process_frame
+		SubtitleManager.show_subtitle("Ты дошёл.", SubtitleManager.Pos.TOP_CENTER)
 
 func _setup_puzzle() -> void:
 	var amulet_done := GameManager.artifacts_collected.has("amulet")
@@ -109,7 +115,7 @@ func _on_kamylok_examined() -> void:
 			DialogueManager.show_text("", "Огонь горит ровно. Среди углей что-то поблёскивает.")
 		KamylokState.RITUAL_READY:
 			kamylok_state = KamylokState.RITUAL_ACTIVE
-			DialogueManager.show_text("", "Пламя вспыхивает ярче. Три дара при тебе.\nВыбери предмет в инвентаре (I), потом подойди к огню снова — в нужном порядке.")
+			DialogueManager.show_text("", "Пламя ждёт.")
 		KamylokState.RITUAL_ACTIVE:
 			_place_ritual_artifact()
 
@@ -130,7 +136,27 @@ func _on_chest_used() -> void:
 
 func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")
-	_trigger_flashback("notes/artifact_amulet")
+	await _trigger_flashback("notes/artifact_amulet")
+	_show_kydaana_silhouette()
+
+func _show_kydaana_silhouette() -> void:
+	var silhouette := Sprite2D.new()
+	var tex_path := "res://assets/sprites/spirit_placeholder.png"
+	if ResourceLoader.exists(tex_path):
+		silhouette.texture = load(tex_path)
+	silhouette.modulate = Color(0.05, 0.02, 0.1, 0.0)
+	silhouette.position = Vector2(520, 260)
+	silhouette.scale = Vector2(1.2, 1.5)
+	add_child(silhouette)
+
+	var tw := create_tween()
+	tw.tween_property(silhouette, "modulate:a", 0.8, 1.5)
+	tw.tween_interval(3.5)
+	tw.tween_property(silhouette, "modulate:a", 0.0, 1.5)
+	await tw.finished
+	silhouette.queue_free()
+
+	SubtitleManager.show_subtitle("Ты видел меня.", SubtitleManager.Pos.TOP_RIGHT)
 
 func _place_ritual_artifact() -> void:
 	var selected := Inventory.selected_item
@@ -152,13 +178,27 @@ func _place_ritual_artifact() -> void:
 
 func _complete_ritual() -> void:
 	if ritual_items == CORRECT_ORDER:
+		var tween := create_tween()
+		var bg := $Background as ColorRect
+		tween.tween_property(bg, "color", Color(1.0, 0.95, 0.8), 0.8)
+		await tween.finished
 		DialogueManager.show_text("", "Пламя вспыхивает белым. Стены перестают дрожать. Что-то освобождается.")
 		await DialogueManager.dialogue_finished
+		SubtitleManager.show_subtitle("Я не думала что кто-то придёт.", SubtitleManager.Pos.BOTTOM_CENTER)
+		await get_tree().create_timer(4.0).timeout
 		GameManager.start_finale("good")
 	else:
 		DialogueManager.show_text("", "Огонь гаснет. Тишина становится абсолютной.")
 		await DialogueManager.dialogue_finished
 		GameManager.start_finale("bad")
+
+func _process(delta: float) -> void:
+	if _idle_subtitle_shown:
+		return
+	_idle_subtitle_timer += delta
+	if _idle_subtitle_timer >= 10.0:
+		_idle_subtitle_shown = true
+		SubtitleManager.show_subtitle("Зачем ты здесь стоишь?", SubtitleManager.Pos.MID_RIGHT)
 
 func _trigger_flashback(dialogue_key: String) -> void:
 	var player := get_tree().get_first_node_in_group("player")
