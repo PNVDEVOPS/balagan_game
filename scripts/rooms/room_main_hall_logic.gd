@@ -57,9 +57,29 @@ func _setup_puzzle() -> void:
 	if poem:
 		poem.examined.connect(func(): DialogueManager.start_dialogue("notes/poem_ritual"))
 
-	var note1 := get_node_or_null("NoteAiyyna1")
+	# Кыдаана note 1 — with fallback for old scene node name
+	var note1 := get_node_or_null("NoteKydaana1")
+	if not note1:
+		note1 = get_node_or_null("NoteAiyyna1")
 	if note1:
-		note1.examined.connect(func(): DialogueManager.start_dialogue("notes/note_aiyyna_1"))
+		note1.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_kydaana_1")
+			GameManager.mark_note_found("note_kydaana_1")
+		)
+
+	# Env notes
+	for note_data: Array in [
+			["NoteEnv1", "notes/note_env_1", "note_env_1"],
+			["NoteEnv4", "notes/note_env_4", "note_env_4"],
+			["NoteEnv5", "notes/note_env_5", "note_env_5"]]:
+		var note := get_node_or_null(note_data[0])
+		var key: String = note_data[1]
+		var note_id: String = note_data[2]
+		if note:
+			note.examined.connect(func():
+				DialogueManager.start_dialogue(key)
+				GameManager.mark_note_found(note_id)
+			)
 
 func _all_artifacts_collected() -> bool:
 	for id in ["amulet", "doll", "earring"]:

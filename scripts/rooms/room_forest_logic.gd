@@ -15,12 +15,38 @@ func _ready() -> void:
 	if murder:
 		murder.examined.connect(_on_murder_site_examined)
 
-	for note_data in [["NoteFatherLast", "notes/note_father_last"],
-			["NoteAiyyna2", "notes/note_aiyyna_2"]]:
-		var note := get_node_or_null(note_data[0])
-		var key: String = note_data[1]
-		if note:
-			note.examined.connect(func(): DialogueManager.start_dialogue(key))
+	# Кыдаана note 2 — with fallback for old node name
+	var kydaana2 := get_node_or_null("NoteKydaana2")
+	if not kydaana2:
+		kydaana2 = get_node_or_null("NoteAiyyna2")
+	if kydaana2:
+		kydaana2.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_kydaana_2")
+			GameManager.mark_note_found("note_kydaana_2")
+		)
+
+	# Father's last note (note_father_4)
+	var father_last := get_node_or_null("NoteFatherLast")
+	if father_last:
+		father_last.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_father_4")
+			GameManager.mark_note_found("note_father_4")
+		)
+
+	# Old NoteForestFather also maps to father notes
+	var forest_father := get_node_or_null("NoteForestFather")
+	if forest_father:
+		forest_father.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_father_3")
+			GameManager.mark_note_found("note_father_3")
+		)
+
+	var env2 := get_node_or_null("NoteEnv2")
+	if env2:
+		env2.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_env_2")
+			GameManager.mark_note_found("note_env_2")
+		)
 
 func _on_murder_site_examined() -> void:
 	DialogueManager.show_text("", "Примятая трава. Старые следы борьбы. Снег здесь давно покраснел и стал чёрным.")
@@ -39,7 +65,7 @@ func _on_laika_trigger(body: Node2D) -> void:
 	if laika:
 		laika.appear()
 
-	DialogueManager.show_text("", "Лайка... Она здесь? Откуда?")
+	DialogueManager.show_text("", "Наайда... Она здесь? Откуда?")
 	await DialogueManager.dialogue_finished
 
 	if laika and is_instance_valid(laika):

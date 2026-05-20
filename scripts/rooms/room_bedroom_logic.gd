@@ -1,5 +1,7 @@
 extends Node2D
 
+var _cradle_minigame_active: bool = false
+
 func _ready() -> void:
 	if GameManager.artifacts_collected.has("doll"):
 		for node_name in ["KeyPickable", "ChestDoll", "DollPickable"]:
@@ -8,13 +10,22 @@ func _ready() -> void:
 				n.queue_free()
 		return
 
-	var riddle := get_node_or_null("RiddleBishik")
+	# Cradle riddle note
+	var riddle := get_node_or_null("RiddleCradle")
+	if not riddle:
+		riddle = get_node_or_null("RiddleBishik")
 	if riddle:
-		riddle.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_bishik"))
+		riddle.examined.connect(func():
+			DialogueManager.start_dialogue("notes/riddle_cradle")
+			GameManager.mark_note_found("riddle_cradle")
+		)
 
-	var bishik := get_node_or_null("Bishik")
-	if bishik:
-		bishik.examined.connect(_on_bishik_examined)
+	# Cradle interaction — launches minigame
+	var cradle := get_node_or_null("Cradle")
+	if not cradle:
+		cradle = get_node_or_null("Bishik")
+	if cradle:
+		cradle.examined.connect(_on_cradle_examined)
 
 	var chest := get_node_or_null("ChestDoll")
 	if chest:
@@ -24,22 +35,69 @@ func _ready() -> void:
 	if doll:
 		doll.picked_up.connect(func(_id): _on_doll_picked_up())
 
-	for note_data in [["NoteMother1", "notes/note_mother_1"], ["NoteMother2", "notes/note_mother_2"],
-			["NoteMother3", "notes/note_mother_3"], ["NoteAiyyna3", "notes/note_aiyyna_3"]]:
+	# Mother diary notes (4 entries)
+	for note_data: Array in [
+			["NoteMother1", "notes/note_mother_1", "note_mother_1"],
+			["NoteMother2", "notes/note_mother_2", "note_mother_2"],
+			["NoteMother3", "notes/note_mother_3", "note_mother_3"],
+			["NoteMother4", "notes/note_mother_4", "note_mother_4"]]:
 		var note := get_node_or_null(note_data[0])
 		var key: String = note_data[1]
+		var note_id: String = note_data[2]
 		if note:
-			note.examined.connect(func(): DialogueManager.start_dialogue(key))
+			note.examined.connect(func():
+				DialogueManager.start_dialogue(key)
+				GameManager.mark_note_found(note_id)
+			)
 
-func _on_bishik_examined() -> void:
+	# Кыдаана note 3 — with fallback for old node name
+	var kydaana3 := get_node_or_null("NoteKydaana3")
+	if not kydaana3:
+		kydaana3 = get_node_or_null("NoteAiyyna3")
+	if kydaana3:
+		kydaana3.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_kydaana_3")
+			GameManager.mark_note_found("note_kydaana_3")
+		)
+
+func _on_cradle_examined() -> void:
+	if _cradle_minigame_active:
+		return
+	DialogueManager.show_text("", "Загадка нацарапана над колыбелью.")
+	await DialogueManager.dialogue_finished
+	DialogueManager.start_dialogue("notes/riddle_cradle")
+	await DialogueManager.dialogue_finished
+	_launch_cradle_minigame()
+
+func _launch_cradle_minigame() -> void:
+	_cradle_minigame_active = true
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("freeze"):
+		player.freeze()
+
+	var scene := preload("res://scenes/minigames/minigame_cradle.tscn")
+	var mg: MinigameCradle = scene.instantiate()
+	get_tree().current_scene.add_child(mg)
+	mg.minigame_completed.connect(_on_cradle_solved)
+	mg.minigame_cancelled.connect(_on_cradle_cancelled)
+
+func _on_cradle_solved(_id: String) -> void:
+	_cradle_minigame_active = false
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("unfreeze"):
+		player.unfreeze()
+	DialogueManager.show_text("", "Колыбель качнулась сама. Тихий звук — будто кто-то напевает. Под подушкой что-то блеснуло.")
+	await DialogueManager.dialogue_finished
 	var key := get_node_or_null("KeyPickable")
-	if key and not key.visible:
-		DialogueManager.show_text("", "Пустая колыбель. Под покрывалом — что-то твёрдое.")
-		await DialogueManager.dialogue_finished
+	if key:
 		key.visible = true
 		key.set_deferred("monitoring", true)
-	else:
-		DialogueManager.show_text("", "Колыбель качается сама. Без ребёнка. Без матери.")
+
+func _on_cradle_cancelled() -> void:
+	_cradle_minigame_active = false
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("unfreeze"):
+		player.unfreeze()
 
 func _on_chest_used() -> void:
 	var doll := get_node_or_null("DollPickable")
