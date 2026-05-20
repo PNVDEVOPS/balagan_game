@@ -15,11 +15,17 @@ var nearest_interactable: Node2D = null
 @onready var flashlight_ctrl = $Flashlight
 @onready var camera: Camera2D = $Camera2D
 @onready var prompt: Sprite2D = $InteractionPrompt
+@onready var interaction_ring: Node2D = $InteractionRing
+@onready var interaction_label: Label = $InteractionLabel
 
 func _ready() -> void:
 	ray.collide_with_areas = true
 	prompt.visible = false
 	flashlight_ctrl.set_facing(true)
+	if interaction_ring:
+		interaction_ring.modulate.a = 0.0
+	if interaction_label:
+		interaction_label.modulate.a = 0.0
 
 func _physics_process(delta: float) -> void:
 	var blocked := is_hiding or is_interacting or is_frozen or DialogueManager.is_active
@@ -76,10 +82,20 @@ func _check_interaction() -> void:
 		var collider := ray.get_collider()
 		if collider and collider.has_method("get_interaction_type"):
 			nearest_interactable = collider
-			prompt.visible = true
+			prompt.visible = false
+			if interaction_ring:
+				interaction_ring.global_position = collider.global_position
+				interaction_ring.modulate.a = 0.85
+			if interaction_label:
+				interaction_label.global_position = collider.global_position + Vector2(0.0, -40.0)
+				interaction_label.modulate.a = 0.85
 			return
 	nearest_interactable = null
 	prompt.visible = false
+	if interaction_ring:
+		interaction_ring.modulate.a = 0.0
+	if interaction_label:
+		interaction_label.modulate.a = 0.0
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Dialogue advancement always works, even while frozen
