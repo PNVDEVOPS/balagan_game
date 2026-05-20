@@ -130,16 +130,18 @@ func _trigger_flashback() -> void:
 	var fl = player.get_node("Flashlight") if player else null
 	if fl:
 		fl.scripted_off()
-	var bg := $Background as ColorRect
-	var original_color := bg.color
-	var tween := create_tween()
-	tween.tween_property(bg, "color", Color(0.24, 0.17, 0.1), 1.0)
-	await tween.finished
+	var bg := get_node_or_null("Background") as ColorRect
+	var original_color := bg.color if bg else Color.BLACK
+	if bg:
+		var tween := create_tween()
+		tween.tween_property(bg, "color", Color(0.24, 0.17, 0.1), 1.0)
+		await tween.finished
 	await get_tree().create_timer(2.0).timeout
 	DialogueManager.start_dialogue("notes/artifact_doll")
 	await DialogueManager.dialogue_finished
-	tween = create_tween()
-	tween.tween_property(bg, "color", original_color, 1.0)
-	await tween.finished
+	if bg:
+		var tween := create_tween()
+		tween.tween_property(bg, "color", original_color, 1.0)
+		await tween.finished
 	if fl:
 		fl.scripted_on()

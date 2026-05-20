@@ -1,123 +1,119 @@
-[gd_scene load_steps=10 format=3 uid="uid://room_main_hall"]
+[gd_scene format=3 uid="uid://cx11by5tdde44"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_main_hall_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4"]
-[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5"]
+[ext_resource type="Script" uid="uid://cpjkte3x2o1qw" path="res://scripts/rooms/room_main_hall_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
-[node name="RoomMainHall" type="Node2D"]
+[node name="RoomMainHall" type="Node2D" unique_id=1713279881]
 script = ExtResource("6")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=2010495703]
 offset_right = 2400.0
 offset_bottom = 700.0
 color = Color(0.102, 0.059, 0.039, 1)
 
-[node name="FloorVisual" type="ColorRect" parent="."]
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=349864924]
 offset_top = 660.0
 offset_right = 2400.0
 offset_bottom = 700.0
 color = Color(0.176, 0.106, 0.063, 1)
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=330029860]
 position = Vector2(0, 660)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270058]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
-[node name="Player" parent="." instance=ExtResource("1")]
+[node name="Player" parent="." unique_id=1035253463 instance=ExtResource("1")]
 position = Vector2(1200, 640)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=783490545]
 position = Vector2(1200, 640)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=1674324491]
 position = Vector2(2400, 180)
 
-[node name="DoorEntrance" parent="." instance=ExtResource("2")]
+[node name="DoorEntrance" parent="." unique_id=1289355478 instance=ExtResource("2")]
 position = Vector2(50, 660)
 door_id = "door_entrance"
 
-[node name="DoorLeft" parent="." instance=ExtResource("2")]
+[node name="DoorLeft" parent="." unique_id=1601404546 instance=ExtResource("2")]
 position = Vector2(700, 660)
 door_id = "door_left"
 
-[node name="DoorRight" parent="." instance=ExtResource("2")]
+[node name="DoorRight" parent="." unique_id=2081614143 instance=ExtResource("2")]
 position = Vector2(2350, 660)
 door_id = "door_right"
 
-[node name="Laika" parent="." instance=ExtResource("4")]
+[node name="Laika" parent="." unique_id=1849410618 instance=ExtResource("4")]
 position = Vector2(1200, 648)
 auto_appear = false
 
-[node name="TableExamine" parent="." instance=ExtResource("5")]
+[node name="TableExamine" parent="." unique_id=1154507970 instance=ExtResource("5")]
 position = Vector2(1600, 660)
 examine_text = "Стол накрыт на одного. Тарелка с едой, ещё тёплая. Кто-то ждал гостей."
 
-[node name="WoodPickable" parent="." instance=ExtResource("7")]
+[node name="WoodPickable" parent="." unique_id=860000060 instance=ExtResource("7")]
 position = Vector2(450, 660)
 item_id = "firewood"
 item_name = "Вязанка дров"
 pickup_text = "Берёзовые дрова. Сухие. Кто-то заготовил заранее."
 
-[node name="Kamyolk" parent="." instance=ExtResource("5")]
+[node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
 position = Vector2(2000, 660)
-examine_text = ""
 
-[node name="RiddleKamyolk" parent="." instance=ExtResource("5")]
+[node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
 position = Vector2(1800, 620)
-examine_text = ""
 
-[node name="KeyPickable" parent="." instance=ExtResource("7")]
-position = Vector2(2000, 660)
+[node name="KeyPickable" parent="." unique_id=42400403 instance=ExtResource("7")]
 visible = false
+position = Vector2(2000, 660)
 monitoring = false
 item_id = "chest_key_1"
 item_name = "Ключ от сундука"
 pickup_text = "Старый ключ. Нашёлся среди углей камелька."
 
-[node name="ChestAmulet" parent="." instance=ExtResource("8")]
+[node name="ChestAmulet" parent="." unique_id=340881463 instance=ExtResource("8")]
 position = Vector2(2200, 660)
-required_item = "chest_key_1"
 success_text = "Крышка поддаётся. Внутри что-то завёрнуто в старую кожу."
 fail_text = "Сундук заперт. Нужен ключ."
+required_item = "chest_key_1"
 
-[node name="AmuletPickable" parent="." instance=ExtResource("7")]
-position = Vector2(2200, 660)
+[node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
 visible = false
+position = Vector2(2200, 660)
 monitoring = false
 item_id = "amulet"
 item_name = "Амулет"
 pickup_text = "Древняя косточка. Тёплая на ощупь, будто живая."
 
-[node name="RitualPoem" parent="." instance=ExtResource("5")]
+[node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
 position = Vector2(1400, 620)
-examine_text = ""
 
-[node name="NoteAiyyna1" parent="." instance=ExtResource("5")]
+[node name="NoteAiyyna1" parent="." unique_id=242742007 instance=ExtResource("5")]
 position = Vector2(800, 620)
-examine_text = ""
 
-[node name="LoopFallenPicture" type="ColorRect" parent="."]
+[node name="LoopFallenPicture" type="ColorRect" parent="." unique_id=1427627737]
+visible = false
 offset_left = 250.0
 offset_top = 540.0
 offset_right = 290.0
 offset_bottom = 600.0
-visible = false
 color = Color(0.05, 0.03, 0.02, 1)
 
-[node name="LoopWallText" parent="." instance=ExtResource("5")]
-position = Vector2(1100, 600)
+[node name="LoopWallText" parent="." unique_id=95727743 instance=ExtResource("5")]
 visible = false
+position = Vector2(1100, 600)
 examine_text = "На стене — нацарапано. «УХОДИ». Буквы неровные, будто в спешке."
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=763442234]
 position = Vector2(0, 700)
 
-[node name="HUD" parent="." instance=ExtResource("3")]
+[node name="HUD" parent="." unique_id=1235727156 instance=ExtResource("3")]

@@ -15,6 +15,7 @@ func save() -> void:
 		"notes_found": Array(GameManager.notes_found),
 		"inventory": Array(Inventory.items),
 		"transition_count": GameManager.transition_count,
+		"ritual_result": GameManager.ritual_result,
 		"timestamp": Time.get_unix_time_from_system()
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -55,6 +56,7 @@ func load_game() -> bool:
 	for item in data.get("inventory", []):
 		Inventory.items.append(str(item))
 
+	GameManager.ritual_result = str(data.get("ritual_result", ""))
 	GameManager.restore_from_save()
 	return true
 

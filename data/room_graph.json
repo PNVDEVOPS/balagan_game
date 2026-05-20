@@ -22,7 +22,7 @@
     },
     "main_hall": {
       "scene": "res://scenes/rooms/room_main_hall.tscn",
-      "doors": { "door_bedroom": "corridor" }
+      "doors": { "door_right": "corridor" }
     },
     "corridor": {
       "scene": "res://scenes/rooms/room_corridor.tscn",
