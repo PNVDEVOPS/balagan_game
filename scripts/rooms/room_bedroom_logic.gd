@@ -60,6 +60,24 @@ func _ready() -> void:
 			GameManager.mark_note_found("note_kydaana_3")
 		)
 
+	var forward_zone := get_node_or_null("ForwardZone")
+	if forward_zone:
+		forward_zone.body_entered.connect(func(body: Node2D):
+			if body.is_in_group("player") and GameManager.artifacts_collected.has("doll"):
+				GameManager.change_room("door_forward")
+		)
+
+	var cradle_sub := get_node_or_null("Cradle")
+	if not cradle_sub:
+		cradle_sub = get_node_or_null("Bed")
+	if cradle_sub and not GameManager.artifacts_collected.has("doll"):
+		cradle_sub.examined.connect(func():
+			SubtitleManager.show_subtitle(
+				"Здесь я видела сны. Хорошие — в начале.",
+				SubtitleManager.Pos.TOP_CENTER
+			)
+		, CONNECT_ONE_SHOT)
+
 func _on_cradle_examined() -> void:
 	if _cradle_minigame_active:
 		return
