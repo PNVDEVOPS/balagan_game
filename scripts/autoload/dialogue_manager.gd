@@ -16,6 +16,8 @@ func start_dialogue(dialogue_id: String) -> void:
 	var path := "res://data/dialogues/%s.json" % file_name
 	var file := FileAccess.open(path, FileAccess.READ)
 	if not file:
+		push_warning("DialogueManager: file not found: %s" % path)
+		dialogue_finished.emit()
 		return
 	var json := JSON.new()
 	json.parse(file.get_as_text())

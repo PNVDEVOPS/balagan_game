@@ -25,11 +25,12 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Flashlight" type="PointLight2D" parent="."]
+position = Vector2(10, -28)
 color = Color(1, 0.957, 0.839, 1)
 energy = 1.5
 texture = ExtResource("4")
 texture_scale = 2.0
-shadow_enabled = true
+shadow_enabled = false
 script = ExtResource("2")
 
 [node name="InteractionRay" type="RayCast2D" parent="."]

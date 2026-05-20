@@ -27,7 +27,10 @@ func _ready() -> void:
 	add_to_group("laika")
 	_find_player()
 	if not auto_appear:
-		disappear()
+		# Instantly hidden — no tween so appear() won't race with disappear()
+		is_visible_spirit = false
+		visible = false
+		modulate.a = 0.0
 
 func _find_player() -> void:
 	await get_tree().process_frame
