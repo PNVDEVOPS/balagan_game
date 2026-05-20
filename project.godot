@@ -26,6 +26,7 @@ AudioManager="*res://scripts/autoload/audio_manager.gd"
 DialogueManager="*res://scripts/autoload/dialogue_manager.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
 ChapterManager="*res://scripts/autoload/chapter_manager.gd"
+SubtitleManager="*res://scripts/autoload/subtitle_manager.gd"
 
 [display]
 

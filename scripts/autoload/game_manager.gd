@@ -13,6 +13,7 @@ var transition_count: int = 0
 var is_transitioning: bool = false
 var spawn_door_id: String = ""
 var loop_state: int = 0
+var escape_attempts: int = 0
 var ritual_result: String = ""
 
 var _room_graph_original: Dictionary = {}
