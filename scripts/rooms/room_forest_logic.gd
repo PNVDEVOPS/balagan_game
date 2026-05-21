@@ -11,7 +11,9 @@ func _ready() -> void:
 	if exit_zone:
 		exit_zone.body_entered.connect(_on_exit_zone)
 
-	var murder := get_node_or_null("MurderSite")
+	var murder := get_node_or_null("ShamanAmulet")
+	if not murder:
+		murder = get_node_or_null("MurderSite")
 	if murder:
 		murder.examined.connect(_on_murder_site_examined)
 
@@ -49,9 +51,9 @@ func _ready() -> void:
 		)
 
 func _on_murder_site_examined() -> void:
-	DialogueManager.show_text("", "Примятая трава. Старые следы борьбы. Снег здесь давно покраснел и стал чёрным.")
+	DialogueManager.show_text("", "Амулет из птичьих костей, подвешенный на ветке. Кости старые — отбелены временем. Но нити свежие. Кто-то приходил сюда недавно.")
 	await DialogueManager.dialogue_finished
-	DialogueManager.show_text("", "Это место знакомо. Будто кто-то оставил здесь часть себя — навсегда.")
+	DialogueManager.show_text("", "Такие вещи оставляют шаманы. Не как подношение — как замок. Чтобы что-то не ушло. Или не вошло.")
 
 func _on_laika_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _laika_appeared:

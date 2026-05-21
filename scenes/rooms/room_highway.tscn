@@ -237,6 +237,13 @@ examine_text = "Капот холодный. Мотор не схватывае�
 position = Vector2(900, 640)
 examine_text = "Указатель занесло снегом. Цифры не разобрать."
 
+[node name="NarrativeTrigger" type="Area2D" parent="." unique_id=671234501]
+position = Vector2(1400, 350)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NarrativeTrigger" unique_id=671234502]
+shape = SubResource("RectangleShape2D_trigger")
+
 [node name="TriggerZone" type="Area2D" parent="." unique_id=534517377]
 position = Vector2(1770, 350)
 collision_layer = 0

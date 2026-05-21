@@ -264,8 +264,9 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=1075962413]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="MurderSite" parent="." unique_id=119670520 instance=ExtResource("4")]
+[node name="ShamanAmulet" parent="." unique_id=119670520 instance=ExtResource("4")]
 position = Vector2(1800, 660)
+examine_text = "Амулет из птичьих костей, подвешенный на ветке."
 
 [node name="NoteFatherLast" parent="." unique_id=363862173 instance=ExtResource("4")]
 position = Vector2(1500, 620)
