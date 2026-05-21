@@ -6,7 +6,7 @@ signal qte_success()
 signal qte_failure()
 
 const MAX_CHARGE := 100.0
-const DRAIN_RATE := 2.2
+const DRAIN_RATE := 0.0
 const CRANK_AMOUNT := 8.0
 const QTE_DRAIN_RATE := 15.0
 const QTE_CHARGE_PER_PRESS := 6.0

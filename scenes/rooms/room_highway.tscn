@@ -233,7 +233,7 @@ position = Vector2(160, 660)
 position = Vector2(280, 660)
 
 [node name="FlashlightPickable" parent="." unique_id=654321987 instance=ExtResource("6_pick")]
-position = Vector2(215, 640)
+position = Vector2(320, 640)
 interaction_text = "Взять фонарь"
 item_id = "flashlight"
 item_name = "Фонарь"
