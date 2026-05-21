@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://examine_window"]
+
+[ext_resource type="Script" path="res://scripts/ui/examine_window.gd" id="1"]
+
+[node name="ExamineWindow" type="CanvasLayer"]
+layer = 12
+script = ExtResource("1")
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.82)
+mouse_filter = 0
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -130.0
+offset_right = 200.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+self_modulate = Color(0.1, 0.08, 0.06, 0.98)
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+uppercase = true
+text = ""
+modulate = Color(0.85, 0.75, 0.55, 1)
+
+[node name="ViewRect" type="ColorRect" parent="Panel/Margin/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(372, 110)
+color = Color(0.06, 0.05, 0.07, 1)
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="Panel/Margin/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(372, 50)
+theme_override_font_sizes/normal_font_size = 12
+fit_content = true
+scroll_active = false
+text = ""
+
+[node name="CloseHint" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+text = "[ нажмите любую клавишу ]"
+modulate = Color(1, 1, 1, 0.35)
+
+[node name="Silhouette" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.03, 0.02, 0.04, 1)
+mouse_filter = 2

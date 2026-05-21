@@ -227,11 +227,9 @@ position = Vector2(1800, 180)
 
 [node name="PhoneExamine" parent="." unique_id=2026892038 instance=ExtResource("4")]
 position = Vector2(160, 660)
-examine_text = "Телефон. Три полоски сигнала — и вдруг ноль. Метель глушит всё."
 
 [node name="HoodExamine" parent="." unique_id=1393300558 instance=ExtResource("4")]
 position = Vector2(280, 660)
-examine_text = "Капот холодный. Мотор не схватывается. Дорога назад закрыта."
 
 [node name="SnowSign" parent="." unique_id=1658671472 instance=ExtResource("4")]
 position = Vector2(900, 640)

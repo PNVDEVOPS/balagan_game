@@ -76,6 +76,19 @@ func _ready() -> void:
 			)
 		, CONNECT_ONE_SHOT)
 
+	var window := get_node_or_null("WindowExamine")
+	if window:
+		window.examined.connect(_on_window_examined, CONNECT_ONE_SHOT)
+
+func _on_window_examined() -> void:
+	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
+	get_tree().current_scene.add_child(ew)
+	ew.open_jumpscare(
+		"Окно",
+		"За окном — метель. Темно. Ничего не видно дальше двух шагов.\n\nТы смотришь в темноту.",
+		Color(0.02, 0.03, 0.06, 1.0)
+	)
+
 func _on_cradle_examined() -> void:
 	if _cradle_minigame_active:
 		return
