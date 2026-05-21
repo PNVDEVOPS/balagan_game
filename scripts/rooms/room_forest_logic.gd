@@ -51,9 +51,13 @@ func _ready() -> void:
 		)
 
 func _on_murder_site_examined() -> void:
-	DialogueManager.show_text("", "Амулет из птичьих костей, подвешенный на ветке. Кости старые — отбелены временем. Но нити свежие. Кто-то приходил сюда недавно.")
-	await DialogueManager.dialogue_finished
-	DialogueManager.show_text("", "Такие вещи оставляют шаманы. Не как подношение — как замок. Чтобы что-то не ушло. Или не вошло.")
+	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
+	get_tree().current_scene.add_child(ew)
+	ew.open(
+		"Амулет шамана",
+		"Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.\n\nТакое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.",
+		Color(0.04, 0.03, 0.02, 1.0)
+	)
 
 func _on_laika_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _laika_appeared:

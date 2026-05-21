@@ -39,4 +39,7 @@ examine_text = "Хомус. Одна пластина чуть погнута �
 [node name="TableExaminable" parent="." instance=ExtResource("2_exam")]
 position = Vector2(280, 270)
 interaction_text = "Осмотреть"
-examine_text = "Стол. На нём — остатки последней трапезы. Чашки перевёрнуты."
+
+[node name="WindowExamine" parent="." instance=ExtResource("2_exam")]
+position = Vector2(140, 200)
+interaction_text = "Посмотреть в окно"

@@ -9,6 +9,18 @@ func _ready() -> void:
 	if forward_zone:
 		forward_zone.body_entered.connect(_on_forward_zone)
 
+	var window := get_node_or_null("WindowExamine")
+	if window:
+		window.examined.connect(func():
+			var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
+			get_tree().current_scene.add_child(ew)
+			ew.open_jumpscare(
+				"Окно",
+				"Коридор выходит на двор. За стеклом — темнота и снег.\n\nТы смотришь. Темнота смотрит обратно.",
+				Color(0.02, 0.02, 0.04, 1.0)
+			)
+		)
+
 	await get_tree().process_frame
 	_maybe_show_subtitle(room_id)
 

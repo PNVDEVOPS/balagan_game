@@ -40,3 +40,7 @@ examine_text = "Ржавые капканы. Один сломан — пруж�
 position = Vector2(420, 270)
 interaction_text = "Осмотреть"
 examine_text = "Деревянный ларец. Внутри — записка."
+
+[node name="ShelvesExamine" parent="." instance=ExtResource("2_exam")]
+position = Vector2(520, 220)
+interaction_text = "Осмотреть полку"

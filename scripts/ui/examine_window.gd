@@ -4,8 +4,9 @@ signal window_closed
 
 @onready var overlay: ColorRect = $Overlay
 @onready var view_rect: ColorRect = $Panel/Margin/VBox/ViewRect
-@onready var title_label: Label = $Panel/Margin/VBox/TitleLabel
+@onready var title_label: Label = $Panel/Margin/VBox/Header/TitleLabel
 @onready var description_label: RichTextLabel = $Panel/Margin/VBox/DescriptionLabel
+@onready var close_button: Button = $Panel/Margin/VBox/Header/CloseButton
 @onready var silhouette: ColorRect = $Silhouette
 
 var _ready_to_close: bool = false
@@ -15,6 +16,7 @@ var _jumpscare_done: bool = false
 func _ready() -> void:
 	silhouette.modulate.a = 0.0
 	overlay.modulate.a = 0.0
+	close_button.pressed.connect(_on_close_pressed)
 	var tween := create_tween()
 	tween.tween_property(overlay, "modulate:a", 1.0, 0.2)
 	await tween.finished
@@ -29,20 +31,25 @@ func open_jumpscare(p_title: String, p_description: String, p_view_color: Color 
 	open(p_title, p_description, p_view_color)
 	_jumpscare = true
 
-func _unhandled_input(event: InputEvent) -> void:
+func _on_close_pressed() -> void:
 	if not _ready_to_close:
 		return
-	var pressed := (event is InputEventKey and event.pressed) or \
-				   (event is InputEventMouseButton and event.pressed)
-	if not pressed:
-		return
-	get_viewport().set_input_as_handled()
-
 	if _jumpscare and not _jumpscare_done:
 		_jumpscare_done = true
 		_trigger_silhouette()
 	else:
 		_close()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not _ready_to_close:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		if _jumpscare and not _jumpscare_done:
+			_jumpscare_done = true
+			_trigger_silhouette()
+		else:
+			_close()
 
 func _trigger_silhouette() -> void:
 	silhouette.modulate.a = 0.0

@@ -5,6 +5,18 @@ func _ready() -> void:
 	if forward_zone:
 		forward_zone.body_entered.connect(_on_forward_zone)
 
+	var shelves := get_node_or_null("ShelvesExamine")
+	if shelves:
+		shelves.examined.connect(func():
+			var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
+			get_tree().current_scene.add_child(ew)
+			ew.open(
+				"Полка",
+				"Банки с припасами. Большинство пустые. Одна треснула — содержимое давно высохло.\n\nНа самой верхней — охотничий нож в потёртых ножнах. Чистый.",
+				Color(0.04, 0.03, 0.02, 1.0)
+			)
+		)
+
 	var kapkans := get_node_or_null("KapkansExaminable")
 	if kapkans:
 		kapkans.examined.connect(func():
