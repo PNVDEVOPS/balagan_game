@@ -15,6 +15,7 @@ func save() -> void:
 		"notes_found": Array(GameManager.notes_found),
 		"inventory": Array(Inventory.items),
 		"transition_count": GameManager.transition_count,
+		"escape_attempts": GameManager.escape_attempts,
 		"ritual_result": GameManager.ritual_result,
 		"timestamp": Time.get_unix_time_from_system()
 	}
@@ -43,6 +44,7 @@ func load_game() -> bool:
 	ChapterManager.current_chapter = data.get("current_chapter", 0) as ChapterManager.Chapter
 	GameManager.current_room = str(data.get("current_room", "main_hall"))
 	GameManager.transition_count = int(data.get("transition_count", 0))
+	GameManager.escape_attempts = int(data.get("escape_attempts", 0))
 
 	GameManager.artifacts_collected.clear()
 	for item in data.get("artifacts_collected", []):

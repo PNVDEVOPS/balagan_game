@@ -12,16 +12,17 @@ func _start_good_ending() -> void:
 	var player := get_tree().get_first_node_in_group("player")
 	var fl = player.get_node("Flashlight") if player else null
 	var laika := get_tree().get_first_node_in_group("laika")
-	var bg := $Background as ColorRect
+	var bg := get_node_or_null("Background") as ColorRect
 
 	if fl:
 		fl.scripted_off()
 
 	await get_tree().create_timer(1.0).timeout
 
-	var tween := create_tween()
-	tween.tween_property(bg, "color", Color(0.165, 0.102, 0.039), 2.0)
-	await tween.finished
+	if bg:
+		var tween := create_tween()
+		tween.tween_property(bg, "color", Color(0.165, 0.102, 0.039), 2.0)
+		await tween.finished
 
 	DialogueManager.start_dialogue("finale/good_part1")
 	await DialogueManager.dialogue_finished
@@ -34,9 +35,9 @@ func _start_good_ending() -> void:
 	if laika:
 		laika.appear()
 		await get_tree().create_timer(0.8).timeout
-		var player := get_tree().get_first_node_in_group("player")
-		if player:
-			var target_x: float = player.global_position.x + 40.0
+		var player_now := get_tree().get_first_node_in_group("player")
+		if player_now:
+			var target_x: float = player_now.global_position.x + 40.0
 			var approach_tw := create_tween()
 			approach_tw.tween_property(laika, "global_position:x", target_x, 1.5)
 			await approach_tw.finished
@@ -68,15 +69,16 @@ func _start_good_ending() -> void:
 	_post_credits(bg)
 
 func _start_bad_ending() -> void:
-	var bg := $Background as ColorRect
+	var bg := get_node_or_null("Background") as ColorRect
 	var player := get_tree().get_first_node_in_group("player")
 	var fl = player.get_node("Flashlight") if player else null
 	if fl:
 		fl.scripted_off()
 
-	var tween := create_tween()
-	tween.tween_property(bg, "color", Color.BLACK, 2.0)
-	await tween.finished
+	if bg:
+		var tween := create_tween()
+		tween.tween_property(bg, "color", Color.BLACK, 2.0)
+		await tween.finished
 
 	DialogueManager.start_dialogue("finale/bad")
 	await DialogueManager.dialogue_finished
@@ -98,9 +100,10 @@ func _start_bad_ending() -> void:
 	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 func _post_credits(bg: ColorRect) -> void:
-	var tween := create_tween()
-	tween.tween_property(bg, "color", Color.BLACK, 2.0)
-	await tween.finished
+	if bg:
+		var tween := create_tween()
+		tween.tween_property(bg, "color", Color.BLACK, 2.0)
+		await tween.finished
 
 	await get_tree().create_timer(1.0).timeout
 	DialogueManager.show_text("", "Машина заводится. Связь появилась.")

@@ -178,8 +178,12 @@ func _on_earring_picked_up() -> void:
 	_trigger_flashback()
 
 func _on_forward_zone(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		GameManager.change_room("door_forward")
+	if not body.is_in_group("player"):
+		return
+	if not GameManager.artifacts_collected.has("earring"):
+		SubtitleManager.show_subtitle("Здесь ещё что-то есть.", SubtitleManager.Pos.MID_LEFT)
+		return
+	GameManager.change_room("door_forward")
 
 func _trigger_flashback() -> void:
 	var player := get_tree().get_first_node_in_group("player")

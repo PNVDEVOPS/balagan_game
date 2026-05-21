@@ -18,5 +18,7 @@ func interact(player: CharacterBody2D) -> void:
 			GameManager.change_room(door_id)
 		else:
 			DialogueManager.show_text("", lock_message)
+	elif GameManager.get_door_target(GameManager.current_room, door_id).is_empty():
+		DialogueManager.show_text("", lock_message)
 	else:
 		GameManager.change_room(door_id)

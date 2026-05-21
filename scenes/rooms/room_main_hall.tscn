@@ -43,10 +43,12 @@ position = Vector2(2400, 180)
 [node name="DoorEntrance" parent="." unique_id=1289355478 instance=ExtResource("2")]
 position = Vector2(50, 660)
 door_id = "door_entrance"
+lock_message = "Снаружи темно. Пути назад нет."
 
 [node name="DoorLeft" parent="." unique_id=1601404546 instance=ExtResource("2")]
 position = Vector2(700, 660)
 door_id = "door_left"
+lock_message = "Заперто."
 
 [node name="DoorRight" parent="." unique_id=2081614143 instance=ExtResource("2")]
 position = Vector2(2350, 660)
