@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://doracto154sgj"]
+﻿[gd_scene format=3 uid="uid://doracto154sgj"]
 
 [ext_resource type="Script" uid="uid://sno2oxikaovc" path="res://scripts/rooms/room_forest_logic.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
@@ -32,142 +32,142 @@ offset_bottom = 80.0
 color = Color(0.7, 0.7, 0.85, 0.08)
 
 [node name="Trunk1" type="ColorRect" parent="." unique_id=602640851]
-offset_top = 80.0
+offset_top = 300.0
 offset_right = 32.0
-offset_bottom = 320.0
+offset_bottom = 650.0
 color = Color(0.04, 0.03, 0.02, 1)
 
 [node name="Canopy1" type="ColorRect" parent="." unique_id=2129680372]
 offset_left = -24.0
-offset_top = 40.0
+offset_top = 298.0
 offset_right = 56.0
-offset_bottom = 100.0
+offset_bottom = 378.0
 color = Color(0.03, 0.06, 0.02, 1)
 
 [node name="Trunk2" type="ColorRect" parent="." unique_id=906113360]
 offset_left = 160.0
-offset_top = 60.0
+offset_top = 308.0
 offset_right = 188.0
-offset_bottom = 320.0
+offset_bottom = 655.0
 color = Color(0.05, 0.04, 0.03, 1)
 
 [node name="Canopy2" type="ColorRect" parent="." unique_id=601482133]
 offset_left = 136.0
-offset_top = 20.0
+offset_top = 290.0
 offset_right = 212.0
-offset_bottom = 80.0
+offset_bottom = 370.0
 color = Color(0.03, 0.06, 0.01, 1)
 
 [node name="Trunk3" type="ColorRect" parent="." unique_id=1093457654]
 offset_left = 380.0
-offset_top = 50.0
+offset_top = 296.0
 offset_right = 412.0
-offset_bottom = 320.0
+offset_bottom = 645.0
 color = Color(0.04, 0.03, 0.02, 1)
 
 [node name="Canopy3" type="ColorRect" parent="." unique_id=1236750694]
 offset_left = 352.0
-offset_top = 8.0
+offset_top = 278.0
 offset_right = 440.0
-offset_bottom = 74.0
+offset_bottom = 356.0
 color = Color(0.03, 0.07, 0.02, 1)
 
 [node name="Trunk4" type="ColorRect" parent="." unique_id=592622631]
 offset_left = 620.0
-offset_top = 70.0
+offset_top = 304.0
 offset_right = 648.0
-offset_bottom = 320.0
+offset_bottom = 648.0
 color = Color(0.05, 0.04, 0.02, 1)
 
 [node name="Canopy4" type="ColorRect" parent="." unique_id=130952649]
 offset_left = 592.0
-offset_top = 30.0
+offset_top = 284.0
 offset_right = 676.0
-offset_bottom = 92.0
+offset_bottom = 362.0
 color = Color(0.02, 0.05, 0.01, 1)
 
 [node name="Trunk5" type="ColorRect" parent="." unique_id=1956380606]
 offset_left = 880.0
-offset_top = 55.0
+offset_top = 300.0
 offset_right = 910.0
-offset_bottom = 320.0
+offset_bottom = 650.0
 color = Color(0.04, 0.03, 0.02, 1)
 
 [node name="Canopy5" type="ColorRect" parent="." unique_id=524860908]
 offset_left = 850.0
-offset_top = 14.0
+offset_top = 274.0
 offset_right = 940.0
-offset_bottom = 78.0
+offset_bottom = 354.0
 color = Color(0.03, 0.07, 0.02, 1)
 
 [node name="Trunk6" type="ColorRect" parent="." unique_id=2116813175]
 offset_left = 1100.0
-offset_top = 45.0
+offset_top = 306.0
 offset_right = 1128.0
-offset_bottom = 320.0
+offset_bottom = 652.0
 color = Color(0.05, 0.04, 0.03, 1)
 
 [node name="Canopy6" type="ColorRect" parent="." unique_id=259080944]
 offset_left = 1072.0
-offset_top = 4.0
+offset_top = 286.0
 offset_right = 1156.0
-offset_bottom = 68.0
+offset_bottom = 366.0
 color = Color(0.03, 0.07, 0.01, 1)
 
 [node name="Trunk7" type="ColorRect" parent="." unique_id=1357496012]
 offset_left = 1340.0
-offset_top = 75.0
+offset_top = 302.0
 offset_right = 1368.0
-offset_bottom = 320.0
+offset_bottom = 648.0
 color = Color(0.04, 0.03, 0.02, 1)
 
 [node name="Canopy7" type="ColorRect" parent="." unique_id=2080129024]
 offset_left = 1312.0
-offset_top = 34.0
+offset_top = 282.0
 offset_right = 1396.0
-offset_bottom = 98.0
+offset_bottom = 360.0
 color = Color(0.02, 0.06, 0.02, 1)
 
 [node name="Trunk8" type="ColorRect" parent="." unique_id=1470819865]
 offset_left = 1560.0
-offset_top = 60.0
+offset_top = 308.0
 offset_right = 1590.0
-offset_bottom = 320.0
+offset_bottom = 654.0
 color = Color(0.05, 0.04, 0.03, 1)
 
 [node name="Canopy8" type="ColorRect" parent="." unique_id=2124116404]
 offset_left = 1530.0
-offset_top = 18.0
+offset_top = 288.0
 offset_right = 1620.0
-offset_bottom = 82.0
+offset_bottom = 368.0
 color = Color(0.03, 0.07, 0.02, 1)
 
 [node name="Trunk9" type="ColorRect" parent="." unique_id=1271047888]
 offset_left = 1800.0
-offset_top = 80.0
+offset_top = 298.0
 offset_right = 1828.0
-offset_bottom = 320.0
+offset_bottom = 646.0
 color = Color(0.04, 0.03, 0.02, 1)
 
 [node name="Canopy9" type="ColorRect" parent="." unique_id=1686115315]
 offset_left = 1772.0
-offset_top = 40.0
+offset_top = 280.0
 offset_right = 1856.0
-offset_bottom = 104.0
+offset_bottom = 358.0
 color = Color(0.02, 0.06, 0.01, 1)
 
 [node name="Trunk10" type="ColorRect" parent="." unique_id=809598977]
 offset_left = 2050.0
-offset_top = 65.0
+offset_top = 304.0
 offset_right = 2078.0
-offset_bottom = 320.0
+offset_bottom = 652.0
 color = Color(0.05, 0.04, 0.02, 1)
 
 [node name="Canopy10" type="ColorRect" parent="." unique_id=1691691471]
 offset_left = 2022.0
-offset_top = 24.0
+offset_top = 286.0
 offset_right = 2106.0
-offset_bottom = 88.0
+offset_bottom = 364.0
 color = Color(0.03, 0.07, 0.02, 1)
 
 [node name="BalaganSilhouette" type="ColorRect" parent="." unique_id=862367796]
@@ -278,3 +278,4 @@ position = Vector2(1000, 620)
 position = Vector2(0, 700)
 
 [node name="HUD" parent="." unique_id=630465264 instance=ExtResource("3")]
+
