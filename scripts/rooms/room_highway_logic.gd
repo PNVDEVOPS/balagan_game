@@ -45,5 +45,9 @@ func _on_narrative_trigger(body: Node2D) -> void:
 	DialogueManager.show_text("", "Тропа уходит в лес. Следы на снегу. Старые — но чьи?")
 
 func _on_zone_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		GameManager.change_room("door_continue")
+	if not body.is_in_group("player"):
+		return
+	if not Inventory.has_item("flashlight"):
+		SubtitleManager.show_subtitle("Слишком темно. Хоть глаз выколи.", SubtitleManager.Pos.BOTTOM_CENTER)
+		return
+	GameManager.change_room("door_continue")

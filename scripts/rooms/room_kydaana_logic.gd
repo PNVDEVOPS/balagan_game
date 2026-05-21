@@ -123,6 +123,16 @@ func _on_mirror_examined() -> void:
 	if _mirror_solved:
 		DialogueManager.show_text("", "Зеркало собрано. Ты помнишь — третья доска от окна, где сучок звездой.")
 		return
+	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
+	get_tree().current_scene.add_child(ew)
+	ew.open(
+		"Старое зеркало",
+		"Деревянная рама, потемневшая от времени. Якутская резьба по краю.\n\nСтекло разбито — три крупных осколка. На одном что-то нацарапано.",
+		Color(0.04, 0.04, 0.06, 1.0)
+	)
+	await ew.window_closed
+	if _mirror_minigame_active:
+		return
 	SubtitleManager.show_subtitle(
 		"Оно разбилось в ту ночь. Я не смотрелась с тех пор.",
 		SubtitleManager.Pos.MID_LEFT
@@ -162,6 +172,14 @@ func _on_mirror_cancelled() -> void:
 		player.unfreeze()
 
 func _on_floorboard_examined() -> void:
+	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
+	get_tree().current_scene.add_child(ew)
+	ew.open(
+		"Половица",
+		"Одна доска — чуть темнее других. Сучок посередине похож на звезду.\n\nПод ней — пустота. Что-то спрятали давно.",
+		Color(0.05, 0.04, 0.03, 1.0)
+	)
+	await ew.window_closed
 	var earring := get_node_or_null("EarringPickable")
 	if earring:
 		earring.visible = true

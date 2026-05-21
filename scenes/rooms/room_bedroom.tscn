@@ -97,6 +97,10 @@ examine_text = ""
 position = Vector2(1200, 620)
 examine_text = ""
 
+[node name="FamilyPhoto" parent="." instance=ExtResource("7")]
+position = Vector2(700, 620)
+interaction_text = "Посмотреть"
+
 [node name="NoteAiyyna3" parent="." instance=ExtResource("7")]
 position = Vector2(1000, 620)
 examine_text = ""

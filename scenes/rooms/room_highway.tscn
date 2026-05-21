@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="5"]
+[ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6_pick"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -230,6 +231,13 @@ position = Vector2(160, 660)
 
 [node name="HoodExamine" parent="." unique_id=1393300558 instance=ExtResource("4")]
 position = Vector2(280, 660)
+
+[node name="FlashlightPickable" parent="." unique_id=654321987 instance=ExtResource("6_pick")]
+position = Vector2(215, 640)
+interaction_text = "Взять фонарь"
+item_id = "flashlight"
+item_name = "Фонарь"
+pickup_text = "Рабочий. Аккумулятор не сел. Повезло."
 
 [node name="SnowSign" parent="." unique_id=1658671472 instance=ExtResource("4")]
 position = Vector2(900, 640)
