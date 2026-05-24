@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="5"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6_pick"]
+[ext_resource type="PackedScene" uid="uid://cdcf5js16lvhv" path="res://scenes/objects/highway_parallax_background.tscn" id="7_par"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -19,6 +20,8 @@ script = ExtResource("1")
 offset_right = 2400.0
 offset_bottom = 700.0
 color = Color(0.02, 0.04, 0.09, 1)
+
+[node name="ParallaxBackground" parent="." unique_id=195246088 instance=ExtResource("7_par")]
 
 [node name="StarsFar" type="ColorRect" parent="." unique_id=1127891135]
 offset_left = 80.0
