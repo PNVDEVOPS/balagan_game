@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cdcf5js16lvhv"]
 
-[ext_resource type="Script" uid="uid://hyabu3thmtf5" path="res://scenes/objects/highway_parallax_background.gd" id="1_beeb5"]
-[ext_resource type="Texture2D" uid="uid://c8nppksaur705" path="res://assets/sprites/highway/звезды_sprite_1.png" id="1_iaepu"]
-[ext_resource type="Texture2D" uid="uid://b037u1j2d0ti7" path="res://assets/sprites/highway/горы_sprite_1.png" id="2_beeb5"]
-[ext_resource type="Texture2D" uid="uid://jiybce1qxf55" path="res://assets/sprites/highway/10_sprite_1.png" id="3_bhq4y"]
-[ext_resource type="Texture2D" uid="uid://djqwvjp67auax" path="res://assets/sprites/highway/14_sprite_1.png" id="4_peavo"]
-[ext_resource type="Texture2D" uid="uid://cxs3h2t77wiw0" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="5_sivfq"]
+[ext_resource type="Script" path="res://scenes/objects/highway_parallax_background.gd" id="1_beeb5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway/звезды_sprite_1.png" id="1_iaepu"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway/горы_sprite_1.png" id="2_beeb5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway/10_sprite_1.png" id="3_bhq4y"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway/14_sprite_1.png" id="4_peavo"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="5_sivfq"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bw315"]
 particle_flag_disable_z = true
