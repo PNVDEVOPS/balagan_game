@@ -46,3 +46,4 @@ texture = ExtResource("5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
+limit_bottom = 700
