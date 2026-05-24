@@ -1,4 +1,4 @@
-﻿[gd_scene format=3 uid="uid://doracto154sgj"]
+[gd_scene format=3 uid="uid://doracto154sgj"]
 
 [ext_resource type="Script" uid="uid://sno2oxikaovc" path="res://scripts/rooms/room_forest_logic.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
