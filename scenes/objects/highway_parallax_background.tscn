@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cdcf5js16lvhv"]
 
-[ext_resource type="Script" path="res://scenes/objects/highway_parallax_background.gd" id="1_beeb5"]
-[ext_resource type="Texture2D" path="res://assets/sprites/highway/звезды_sprite_1.png" id="1_iaepu"]
-[ext_resource type="Texture2D" path="res://assets/sprites/highway/горы_sprite_1.png" id="2_beeb5"]
-[ext_resource type="Texture2D" path="res://assets/sprites/highway/10_sprite_1.png" id="3_bhq4y"]
-[ext_resource type="Texture2D" path="res://assets/sprites/highway/14_sprite_1.png" id="4_peavo"]
-[ext_resource type="Texture2D" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="5_sivfq"]
+[ext_resource type="Script" uid="uid://n5qvg5j68631" path="res://scenes/objects/highway_parallax_background.gd" id="1_beeb5"]
+[ext_resource type="Texture2D" uid="uid://dhyf0rbtkywfk" path="res://assets/sprites/highway/звезды_sprite_1.png" id="1_iaepu"]
+[ext_resource type="Texture2D" uid="uid://b7id6jx0ec8a3" path="res://assets/sprites/highway/горы_sprite_1.png" id="2_beeb5"]
+[ext_resource type="Texture2D" uid="uid://sixe8vd8dkhj" path="res://assets/sprites/highway/10_sprite_1.png" id="3_bhq4y"]
+[ext_resource type="Texture2D" uid="uid://cdt64iemhktua" path="res://assets/sprites/highway/14_sprite_1.png" id="4_peavo"]
+[ext_resource type="Texture2D" uid="uid://d36ssefsmv3q7" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="5_sivfq"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bw315"]
 particle_flag_disable_z = true
@@ -14,14 +14,16 @@ emission_box_extents = Vector3(640, 1, 1)
 gravity = Vector3(0, 98, 0)
 
 [node name="ParallaxBackground" type="ParallaxBackground" unique_id=195246088]
+layer = -1
 script = ExtResource("1_beeb5")
 
 [node name="Background" type="ColorRect" parent="." unique_id=508766520]
-offset_right = 1800.0
-offset_bottom = 363.0
-color = Color(0.16078432, 0.24705882, 0.3764706, 1)
+offset_right = 1280.0
+offset_bottom = 360.0
+color = Color(0.02, 0.04, 0.09, 1)
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="." unique_id=1636213538]
+motion_scale = Vector2(0, 1)
 motion_mirroring = Vector2(640, 0)
 
 [node name="ЗвездыSprite1" type="Sprite2D" parent="ParallaxLayer4" unique_id=1190129306]
@@ -30,7 +32,7 @@ texture = ExtResource("1_iaepu")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="." unique_id=985961789]
 position = Vector2(1, -21)
-motion_scale = Vector2(0.4, 0.4)
+motion_scale = Vector2(0.4, 1)
 motion_mirroring = Vector2(640, 0)
 
 [node name="ГорыSprite1" type="Sprite2D" parent="ParallaxLayer" unique_id=1120247914]
