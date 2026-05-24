@@ -43,3 +43,4 @@ interaction_text = "Осмотреть"
 [node name="WindowExamine" parent="." instance=ExtResource("2_exam")]
 position = Vector2(140, 200)
 interaction_text = "Посмотреть в окно"
+examine_text = "Двор занесло. Забор накренился под снегом. Следы у крыльца — старые."

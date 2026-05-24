@@ -97,17 +97,13 @@ examine_text = ""
 position = Vector2(1200, 620)
 examine_text = ""
 
-[node name="FamilyPhoto" parent="." instance=ExtResource("7")]
-position = Vector2(700, 620)
-interaction_text = "Посмотреть"
-
 [node name="NoteAiyyna3" parent="." instance=ExtResource("7")]
 position = Vector2(1000, 620)
 examine_text = ""
 
 [node name="WindowExamine" parent="." instance=ExtResource("7")]
 position = Vector2(300, 560)
-examine_text = ""
+examine_text = "За окном — метель. Деревья согнулись под снегом. Как мы выберемся отсюда?"
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)

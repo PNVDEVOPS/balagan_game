@@ -51,6 +51,11 @@ position = Vector2(200, 270)
 interaction_text = "Осмотреть"
 examine_text = "Тяжёлая шуба. Чья-то — не понять. Давно не надевали."
 
+[node name="WindowEntry" parent="." instance=ExtResource("3_exam")]
+position = Vector2(500, 200)
+interaction_text = "Посмотреть в окно"
+examine_text = "Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."
+
 [node name="LaikaTrigger" type="Area2D" parent="."]
 position = Vector2(420, 260)
 collision_layer = 0
