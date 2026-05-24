@@ -9,9 +9,6 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_car"]
-size = Vector2(200, 64)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(40, 700)
 
@@ -238,13 +235,6 @@ position = Vector2(0, 660)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1767522937]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
-[node name="CarCollision" type="StaticBody2D" parent="." unique_id=2002841279]
-position = Vector2(211, 607)
-
-[node name="CarShape" type="CollisionShape2D" parent="CarCollision" unique_id=622680801]
-position = Vector2(2, 15)
-shape = SubResource("RectangleShape2D_car")
-
 [node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
 position = Vector2(380, 640)
 
@@ -256,9 +246,11 @@ position = Vector2(2400, 180)
 
 [node name="PhoneExamine" parent="." unique_id=2026892038 instance=ExtResource("4")]
 position = Vector2(160, 660)
+interaction_text = "Посмотреть телефон"
 
 [node name="HoodExamine" parent="." unique_id=1393300558 instance=ExtResource("4")]
 position = Vector2(280, 660)
+interaction_text = "Осмотреть приборку"
 
 [node name="FlashlightPickable" parent="." unique_id=654321987 instance=ExtResource("6_pick")]
 position = Vector2(320, 640)

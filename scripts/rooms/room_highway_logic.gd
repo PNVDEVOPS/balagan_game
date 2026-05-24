@@ -3,6 +3,10 @@ extends Node2D
 var _narrative_shown: bool = false
 
 func _ready() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	SubtitleManager.show_subtitle("Машина встала. Метель. Связи нет.", SubtitleManager.Pos.TOP_CENTER)
+
 	var zone := get_node_or_null("TriggerZone")
 	if zone:
 		zone.body_entered.connect(_on_zone_entered)
