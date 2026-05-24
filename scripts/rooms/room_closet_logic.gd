@@ -8,13 +8,7 @@ func _ready() -> void:
 	var shelves := get_node_or_null("ShelvesExamine")
 	if shelves:
 		shelves.examined.connect(func():
-			var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-			get_tree().current_scene.add_child(ew)
-			ew.open(
-				"Полка",
-				"Банки с припасами. Большинство пустые. Одна треснула — содержимое давно высохло.\n\nНа самой верхней — охотничий нож в потёртых ножнах. Чистый.",
-				Color(0.04, 0.03, 0.02, 1.0)
-			)
+			DialogueManager.show_text("", "Банки с припасами. Большинство пустые. Одна треснула — содержимое давно высохло.\n\nНа самой верхней — охотничий нож в потёртых ножнах. Чистый.")
 		)
 
 	var kapkans := get_node_or_null("KapkansExaminable")

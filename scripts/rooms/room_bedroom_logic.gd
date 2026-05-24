@@ -3,14 +3,6 @@ extends Node2D
 var _cradle_minigame_active: bool = false
 
 func _ready() -> void:
-	var photo := get_node_or_null("FamilyPhoto")
-	if photo:
-		photo.examined.connect(_on_family_photo_examined, CONNECT_ONE_SHOT)
-
-	var window := get_node_or_null("WindowExamine")
-	if window:
-		window.examined.connect(_on_window_examined, CONNECT_ONE_SHOT)
-
 	if GameManager.artifacts_collected.has("doll"):
 		for node_name in ["KeyPickable", "ChestDoll", "DollPickable"]:
 			var n := get_node_or_null(node_name)
@@ -84,30 +76,13 @@ func _ready() -> void:
 			)
 		, CONNECT_ONE_SHOT)
 
-func _on_window_examined() -> void:
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
-	ew.open_jumpscare(
-		"Окно",
-		"За окном — метель. Темно. Ничего не видно дальше двух шагов.\n\nТы смотришь в темноту.",
-		Color(0.02, 0.03, 0.06, 1.0)
-	)
-
 func _on_cradle_examined() -> void:
 	if _cradle_minigame_active:
 		return
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
-	ew.open(
-		"Колыбель",
-		"Деревянная, потёртая. Качается от малейшего движения воздуха.\n\nПолог из выцветшей ткани. Над ней — что-то нацарапано на бревне.",
-		Color(0.07, 0.04, 0.05, 1.0)
-	)
-	await ew.window_closed
+	DialogueManager.show_text("", "Деревянная, потёртая. Качается от малейшего движения воздуха.\n\nПолог из выцветшей ткани. Над ней — что-то нацарапано на бревне.")
+	await DialogueManager.dialogue_finished
 	if _cradle_minigame_active:
 		return
-	DialogueManager.show_text("", "Загадка нацарапана над колыбелью.")
-	await DialogueManager.dialogue_finished
 	DialogueManager.start_dialogue("notes/riddle_cradle")
 	await DialogueManager.dialogue_finished
 	_launch_cradle_minigame()
@@ -143,14 +118,8 @@ func _on_cradle_cancelled() -> void:
 		player.unfreeze()
 
 func _on_chest_used() -> void:
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
-	ew.open(
-		"Сундук",
-		"Внутри — тряпичная кукла в старом шёлке. Маленькая. Одно ухо надорвано.\n\nЧья-то. Давно.",
-		Color(0.06, 0.04, 0.03, 1.0)
-	)
-	await ew.window_closed
+	DialogueManager.show_text("", "Внутри — тряпичная кукла в старом шёлке. Маленькая. Одно ухо надорвано.\n\nЧья-то. Давно.")
+	await DialogueManager.dialogue_finished
 	var doll := get_node_or_null("DollPickable")
 	if doll:
 		doll.visible = true
@@ -181,11 +150,3 @@ func _trigger_flashback() -> void:
 	if fl:
 		fl.scripted_on()
 
-func _on_family_photo_examined() -> void:
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
-	ew.open(
-		"Семейное фото",
-		"Чёрно-белое. Мужчина и женщина — нарядные. Рядом — дети, двое.\n\nОни смотрят прямо в объектив. Не улыбаются — так было принято.\n\nНа обороте карандашом: «1913».",
-		Color(0.04, 0.03, 0.02, 1.0)
-	)

@@ -106,29 +106,14 @@ func _on_kamylok_examined() -> void:
 	if kamylok_state == KamylokState.RITUAL_ACTIVE:
 		_place_ritual_artifact()
 		return
-
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
 	match kamylok_state:
 		KamylokState.COLD:
-			ew.open(
-				"Камелёк",
-				"Железная печь с чугунным поддувалом. Угли холодные — давно не топили.\n\nВнешняя сторона кована якутским узором. Тонкая работа, старая.",
-				Color(0.05, 0.03, 0.02, 1.0)
-			)
+			DialogueManager.show_text("", "Железная печь с чугунным поддувалом. Угли холодные — давно не топили.\n\nВнешняя сторона кована якутским узором. Тонкая работа, старая.")
 		KamylokState.BURNING:
-			ew.open(
-				"Камелёк",
-				"Огонь горит ровно, жарко. Среди угля — что-то поблёскивает.",
-				Color(0.18, 0.08, 0.02, 1.0)
-			)
+			DialogueManager.show_text("", "Огонь горит ровно, жарко. Среди угля — что-то поблёскивает.")
 		KamylokState.RITUAL_READY:
-			ew.open(
-				"Камелёк",
-				"Пламя стало другим — тихое, почти прозрачное. Ждёт даров.",
-				Color(0.16, 0.06, 0.02, 1.0)
-			)
-	await ew.window_closed
+			DialogueManager.show_text("", "Пламя стало другим — тихое, почти прозрачное. Ждёт даров.")
+	await DialogueManager.dialogue_finished
 	match kamylok_state:
 		KamylokState.COLD:
 			if Inventory.has_item("firewood"):
@@ -153,14 +138,8 @@ func _fire_lit() -> void:
 	DialogueManager.show_text("", "Среди углей что-то поблёскивает. Можно достать.")
 
 func _on_chest_used() -> void:
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
-	ew.open(
-		"Сундук",
-		"Внутри — что-то завёрнуто в старую кожу. Тяжёлое. Тёплое на ощупь.\n\nПтичьи кости на нити. Старый. Очень старый.",
-		Color(0.06, 0.04, 0.02, 1.0)
-	)
-	await ew.window_closed
+	DialogueManager.show_text("", "Внутри — что-то завёрнуто в старую кожу. Тяжёлое. Тёплое на ощупь.\n\nПтичьи кости на нити. Старый. Очень старый.")
+	await DialogueManager.dialogue_finished
 	var amulet := get_node_or_null("AmuletPickable")
 	if amulet:
 		amulet.visible = true

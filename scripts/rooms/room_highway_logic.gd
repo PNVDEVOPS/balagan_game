@@ -19,24 +19,11 @@ func _ready() -> void:
 	if hood:
 		hood.examined.connect(_on_hood_examined)
 
-func _open_examine(title: String, description: String, color: Color = Color(0.04, 0.03, 0.05, 1.0)) -> void:
-	var ew := preload("res://scenes/ui/examine_window.tscn").instantiate()
-	get_tree().current_scene.add_child(ew)
-	ew.open(title, description, color)
-
 func _on_phone_examined() -> void:
-	_open_examine(
-		"Телефон",
-		"Три деления сигнала — и вдруг ноль.\nМетель глушит всё. Никого не дозвониться.\n\nПоследнее сообщение — четыре часа назад.",
-		Color(0.03, 0.05, 0.09, 1.0)
-	)
+	DialogueManager.show_text("", "Три деления сигнала — и вдруг ноль.\nМетель глушит всё. Никого не дозвониться.\n\nПоследнее сообщение — четыре часа назад.")
 
 func _on_hood_examined() -> void:
-	_open_examine(
-		"Приборная панель",
-		"Стрелки мёртвые. Ключ поворачивается — двигатель молчит.\n\nБатарея. Или мороз. Машину не завести.",
-		Color(0.03, 0.03, 0.04, 1.0)
-	)
+	DialogueManager.show_text("", "Стрелки мёртвые. Ключ поворачивается — двигатель молчит.\n\nБатарея. Или мороз. Машину не завести.")
 
 func _on_narrative_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _narrative_shown:
