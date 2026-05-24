@@ -9,23 +9,22 @@ var is_interacting := false
 var is_hiding := false
 var is_frozen := false
 var nearest_interactable: Node2D = null
+var _hud: Node = null
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var ray: RayCast2D = $InteractionRay
 @onready var flashlight_ctrl = $Flashlight
 @onready var camera: Camera2D = $Camera2D
 @onready var prompt: Sprite2D = $InteractionPrompt
-@onready var interaction_ring: Node2D = $InteractionRing
-@onready var interaction_label: Label = $InteractionLabel
 
 func _ready() -> void:
 	ray.collide_with_areas = true
 	prompt.visible = false
 	flashlight_ctrl.set_facing(true)
-	if interaction_ring:
-		interaction_ring.modulate.a = 0.0
-	if interaction_label:
-		interaction_label.modulate.a = 0.0
+	call_deferred("_find_hud")
+
+func _find_hud() -> void:
+	_hud = get_tree().current_scene.get_node_or_null("HUD")
 
 func _physics_process(delta: float) -> void:
 	var blocked := is_hiding or is_interacting or is_frozen or DialogueManager.is_active
@@ -53,12 +52,12 @@ func _handle_movement() -> void:
 	if direction > 0:
 		facing_right = true
 		sprite.flip_h = false
-		ray.target_position = Vector2(30, 0)
+		ray.target_position = Vector2(50, 0)
 		flashlight_ctrl.set_facing(true)
 	elif direction < 0:
 		facing_right = false
 		sprite.flip_h = true
-		ray.target_position = Vector2(-30, 0)
+		ray.target_position = Vector2(-50, 0)
 		flashlight_ctrl.set_facing(false)
 
 func _update_animation() -> void:
@@ -82,20 +81,12 @@ func _check_interaction() -> void:
 		var collider := ray.get_collider()
 		if collider and collider.has_method("get_interaction_type"):
 			nearest_interactable = collider
-			prompt.visible = false
-			if interaction_ring:
-				interaction_ring.global_position = collider.global_position
-				interaction_ring.modulate.a = 0.85
-			if interaction_label:
-				interaction_label.global_position = collider.global_position + Vector2(0.0, -40.0)
-				interaction_label.modulate.a = 0.85
+			if _hud and not collider.interaction_text.is_empty():
+				_hud.show_hint(collider.interaction_text)
 			return
 	nearest_interactable = null
-	prompt.visible = false
-	if interaction_ring:
-		interaction_ring.modulate.a = 0.0
-	if interaction_label:
-		interaction_label.modulate.a = 0.0
+	if _hud:
+		_hud.hide_hint()
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Dialogue advancement always works, even while frozen

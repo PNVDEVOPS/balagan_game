@@ -25,6 +25,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_tree().paused = true
 		get_viewport().set_input_as_handled()
 
+func show_hint(text: String) -> void:
+	$InteractHint.text = "[E]   " + text
+	$InteractHint.visible = true
+
+func hide_hint() -> void:
+	$InteractHint.visible = false
+
 func _on_saved() -> void:
 	$SavedLabel.visible = true
 	_save_timer = 2.0

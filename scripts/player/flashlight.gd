@@ -33,6 +33,9 @@ func _ready() -> void:
 	_generate_cone_texture()
 	texture_scale = _base_scale
 	energy = _base_energy
+	if not Inventory.has_item("flashlight"):
+		is_scripted_off = true
+		energy = 0.0
 
 func _generate_cone_texture() -> void:
 	# 128x128 image — cone pointing RIGHT from center

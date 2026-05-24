@@ -1,11 +1,11 @@
 extends Node2D
 
+var _car_examined: bool = false
 var _narrative_shown: bool = false
 
 func _ready() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
-	SubtitleManager.show_subtitle("Машина встала. Метель. Связи нет.", SubtitleManager.Pos.TOP_CENTER)
 
 	var zone := get_node_or_null("TriggerZone")
 	if zone:
@@ -15,19 +15,43 @@ func _ready() -> void:
 	if narrative:
 		narrative.body_entered.connect(_on_narrative_trigger)
 
-	var phone := get_node_or_null("PhoneExamine")
-	if phone:
-		phone.examined.connect(_on_phone_examined)
+	var car := get_node_or_null("CarExamine")
+	if car:
+		car.examined.connect(_on_car_examined)
 
-	var hood := get_node_or_null("HoodExamine")
-	if hood:
-		hood.examined.connect(_on_hood_examined)
+	var fl := get_node_or_null("FlashlightPickable")
+	if fl:
+		fl.picked_up.connect(func(_id): _on_flashlight_picked_up())
 
-func _on_phone_examined() -> void:
-	DialogueManager.show_text("", "Три деления сигнала — и вдруг ноль.\nМетель глушит всё. Никого не дозвониться.\n\nПоследнее сообщение — четыре часа назад.")
+	_show_opening()
 
-func _on_hood_examined() -> void:
-	DialogueManager.show_text("", "Стрелки мёртвые. Ключ поворачивается — двигатель молчит.\n\nБатарея. Или мороз. Машину не завести.")
+func _show_opening() -> void:
+	await get_tree().create_timer(1.0).timeout
+	DialogueManager.show_text("", "Приехали... Темнеет уже.")
+	await DialogueManager.dialogue_finished
+	DialogueManager.show_text("", "Надо из кабины фонарь забрать — а то в таком лесу лоб разобьёшь. Иначе я просто уйду в сугроб и не замечу")
+
+func _on_car_examined() -> void:
+	if _car_examined:
+		DialogueManager.show_text("", "Надо идти вперёд — не то окоченею здесь.")
+		return
+	_car_examined = true
+	DialogueManager.show_text("", "Так, попытка номер два. Может, всё-таки заведётся?")
+	await DialogueManager.dialogue_finished
+	DialogueManager.show_text("", "М-да, приехали. Аккумулятор окончательно сдох, даже аварийка не горит. Ладно, сидеть тут греться уже не получится")
+	await DialogueManager.dialogue_finished
+	DialogueManager.show_text("", "Связи нет, глухо. Ладно, где тут фонарик был? В бардачке вроде...")
+	await DialogueManager.dialogue_finished
+	var fl := get_node_or_null("FlashlightPickable")
+	if fl:
+		fl.visible = true
+		fl.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _on_flashlight_picked_up() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.flashlight_ctrl.scripted_on()
+	DialogueManager.show_text("", "Помню, мужики на заправке говорили, что тут деревня где-то в паре километров. Придётся прогуляться. Главное — фонарь не высадить, пока дойду")
 
 func _on_narrative_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _narrative_shown:

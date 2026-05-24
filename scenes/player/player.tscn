@@ -35,7 +35,7 @@ script = ExtResource("2")
 
 [node name="InteractionRay" type="RayCast2D" parent="."]
 position = Vector2(0, -16)
-target_position = Vector2(30, 0)
+target_position = Vector2(50, 0)
 collision_mask = 2
 collide_with_areas = true
 

@@ -40,4 +40,14 @@ text = "Сохранено"
 horizontal_alignment = 2
 visible = false
 
+[node name="InteractHint" type="Label" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 320.0
+offset_right = 520.0
+offset_bottom = 344.0
+visible = false
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
 [node name="PauseMenu" parent="." instance=ExtResource("5")]

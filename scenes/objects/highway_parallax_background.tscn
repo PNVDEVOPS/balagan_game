@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://cdcf5js16lvhv"]
+
+[ext_resource type="Script" uid="uid://hyabu3thmtf5" path="res://scenes/objects/highway_parallax_background.gd" id="1_beeb5"]
+[ext_resource type="Texture2D" uid="uid://c8nppksaur705" path="res://assets/sprites/highway/звезды_sprite_1.png" id="1_iaepu"]
+[ext_resource type="Texture2D" uid="uid://b037u1j2d0ti7" path="res://assets/sprites/highway/горы_sprite_1.png" id="2_beeb5"]
+[ext_resource type="Texture2D" uid="uid://jiybce1qxf55" path="res://assets/sprites/highway/10_sprite_1.png" id="3_bhq4y"]
+[ext_resource type="Texture2D" uid="uid://djqwvjp67auax" path="res://assets/sprites/highway/14_sprite_1.png" id="4_peavo"]
+[ext_resource type="Texture2D" uid="uid://cxs3h2t77wiw0" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="5_sivfq"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bw315"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(640, 1, 1)
+gravity = Vector3(0, 98, 0)
+
+[node name="ParallaxBackground" type="ParallaxBackground" unique_id=195246088]
+script = ExtResource("1_beeb5")
+
+[node name="Background" type="ColorRect" parent="." unique_id=508766520]
+offset_right = 1800.0
+offset_bottom = 363.0
+color = Color(0.16078432, 0.24705882, 0.3764706, 1)
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="." unique_id=1636213538]
+motion_mirroring = Vector2(640, 0)
+
+[node name="ЗвездыSprite1" type="Sprite2D" parent="ParallaxLayer4" unique_id=1190129306]
+position = Vector2(320, 180)
+texture = ExtResource("1_iaepu")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="." unique_id=985961789]
+position = Vector2(1, -21)
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(640, 0)
+
+[node name="ГорыSprite1" type="Sprite2D" parent="ParallaxLayer" unique_id=1120247914]
+position = Vector2(320, 180)
+texture = ExtResource("2_beeb5")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="." unique_id=350894683]
+position = Vector2(1, -21)
+motion_scale = Vector2(0.6, 1)
+motion_mirroring = Vector2(640, 0)
+
+[node name="10Sprite1" type="Sprite2D" parent="ParallaxLayer2" unique_id=214889091]
+position = Vector2(321, 180)
+texture = ExtResource("3_bhq4y")
+
+[node name="14Sprite1" type="Sprite2D" parent="ParallaxLayer2" unique_id=1607124793]
+position = Vector2(320, 180)
+texture = ExtResource("4_peavo")
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="." unique_id=2049883460]
+position = Vector2(1, -21)
+motion_scale = Vector2(0.8, 1)
+motion_mirroring = Vector2(640, 0)
+
+[node name="СлойСнегаSprite1" type="Sprite2D" parent="ParallaxLayer5" unique_id=940516244]
+position = Vector2(320, 180)
+texture = ExtResource("5_sivfq")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=428166479]
+modulate = Color(0.55495375, 0.5549537, 0.5549537, 1)
+self_modulate = Color(0.70251584, 0.8341449, 0.91095364, 1)
+position = Vector2(349, -33)
+amount = 150
+lifetime = 13.66
+process_material = SubResource("ParticleProcessMaterial_bw315")
