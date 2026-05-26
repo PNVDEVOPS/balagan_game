@@ -2,36 +2,197 @@
 
 [ext_resource type="Script" uid="uid://dkcpmcxmfttrj" path="res://scripts/rooms/room_highway_logic.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://cdcf5js16lvhv" path="res://scenes/objects/highway_parallax_background.tscn" id="2_6ugx5"]
+[ext_resource type="Texture2D" uid="uid://dhyf0rbtkywfk" path="res://assets/sprites/highway/звезды_sprite_1.png" id="2_k6y7o"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4"]
+[ext_resource type="Texture2D" uid="uid://7r7kbdk6bpym" path="res://assets/sprites/forest/лес 1_sprite_1.png" id="4_lqx0j"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://4wpw0nnl14yr" path="res://assets/sprites/forest/лес 2 (clone)_sprite_1.png" id="5_gibm0"]
+[ext_resource type="Texture2D" uid="uid://sixe8vd8dkhj" path="res://assets/sprites/highway/10_sprite_1.png" id="6_p1ncp"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6_pick"]
-[ext_resource type="PackedScene" uid="uid://cdcf5js16lvhv" path="res://scenes/objects/highway_parallax_background.tscn" id="7_par"]
-[ext_resource type="Texture2D" uid="uid://wwb4l18xe0ot" path="res://assets/sprites/highway/Layer 1 (imported) (clone)_sprite_1.png" id="8_truck"]
-[ext_resource type="Texture2D" uid="uid://igigu33gg6du" path="res://assets/sprites/highway/палка полоска_sprite_1.png" id="9_pole"]
-[ext_resource type="Texture2D" uid="uid://4o5aeeloe45g" path="res://assets/sprites/highway/дорога_sprite_1.png" id="10_hnnuv"]
+[ext_resource type="Texture2D" uid="uid://wwb4l18xe0ot" path="res://assets/sprites/highway/Layer 1 (imported) (clone)_sprite_1.png" id="7_1sh08"]
+[ext_resource type="Texture2D" uid="uid://cdt64iemhktua" path="res://assets/sprites/highway/14_sprite_1.png" id="7_f1bu2"]
+[ext_resource type="Texture2D" uid="uid://d36ssefsmv3q7" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="12_lqx0j"]
+[ext_resource type="Texture2D" uid="uid://4o5aeeloe45g" path="res://assets/sprites/highway/дорога_sprite_1.png" id="13_gibm0"]
+[ext_resource type="Texture2D" uid="uid://igigu33gg6du" path="res://assets/sprites/highway/палка полоска_sprite_1.png" id="14_p1ncp"]
+[ext_resource type="Texture2D" uid="uid://ch504lki6gqhu" path="res://assets/sprites/highway/слой снега перед_sprite_1.png" id="15_f1bu2"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jcdky"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(640, 1, 1)
+gravity = Vector3(0, 98, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qrwjt"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(640, 1, 1)
+gravity = Vector3(0, 100, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+radial_accel_min = -40.32
+radial_accel_max = -16.130001
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
-size = Vector2(40, 700)
+size = Vector2(40, 369)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yd4x4"]
+size = Vector2(200, 95)
 
 [node name="RoomHighway" type="Node2D" unique_id=1061092155]
 script = ExtResource("1")
 
-[node name="ParallaxBackground" parent="." unique_id=195246088 instance=ExtResource("7_par")]
+[node name="Background" type="ColorRect" parent="." unique_id=211215597]
+offset_top = -55.0
+offset_right = 2800.0
+offset_bottom = 407.0
+color = Color(0.039215688, 0.10980392, 0.24313726, 1)
 
-[node name="CenterLineDash2" type="ColorRect" parent="." unique_id=1541653007]
-offset_left = 382.4
-offset_top = 275.0
-offset_right = 442.4
-offset_bottom = 279.0
-color = Color(0.8, 0.8, 0.7, 0.6)
+[node name="ParallaxLayer4" type="Parallax2D" parent="." unique_id=116171700]
+scroll_scale = Vector2(0.2, 1)
 
-[node name="TruckSprite" type="Sprite2D" parent="." unique_id=1433476244]
-z_index = 1
-position = Vector2(359, 171)
-texture = ExtResource("8_truck")
+[node name="ЗвездыSprite1" type="Sprite2D" parent="ParallaxLayer4" unique_id=168243347]
+position = Vector2(320, 180)
+texture = ExtResource("2_k6y7o")
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1227453943]
+scroll_scale = Vector2(0.2, 1)
+repeat_size = Vector2(640, 0)
+repeat_times = 3
+
+[node name="Лес1Sprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1785749942]
+position = Vector2(320, 180)
+texture = ExtResource("4_lqx0j")
+
+[node name="Лес1Sprite2" type="Sprite2D" parent="Parallax2D2" unique_id=2130295861]
+position = Vector2(636, 178)
+texture = ExtResource("4_lqx0j")
+
+[node name="Parallax2D3" type="Parallax2D" parent="." unique_id=2107125924]
+scroll_scale = Vector2(0.4, 1)
+repeat_size = Vector2(640, 0)
+repeat_times = 3
+
+[node name="Лес2(clone)Sprite1" type="Sprite2D" parent="Parallax2D3" unique_id=1155247426]
+position = Vector2(320, 180)
+texture = ExtResource("5_gibm0")
+
+[node name="Лес2(clone)Sprite2" type="Sprite2D" parent="Parallax2D3" unique_id=1982195298]
+position = Vector2(505, 178)
+texture = ExtResource("5_gibm0")
+
+[node name="Лес2(clone)Sprite3" type="Sprite2D" parent="Parallax2D3" unique_id=1670274659]
+position = Vector2(707, 183)
+texture = ExtResource("5_gibm0")
+
+[node name="Лес2(clone)Sprite4" type="Sprite2D" parent="Parallax2D3" unique_id=1784615668]
+position = Vector2(707, 183)
+texture = ExtResource("5_gibm0")
+
+[node name="ParallaxLayer2" type="Parallax2D" parent="." unique_id=2029392776]
+scroll_scale = Vector2(0.6, 1)
+repeat_size = Vector2(640, 0)
+
+[node name="10Sprite1" type="Sprite2D" parent="ParallaxLayer2" unique_id=1956940478]
+position = Vector2(321, 180)
+texture = ExtResource("6_p1ncp")
+
+[node name="14Sprite1" type="Sprite2D" parent="ParallaxLayer2" unique_id=1014219425]
+position = Vector2(320, 180)
+texture = ExtResource("7_f1bu2")
+
+[node name="ParallaxLayer5" type="Parallax2D" parent="." unique_id=1722576643]
+repeat_size = Vector2(640, 0)
+
+[node name="СлойСнегаSprite1" type="Sprite2D" parent="ParallaxLayer5" unique_id=53259610]
+position = Vector2(320, 180)
+texture = ExtResource("12_lqx0j")
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="." unique_id=1460416002]
+modulate = Color(0.55495375, 0.5549537, 0.5549537, 1)
+self_modulate = Color(0.70251584, 0.8341449, 0.91095364, 1)
+position = Vector2(349, -33)
+amount = 150
+lifetime = 13.66
+process_material = SubResource("ParticleProcessMaterial_jcdky")
+
+[node name="ParallaxBackground" parent="." unique_id=195246088 instance=ExtResource("2_6ugx5")]
+visible = false
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=852885774]
+repeat_size = Vector2(640, 0)
+
+[node name="ДорогаSprite1" type="Sprite2D" parent="Parallax2D" unique_id=788046198]
+position = Vector2(321, 46.000004)
+scale = Vector2(1, 1.6666666)
+texture = ExtResource("13_gibm0")
+
+[node name="ПалкаПолоскаSprite1" type="Sprite2D" parent="Parallax2D" unique_id=736175746]
+position = Vector2(349, 137)
+texture = ExtResource("14_p1ncp")
+
+[node name="ПалкаПолоскаSprite2" type="Sprite2D" parent="Parallax2D" unique_id=1696842622]
+position = Vector2(495, 138)
+texture = ExtResource("14_p1ncp")
+
+[node name="ПалкаПолоскаSprite3" type="Sprite2D" parent="Parallax2D" unique_id=862065264]
+position = Vector2(667, 136)
+texture = ExtResource("14_p1ncp")
+
+[node name="ПалкаПолоскаSprite4" type="Sprite2D" parent="Parallax2D" unique_id=444569755]
+position = Vector2(825, 136)
+texture = ExtResource("14_p1ncp")
+
+[node name="СлойСнегаПередSprite1" type="Sprite2D" parent="Parallax2D" unique_id=1036613038]
+position = Vector2(321, 141)
+texture = ExtResource("15_f1bu2")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="." unique_id=952435654]
+modulate = Color(0.6541208, 0.6836371, 0.64515823, 1)
+position = Vector2(1272, -40)
+amount = 500
+lifetime = 5.0
+speed_scale = 0.7
+randomness = 0.38
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_qrwjt")
+
+[node name="ParallaxLayer3" type="Parallax2D" parent="." unique_id=1262499512]
+scroll_scale = Vector2(1.2, 1.2)
+repeat_size = Vector2(640, 0)
+
+[node name="СлойСнегаSprite1" type="Sprite2D" parent="ParallaxLayer3" unique_id=1331899625]
+position = Vector2(320, 210)
+scale = Vector2(1, 0.8364584)
+texture = ExtResource("12_lqx0j")
+flip_h = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=47794619]
+position = Vector2(636, -20)
+amount = 150
+lifetime = 5.0
+speed_scale = 0.5
+randomness = 0.38
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_qrwjt")
+
+[node name="RoadSurface" type="ColorRect" parent="." unique_id=567851928]
+visible = false
+offset_top = 300.0
+offset_right = 2800.0
+offset_bottom = 320.0
+color = Color(0.18, 0.17, 0.16, 1)
+
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=781369561]
+visible = false
+offset_left = -1.0
+offset_top = 320.0
+offset_right = 2799.0
+offset_bottom = 360.0
+color = Color(0.12, 0.11, 0.1, 1)
 
 [node name="HeadlightGlow" type="PointLight2D" parent="." unique_id=770750456]
 position = Vector2(276.4, 304)
@@ -40,80 +201,91 @@ energy = 0.6
 texture = ExtResource("5")
 texture_scale = 1.2
 
-[node name="Pole1" type="Sprite2D" parent="." unique_id=1433476250]
-position = Vector2(511.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
-[node name="Pole2" type="Sprite2D" parent="." unique_id=1433476251]
-position = Vector2(811.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
-[node name="Pole3" type="Sprite2D" parent="." unique_id=1433476252]
-position = Vector2(1111.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
-[node name="Pole4" type="Sprite2D" parent="." unique_id=1433476253]
-position = Vector2(1411.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
-[node name="Pole5" type="Sprite2D" parent="." unique_id=1433476254]
-position = Vector2(1711.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
-[node name="Pole6" type="Sprite2D" parent="." unique_id=1433476255]
-position = Vector2(2011.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
-[node name="Pole7" type="Sprite2D" parent="." unique_id=1433476256]
-position = Vector2(2311.4, 301)
-texture = ExtResource("9_pole")
-region_enabled = true
-region_rect = Rect2(39, 264, 30, 76)
-
 [node name="Floor" type="StaticBody2D" parent="." unique_id=398786770]
 position = Vector2(0, 330)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1767522937]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
+[node name="Pole1" type="Sprite2D" parent="." unique_id=1433476250]
+position = Vector2(511.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="Pole2" type="Sprite2D" parent="." unique_id=1433476251]
+position = Vector2(811.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="Pole3" type="Sprite2D" parent="." unique_id=1433476252]
+position = Vector2(1111.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="Pole4" type="Sprite2D" parent="." unique_id=1433476253]
+position = Vector2(1411.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="Pole5" type="Sprite2D" parent="." unique_id=1433476254]
+position = Vector2(1711.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="Pole6" type="Sprite2D" parent="." unique_id=1433476255]
+position = Vector2(2011.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="Pole7" type="Sprite2D" parent="." unique_id=1433476256]
+position = Vector2(2311.4, 301)
+texture = ExtResource("14_p1ncp")
+region_enabled = true
+region_rect = Rect2(39, 264, 30, 76)
+
+[node name="CarCollision" type="StaticBody2D" parent="." unique_id=2081765525]
+position = Vector2(180, 288)
+
+[node name="Layer1(imported)(clone)Sprite1" type="Sprite2D" parent="CarCollision" unique_id=1119211282]
+position = Vector2(148, -139)
+texture = ExtResource("7_1sh08")
+
+[node name="CarShape" type="CollisionShape2D" parent="CarCollision" unique_id=1715328081]
+position = Vector2(-10, -22)
+shape = SubResource("RectangleShape2D_yd4x4")
+
 [node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
 z_index = 1
-position = Vector2(337, 327)
+position = Vector2(314, 300)
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1537763230]
-position = Vector2(341.4, 319)
+position = Vector2(314, 301)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=919411197]
 position = Vector2(2400, 180)
 
 [node name="CarExamine" parent="." unique_id=987654321 instance=ExtResource("4")]
 z_index = 2
-position = Vector2(262, 327)
+position = Vector2(262, 312)
 interaction_text = "Осмотреть машину"
 
 [node name="FlashlightPickable" parent="." unique_id=654321987 instance=ExtResource("6_pick")]
 process_mode = 4
 visible = false
-position = Vector2(350, 327)
+position = Vector2(350, 312)
 item_id = "flashlight"
 item_name = "Фонарь"
 pickup_text = "Рабочий. Аккумулятор не сел. Повезло."
 interaction_text = "Взять фонарь"
 
 [node name="SnowSign" parent="." unique_id=1658671472 instance=ExtResource("4")]
-position = Vector2(1361.4, 319)
+position = Vector2(1361.4, 309)
 examine_text = "Указатель занесло снегом. Цифры не разобрать."
 interaction_text = "Осмотреть знак"
 
@@ -135,7 +307,3 @@ shape = SubResource("RectangleShape2D_trigger")
 position = Vector2(0, 360)
 
 [node name="HUD" parent="." unique_id=1809725468 instance=ExtResource("3")]
-
-[node name="ДорогаSprite1" type="Sprite2D" parent="." unique_id=1511797219]
-position = Vector2(320, 178)
-texture = ExtResource("10_hnnuv")
