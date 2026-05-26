@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://4wpw0nnl14yr" path="res://assets/sprites/forest/лес 2 (clone)_sprite_1.png" id="5_gibm0"]
 [ext_resource type="Texture2D" uid="uid://sixe8vd8dkhj" path="res://assets/sprites/highway/10_sprite_1.png" id="6_p1ncp"]
-[ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6_pick"]
 [ext_resource type="Texture2D" uid="uid://wwb4l18xe0ot" path="res://assets/sprites/highway/Layer 1 (imported) (clone)_sprite_1.png" id="7_1sh08"]
 [ext_resource type="Texture2D" uid="uid://cdt64iemhktua" path="res://assets/sprites/highway/14_sprite_1.png" id="7_f1bu2"]
 [ext_resource type="Texture2D" uid="uid://d36ssefsmv3q7" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="12_lqx0j"]
@@ -321,15 +320,6 @@ position = Vector2(2400, 180)
 z_index = 2
 position = Vector2(214, 316)
 interaction_text = "Осмотреть машину"
-
-[node name="FlashlightPickable" parent="." unique_id=654321987 instance=ExtResource("6_pick")]
-process_mode = 4
-visible = false
-position = Vector2(350, 312)
-item_id = "flashlight"
-item_name = "Фонарь"
-pickup_text = "Рабочий. Аккумулятор не сел. Повезло."
-interaction_text = "Взять фонарь"
 
 [node name="SnowSign" parent="." unique_id=1658671472 instance=ExtResource("4")]
 position = Vector2(1361.4, 309)

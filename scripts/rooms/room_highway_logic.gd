@@ -19,10 +19,6 @@ func _ready() -> void:
 	if car:
 		car.examined.connect(_on_car_examined)
 
-	var fl := get_node_or_null("FlashlightPickable")
-	if fl:
-		fl.picked_up.connect(func(_id): _on_flashlight_picked_up())
-
 	_show_opening()
 
 func _show_opening() -> void:
@@ -42,12 +38,11 @@ func _on_car_examined() -> void:
 	await DialogueManager.dialogue_finished
 	DialogueManager.show_text("", "Связи нет, глухо. Ладно, где тут фонарик был? В бардачке вроде...")
 	await DialogueManager.dialogue_finished
-	var fl := get_node_or_null("FlashlightPickable")
-	if fl:
-		fl.visible = true
-		fl.process_mode = Node.PROCESS_MODE_INHERIT
+	_give_flashlight()
 
-func _on_flashlight_picked_up() -> void:
+func _give_flashlight() -> void:
+	Inventory.add_item("flashlight")
+	SubtitleManager.show_subtitle("[Вы взяли Фонарь]", SubtitleManager.Pos.TOP_CENTER)
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
 		player.flashlight_ctrl.scripted_on()

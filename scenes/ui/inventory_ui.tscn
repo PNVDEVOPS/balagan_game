@@ -6,27 +6,28 @@
 layer = 5
 script = ExtResource("1")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1806382502]
-visible = false
-anchors_preset = 7
+[node name="InventoryBar" type="HBoxContainer" parent="." unique_id=1440342145]
+modulate = Color(1, 1, 1, 0.6)
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -80.0
-offset_right = 250.0
+offset_left = -110.0
+offset_top = -28.0
+offset_right = 110.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=591515831]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer" unique_id=1429972500]
-layout_mode = 2
-theme_override_constants/separation = 8
 alignment = 1
+theme_override_constants/separation = 3
+
+[node name="BagButton" type="Button" parent="InventoryBar" unique_id=1440342146]
+custom_minimum_size = Vector2(22, 22)
+focus_mode = 0
+text = "🧳"
+flat = true
+theme_override_font_sizes/font_size = 14
+
+[node name="SlotsRow" type="HBoxContainer" parent="InventoryBar" unique_id=1440342147]
+visible = false
+theme_override_constants/separation = 2

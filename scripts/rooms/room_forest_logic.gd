@@ -4,8 +4,16 @@ var _laika_appeared: bool = false
 var _chapter_started: bool = false
 var _silhouette_triggered: bool = false
 var _balagan_triggered: bool = false
+var _ghost_shown: bool = false
 
 func _ready() -> void:
+	var player := get_node_or_null("Player")
+	if player:
+		var cam: Camera2D = player.get_node_or_null("Camera2D")
+		if cam:
+			cam.limit_left = 0
+			cam.limit_right = 3928
+
 	var laika_trigger := get_node_or_null("LaikaTrigger")
 	if laika_trigger:
 		laika_trigger.body_entered.connect(_on_laika_trigger)
@@ -59,7 +67,19 @@ func _ready() -> void:
 		)
 
 func _on_murder_site_examined() -> void:
+	_flash_ghost()
 	DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.\n\nТакое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")
+
+func _flash_ghost() -> void:
+	if _ghost_shown:
+		return
+	_ghost_shown = true
+	var ghost := get_node_or_null("GhostFigure")
+	if not ghost:
+		return
+	ghost.visible = true
+	await get_tree().create_timer(1.0).timeout
+	ghost.visible = false
 
 func _on_laika_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _laika_appeared:
@@ -73,7 +93,7 @@ func _on_laika_trigger(body: Node2D) -> void:
 	if laika:
 		laika.appear()
 
-	DialogueManager.show_text("", "Наайда... Она здесь? Откуда?")
+	DialogueManager.show_text("", "Лайка? Чья она? Возможно она приведёт меня к людям")
 	await DialogueManager.dialogue_finished
 
 	if laika and is_instance_valid(laika):

@@ -43,4 +43,5 @@ position = Vector2(0, -72)
 texture = ExtResource("5")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=145728509]
+position = Vector2(0, -5)
 position_smoothing_enabled = true

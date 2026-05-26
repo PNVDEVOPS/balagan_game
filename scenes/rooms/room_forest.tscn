@@ -88,6 +88,9 @@ distance = 19.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(40, 373)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_right_wall"]
+size = Vector2(40, 373)
+
 [node name="RoomForest" type="Node2D" unique_id=1758348928]
 script = ExtResource("1")
 
@@ -430,3 +433,17 @@ position = Vector2(-20, 350)
 [node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=1485990729]
 position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392011]
+position = Vector2(3920, 350)
+
+[node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392012]
+position = Vector2(0, -176)
+shape = SubResource("RectangleShape2D_right_wall")
+
+[node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
+visible = false
+position = Vector2(2220, 278)
+scale = Vector2(0.28, 0.45)
+modulate = Color(0.04, 0.04, 0.09, 0.88)
+texture = ExtResource("6_ragbb")
