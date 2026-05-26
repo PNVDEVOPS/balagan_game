@@ -241,7 +241,7 @@ shape = SubResource("RectangleShape2D_laika_trigger")
 
 [node name="NoteForestFather" parent="." unique_id=1458961493 instance=ExtResource("4")]
 visible = false
-position = Vector2(500, 279)
+position = Vector2(500, 319)
 
 [node name="BrokenBranch" parent="." unique_id=1725826739 instance=ExtResource("4")]
 visible = false
@@ -268,11 +268,11 @@ examine_text = "Амулет из птичьих костей, подвешен�
 
 [node name="NoteFatherLast" parent="." unique_id=1777518016 instance=ExtResource("4")]
 visible = false
-position = Vector2(1500, 279)
+position = Vector2(1500, 319)
 
 [node name="NoteAiyyna2" parent="." unique_id=1857881688 instance=ExtResource("4")]
 visible = false
-position = Vector2(1000, 279)
+position = Vector2(1000, 319)
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1689144402]
 position = Vector2(2330, 350)

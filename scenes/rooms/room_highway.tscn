@@ -36,11 +36,11 @@ radial_accel_max = -16.130001
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yd4x4"]
+size = Vector2(115, 95)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(40, 369)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yd4x4"]
-size = Vector2(200, 95)
 
 [node name="RoomHighway" type="Node2D" unique_id=1061092155]
 script = ExtResource("1")
@@ -53,6 +53,8 @@ color = Color(0.039215688, 0.10980392, 0.24313726, 1)
 
 [node name="ParallaxLayer4" type="Parallax2D" parent="." unique_id=116171700]
 scroll_scale = Vector2(0.2, 1)
+repeat_size = Vector2(640, 0)
+repeat_times = 4
 
 [node name="ЗвездыSprite1" type="Sprite2D" parent="ParallaxLayer4" unique_id=168243347]
 position = Vector2(320, 180)
@@ -164,6 +166,10 @@ process_material = SubResource("ParticleProcessMaterial_qrwjt")
 scroll_scale = Vector2(1.2, 1.2)
 repeat_size = Vector2(640, 0)
 
+[node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
+z_index = 1
+position = Vector2(314, 300)
+
 [node name="СлойСнегаSprite1" type="Sprite2D" parent="ParallaxLayer3" unique_id=1331899625]
 position = Vector2(320, 210)
 scale = Vector2(1, 0.8364584)
@@ -205,45 +211,53 @@ texture_scale = 1.2
 position = Vector2(0, 330)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1767522937]
+position = Vector2(0, -14)
 shape = SubResource("WorldBoundaryShape2D_floor")
 
 [node name="Pole1" type="Sprite2D" parent="." unique_id=1433476250]
+visible = false
 position = Vector2(511.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
 region_rect = Rect2(39, 264, 30, 76)
 
 [node name="Pole2" type="Sprite2D" parent="." unique_id=1433476251]
+visible = false
 position = Vector2(811.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
 region_rect = Rect2(39, 264, 30, 76)
 
 [node name="Pole3" type="Sprite2D" parent="." unique_id=1433476252]
+visible = false
 position = Vector2(1111.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
 region_rect = Rect2(39, 264, 30, 76)
 
 [node name="Pole4" type="Sprite2D" parent="." unique_id=1433476253]
+visible = false
 position = Vector2(1411.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
 region_rect = Rect2(39, 264, 30, 76)
 
 [node name="Pole5" type="Sprite2D" parent="." unique_id=1433476254]
+visible = false
 position = Vector2(1711.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
 region_rect = Rect2(39, 264, 30, 76)
 
 [node name="Pole6" type="Sprite2D" parent="." unique_id=1433476255]
+visible = false
 position = Vector2(2011.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
 region_rect = Rect2(39, 264, 30, 76)
 
 [node name="Pole7" type="Sprite2D" parent="." unique_id=1433476256]
+visible = false
 position = Vector2(2311.4, 301)
 texture = ExtResource("14_p1ncp")
 region_enabled = true
@@ -257,12 +271,8 @@ position = Vector2(148, -139)
 texture = ExtResource("7_1sh08")
 
 [node name="CarShape" type="CollisionShape2D" parent="CarCollision" unique_id=1715328081]
-position = Vector2(-10, -22)
+position = Vector2(-52.5, -22)
 shape = SubResource("RectangleShape2D_yd4x4")
-
-[node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
-z_index = 1
-position = Vector2(314, 300)
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1537763230]
 position = Vector2(314, 301)
@@ -272,7 +282,7 @@ position = Vector2(2400, 180)
 
 [node name="CarExamine" parent="." unique_id=987654321 instance=ExtResource("4")]
 z_index = 2
-position = Vector2(262, 312)
+position = Vector2(214, 316)
 interaction_text = "Осмотреть машину"
 
 [node name="FlashlightPickable" parent="." unique_id=654321987 instance=ExtResource("6_pick")]
