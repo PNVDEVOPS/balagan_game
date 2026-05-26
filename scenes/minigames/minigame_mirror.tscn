@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://minigame_mirror"]
+[gd_scene format=3 uid="uid://dec5h0v10lrae"]
 
-[ext_resource type="Script" path="res://scripts/minigames/minigame_mirror.gd" id="1_mirror"]
+[ext_resource type="Script" uid="uid://pca16ytlm4ox" path="res://scripts/minigames/minigame_mirror.gd" id="1_mirror"]
 
-[node name="MinigameMirror" type="CanvasLayer"]
+[node name="MinigameMirror" type="CanvasLayer" unique_id=1504331160]
 script = ExtResource("1_mirror")

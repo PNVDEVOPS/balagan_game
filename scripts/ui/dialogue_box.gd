@@ -30,7 +30,7 @@ func _on_dialogue_finished() -> void:
 	panel.visible = false
 	is_typing = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not is_typing:
 		return
 	char_index += 1

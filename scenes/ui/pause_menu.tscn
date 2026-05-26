@@ -1,19 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://pause_menu001"]
+[gd_scene format=3 uid="uid://b2cbnatgxu6w8"]
 
-[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1"]
+[ext_resource type="Script" uid="uid://ckdsrtxayn5tu" path="res://scripts/ui/pause_menu.gd" id="1"]
 
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" type="Control" unique_id=1758896052]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-visible = false
 script = ExtResource("1")
 
-[node name="Overlay" type="ColorRect" parent="."]
+[node name="Overlay" type="ColorRect" parent="." unique_id=1951400524]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="Panel" type="VBoxContainer" parent="."]
+[node name="Panel" type="VBoxContainer" parent="." unique_id=1537492153]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -36,23 +36,23 @@ offset_bottom = 70.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="Panel"]
+[node name="Title" type="Label" parent="Panel" unique_id=1548596994]
 process_mode = 3
 layout_mode = 2
 text = "Пауза"
 horizontal_alignment = 1
 
-[node name="ResumeBtn" type="Button" parent="Panel"]
+[node name="ResumeBtn" type="Button" parent="Panel" unique_id=1825783081]
 process_mode = 3
 layout_mode = 2
 text = "Продолжить"
 
-[node name="SaveBtn" type="Button" parent="Panel"]
+[node name="SaveBtn" type="Button" parent="Panel" unique_id=918266392]
 process_mode = 3
 layout_mode = 2
 text = "Сохранить"
 
-[node name="MainMenuBtn" type="Button" parent="Panel"]
+[node name="MainMenuBtn" type="Button" parent="Panel" unique_id=2106063844]
 process_mode = 3
 layout_mode = 2
 text = "Главное меню"

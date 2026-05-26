@@ -34,14 +34,14 @@ func play_sfx(stream: AudioStream, volume_db: float = 0.0) -> void:
 
 func play_ambient(stream: AudioStream, fade_in: float = 1.0) -> void:
 	if ambient_player.playing:
-		var tween := create_tween()
-		tween.tween_property(ambient_player, "volume_db", -40.0, fade_in * 0.5)
-		await tween.finished
+		var tween_out := create_tween()
+		tween_out.tween_property(ambient_player, "volume_db", -40.0, fade_in * 0.5)
+		await tween_out.finished
 	ambient_player.stream = stream
 	ambient_player.volume_db = -40.0
 	ambient_player.play()
-	var tween := create_tween()
-	tween.tween_property(ambient_player, "volume_db", -6.0, fade_in)
+	var tween_in := create_tween()
+	tween_in.tween_property(ambient_player, "volume_db", -6.0, fade_in)
 
 func stop_ambient(fade_out: float = 1.0) -> void:
 	var tween := create_tween()

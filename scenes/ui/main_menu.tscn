@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://main_menu"]
+[gd_scene format=3 uid="uid://dpyowenk8y3ax"]
 
-[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1"]
+[ext_resource type="Script" uid="uid://dp1v0toppp3xq" path="res://scripts/ui/main_menu.gd" id="1"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=770718034]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=2121989040]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.039, 0.02, 0.012, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=1486955584]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -36,7 +36,7 @@ grow_vertical = 2
 text = "БАЛАГАН"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="."]
+[node name="Subtitle" type="Label" parent="." unique_id=553821145]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -52,7 +52,7 @@ grow_vertical = 2
 text = "якутский фолк-хоррор"
 horizontal_alignment = 1
 
-[node name="Buttons" type="VBoxContainer" parent="."]
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=17050918]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,18 +66,18 @@ offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NewGameBtn" type="Button" parent="Buttons"]
+[node name="NewGameBtn" type="Button" parent="Buttons" unique_id=2056559830]
 layout_mode = 2
 text = "Новая игра"
 
-[node name="ContinueBtn" type="Button" parent="Buttons"]
+[node name="ContinueBtn" type="Button" parent="Buttons" unique_id=1511016610]
 layout_mode = 2
 text = "Продолжить"
 
-[node name="SettingsBtn" type="Button" parent="Buttons"]
+[node name="SettingsBtn" type="Button" parent="Buttons" unique_id=608350036]
 layout_mode = 2
 text = "Настройки"
 
-[node name="QuitBtn" type="Button" parent="Buttons"]
+[node name="QuitBtn" type="Button" parent="Buttons" unique_id=1576618701]
 layout_mode = 2
 text = "Выход"

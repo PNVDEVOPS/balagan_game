@@ -1,6 +1,6 @@
-[gd_resource type="SpriteFrames" load_steps=2 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://d1hy4suvnp4vy"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/laika_placeholder.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dpqhd6okyp5d2" path="res://assets/sprites/laika_placeholder.png" id="1"]
 
 [resource]
 animations = [{
@@ -9,7 +9,7 @@ animations = [{
 "texture": ExtResource("1")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"growl",
 "speed": 4.0
 }, {
 "frames": [{
@@ -17,8 +17,8 @@ animations = [{
 "texture": ExtResource("1")
 }],
 "loop": true,
-"name": &"walk",
-"speed": 6.0
+"name": &"idle",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -33,6 +33,6 @@ animations = [{
 "texture": ExtResource("1")
 }],
 "loop": true,
-"name": &"growl",
-"speed": 4.0
+"name": &"walk",
+"speed": 6.0
 }]

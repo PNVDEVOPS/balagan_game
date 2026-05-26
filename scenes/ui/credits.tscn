@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://credits001"]
+[gd_scene format=3 uid="uid://credits001"]
 
-[ext_resource type="Script" path="res://scripts/ui/credits.gd" id="1"]
+[ext_resource type="Script" uid="uid://mawshkmxiem2" path="res://scripts/ui/credits.gd" id="1"]
 
-[node name="Credits" type="Control"]
+[node name="Credits" type="Control" unique_id=1904043890]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1640731409]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=931870414]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,12 +29,11 @@ grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
 
-[node name="CreditsText" type="RichTextLabel" parent="ScrollContainer"]
-layout_mode = 2
+[node name="CreditsText" type="RichTextLabel" parent="ScrollContainer" unique_id=444477946]
 custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
 theme_override_font_sizes/normal_font_size = 11
 theme_override_font_sizes/bold_font_size = 13
 bbcode_enabled = true
-text = ""
 fit_content = true
 scroll_active = false

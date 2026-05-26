@@ -10,7 +10,7 @@ enum Type { DOOR, PICKABLE, EXAMINABLE, USABLE, TRIGGER, HIDEABLE }
 func get_interaction_type() -> Type:
 	return interaction_type
 
-func interact(player: CharacterBody2D) -> void:
+func interact(_player: CharacterBody2D) -> void:
 	pass
 
 func _ready() -> void:

@@ -1,46 +1,45 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://cqkwbduxsbbme"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_dining_logic.gd" id="1_dine"]
-[ext_resource type="PackedScene" path="res://scenes/objects/examinable.tscn" id="2_exam"]
+[ext_resource type="Script" uid="uid://1yeavkhrcbjt" path="res://scripts/rooms/room_dining_logic.gd" id="1_dine"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="2_exam"]
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)
 
-[node name="RoomDining" type="Node2D"]
+[node name="RoomDining" type="Node2D" unique_id=1021603548]
 script = ExtResource("1_dine")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1950659847]
 offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0.05, 0.04, 0.03, 1)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=2063969240]
 position = Vector2(80, 290)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=908641202]
 position = Vector2(640, 0)
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=1220504397]
 position = Vector2(0, 360)
 
-[node name="ForwardZone" type="Area2D" parent="."]
+[node name="ForwardZone" type="Area2D" parent="." unique_id=1493627615]
 position = Vector2(590, 260)
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone" unique_id=1093088261]
 shape = SubResource("FwdShape")
 
-[node name="HomuzExaminable" parent="." instance=ExtResource("2_exam")]
+[node name="HomuzExaminable" parent="." unique_id=355784401 instance=ExtResource("2_exam")]
 position = Vector2(420, 260)
-interaction_text = "Осмотреть"
 examine_text = "Хомус. Одна пластина чуть погнута — починена старательно, много раз."
+interaction_text = "Осмотреть"
 
-[node name="TableExaminable" parent="." instance=ExtResource("2_exam")]
+[node name="TableExaminable" parent="." unique_id=1190800287 instance=ExtResource("2_exam")]
 position = Vector2(280, 270)
 interaction_text = "Осмотреть"
 
-[node name="WindowExamine" parent="." instance=ExtResource("2_exam")]
+[node name="WindowExamine" parent="." unique_id=1029107468 instance=ExtResource("2_exam")]
 position = Vector2(140, 200)
-interaction_text = "Посмотреть в окно"
 examine_text = "Двор занесло. Забор накренился под снегом. Следы у крыльца — старые."
+interaction_text = "Посмотреть в окно"

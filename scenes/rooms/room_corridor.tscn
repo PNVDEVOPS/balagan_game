@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://ceyj8lw7koq7e"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_corridor_logic.gd" id="1_corr"]
-[ext_resource type="PackedScene" path="res://scenes/characters/laika.tscn" id="2_laika"]
-[ext_resource type="PackedScene" path="res://scenes/characters/spirit_guardian.tscn" id="3_spirit"]
+[ext_resource type="Script" uid="uid://33qigk25a227" path="res://scripts/rooms/room_corridor_logic.gd" id="1_corr"]
+[ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="2_laika"]
+[ext_resource type="PackedScene" uid="uid://cubt8kdlixynf" path="res://scenes/characters/spirit_guardian.tscn" id="3_spirit"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
@@ -11,47 +11,45 @@ size = Vector2(60, 140)
 [sub_resource type="RectangleShape2D" id="LaikaShape"]
 size = Vector2(80, 160)
 
-[node name="RoomCorridor" type="Node2D"]
+[node name="RoomCorridor" type="Node2D" unique_id=131571024]
 script = ExtResource("1_corr")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=769216410]
 offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0.03, 0.02, 0.05, 1)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=406902745]
 position = Vector2(80, 290)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=1299071123]
 position = Vector2(640, 0)
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=755932259]
 position = Vector2(0, 360)
 
-[node name="ForwardZone" type="Area2D" parent="."]
+[node name="ForwardZone" type="Area2D" parent="." unique_id=1412378077]
 position = Vector2(590, 260)
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone" unique_id=2066047497]
 shape = SubResource("FwdShape")
 
-[node name="LaikaTrigger" type="Area2D" parent="."]
+[node name="LaikaTrigger" type="Area2D" parent="." unique_id=874890696]
 position = Vector2(400, 260)
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1636203791]
 shape = SubResource("LaikaShape")
 
-[node name="Laika" parent="." instance=ExtResource("2_laika")]
+[node name="Laika" parent="." unique_id=157373864 instance=ExtResource("2_laika")]
 position = Vector2(560, 280)
 auto_appear = false
 
-[node name="SpiritGuardian" parent="." instance=ExtResource("3_spirit")]
+[node name="SpiritGuardian" parent="." unique_id=1587675299 instance=ExtResource("3_spirit")]
 position = Vector2(300, 280)
 
-[node name="WindowExamine" parent="." instance=ExtResource("4_exam")]
+[node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("4_exam")]
 position = Vector2(160, 200)
-interaction_text = "Посмотреть в окно"
 examine_text = "Черно. Только снег мельтешит в свете луны. Тихо, как будто мир снаружи вымер."
+interaction_text = "Посмотреть в окно"

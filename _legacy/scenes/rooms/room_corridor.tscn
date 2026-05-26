@@ -1,71 +1,71 @@
-[gd_scene load_steps=8 format=3 uid="uid://room_corridor"]
+[gd_scene format=3 uid="uid://cl15c7rseg0gm"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_corridor_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://spirit_guardian" path="res://scenes/characters/spirit_guardian.tscn" id="4"]
-[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/characters/spirit_guardian.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5"]
+[ext_resource type="Script" uid="uid://33qigk25a227" path="res://scripts/rooms/room_corridor_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="7"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
-[node name="RoomCorridor" type="Node2D"]
+[node name="RoomCorridor" type="Node2D" unique_id=1190282945]
 script = ExtResource("6")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1923107258]
 offset_right = 2400.0
 offset_bottom = 700.0
 color = Color(0.059, 0.039, 0.039, 1)
 
-[node name="FloorVisual" type="ColorRect" parent="."]
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=1378200169]
 offset_top = 660.0
 offset_right = 2400.0
 offset_bottom = 700.0
 color = Color(0.1, 0.06, 0.06, 1)
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=852375761]
 position = Vector2(0, 660)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1958048050]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
-[node name="Player" parent="." instance=ExtResource("1")]
+[node name="Player" parent="." unique_id=1927757399 instance=ExtResource("1")]
 position = Vector2(100, 640)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1366832620]
 position = Vector2(100, 640)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=196267362]
 position = Vector2(2400, 180)
 
-[node name="DoorLeft" parent="." instance=ExtResource("2")]
+[node name="DoorLeft" parent="." unique_id=1623380047 instance=ExtResource("2")]
 position = Vector2(50, 660)
 door_id = "door_left"
 
-[node name="DoorDown" parent="." instance=ExtResource("2")]
+[node name="DoorDown" parent="." unique_id=909148825 instance=ExtResource("2")]
 position = Vector2(1200, 660)
 door_id = "door_down"
 locked = true
-required_item = "storage_key"
 lock_message = "Тяжёлая дверь заперта. На замке — знакомый узор ключа."
+required_item = "storage_key"
 
-[node name="DoorRight" parent="." instance=ExtResource("2")]
+[node name="DoorRight" parent="." unique_id=1594527839 instance=ExtResource("2")]
 position = Vector2(2350, 660)
 door_id = "door_right"
 
-[node name="SpiritGuardian" parent="." instance=ExtResource("4")]
+[node name="SpiritGuardian" parent="." unique_id=1429668613 instance=ExtResource("4")]
 position = Vector2(800, 660)
 
-[node name="WallExamine" parent="." instance=ExtResource("5")]
+[node name="WallExamine" parent="." unique_id=1757763448 instance=ExtResource("5")]
 position = Vector2(600, 620)
 examine_text = "Царапины на стене. Кто-то считал дни. Таких отметин — очень много."
 
-[node name="Laika" parent="." instance=ExtResource("7")]
+[node name="Laika" parent="." unique_id=1245215058 instance=ExtResource("7")]
 position = Vector2(300, 648)
 auto_appear = false
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=553560137]
 position = Vector2(0, 700)
 
-[node name="HUD" parent="." instance=ExtResource("3")]
+[node name="HUD" parent="." unique_id=1463601784 instance=ExtResource("3")]

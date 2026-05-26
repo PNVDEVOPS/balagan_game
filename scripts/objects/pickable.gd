@@ -12,7 +12,7 @@ func _ready() -> void:
 	if Inventory.has_item(item_id):
 		queue_free()
 
-func interact(player: CharacterBody2D) -> void:
+func interact(_player: CharacterBody2D) -> void:
 	if Inventory.add_item(item_id):
 		picked_up.emit(item_id)
 		if not pickup_text.is_empty():

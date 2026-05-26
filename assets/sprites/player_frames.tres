@@ -1,9 +1,17 @@
-[gd_resource type="SpriteFrames" load_steps=2 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cpxhtqityj1ot"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/player_placeholder.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bhhhira7p2kle" path="res://assets/sprites/player_placeholder.png" id="1"]
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1")
+}],
+"loop": true,
+"name": &"crank",
+"speed": 4.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1")
@@ -16,9 +24,9 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("1")
 }],
-"loop": true,
-"name": &"walk",
-"speed": 6.0
+"loop": false,
+"name": &"interact",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -33,14 +41,6 @@ animations = [{
 "texture": ExtResource("1")
 }],
 "loop": true,
-"name": &"crank",
-"speed": 4.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1")
-}],
-"loop": false,
-"name": &"interact",
-"speed": 4.0
+"name": &"walk",
+"speed": 6.0
 }]

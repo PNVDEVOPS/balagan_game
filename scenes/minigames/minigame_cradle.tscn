@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://minigame_cradle"]
+[gd_scene format=3 uid="uid://dvtlxo0f2nsvk"]
 
-[ext_resource type="Script" path="res://scripts/minigames/minigame_cradle.gd" id="1_cradle"]
+[ext_resource type="Script" uid="uid://dg8aotuv4hdvc" path="res://scripts/minigames/minigame_cradle.gd" id="1_cradle"]
 
-[node name="MinigameCradle" type="CanvasLayer"]
+[node name="MinigameCradle" type="CanvasLayer" unique_id=580049901]
 script = ExtResource("1_cradle")

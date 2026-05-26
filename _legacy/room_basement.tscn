@@ -1,87 +1,84 @@
-[gd_scene load_steps=9 format=3 uid="uid://room_basement"]
+[gd_scene format=3 uid="uid://dl1xurtwd7rck"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/rooms/room_basement_logic.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://spirit_guardian" path="res://scenes/characters/spirit_guardian.tscn" id="6"]
-[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/characters/spirit_guardian.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
-[node name="RoomBasement" type="Node2D"]
+[node name="RoomBasement" type="Node2D" unique_id=631260560]
 script = ExtResource("4")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=963406222]
 offset_right = 2200.0
 offset_bottom = 700.0
 color = Color(0.02, 0.008, 0.012, 1)
 
-[node name="FloorVisual" type="ColorRect" parent="."]
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=1257600973]
 offset_top = 660.0
 offset_right = 2200.0
 offset_bottom = 700.0
 color = Color(0.05, 0.03, 0.035, 1)
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=855797035]
 position = Vector2(0, 660)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=977891701]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
-[node name="Player" parent="." instance=ExtResource("1")]
+[node name="Player" parent="." unique_id=620010701 instance=ExtResource("1")]
 position = Vector2(100, 640)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=265579917]
 position = Vector2(100, 640)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=659818241]
 position = Vector2(2200, 180)
 
-[node name="DoorUp" parent="." instance=ExtResource("2")]
+[node name="DoorUp" parent="." unique_id=188046540 instance=ExtResource("2")]
 position = Vector2(50, 660)
 door_id = "door_up"
 
-[node name="NoteAiyyna5" parent="." instance=ExtResource("7")]
+[node name="NoteAiyyna5" parent="." unique_id=412767159 instance=ExtResource("7")]
 position = Vector2(400, 620)
-examine_text = ""
 
-[node name="RiddleMirror" parent="." instance=ExtResource("7")]
+[node name="RiddleMirror" parent="." unique_id=505973091 instance=ExtResource("7")]
 position = Vector2(850, 620)
-examine_text = ""
 
-[node name="OldMirror" parent="." instance=ExtResource("7")]
+[node name="OldMirror" parent="." unique_id=911216118 instance=ExtResource("7")]
 position = Vector2(900, 660)
-examine_text = ""
 
-[node name="KeyPickable" parent="." instance=ExtResource("5")]
-position = Vector2(1100, 660)
+[node name="KeyPickable" parent="." unique_id=210579414 instance=ExtResource("5")]
 visible = false
+position = Vector2(1100, 660)
 monitoring = false
 item_id = "chest_key_3"
 item_name = "Ключ"
 pickup_text = "За зеркалом. Холодный. Как будто ждал."
 
-[node name="ChestEarring" parent="." instance=ExtResource("8")]
+[node name="ChestEarring" parent="." unique_id=931618836 instance=ExtResource("8")]
 position = Vector2(1700, 660)
-required_item = "chest_key_3"
 success_text = "Сундук открыт. Внутри — что-то серебристое."
 fail_text = "Сундук заперт."
+required_item = "chest_key_3"
 
-[node name="EarringPickable" parent="." instance=ExtResource("5")]
-position = Vector2(1700, 660)
+[node name="EarringPickable" parent="." unique_id=581988234 instance=ExtResource("5")]
 visible = false
+position = Vector2(1700, 660)
 monitoring = false
 item_id = "earring"
 item_name = "Серёжка"
 pickup_text = "Серебряная. Одна. На внутренней стороне — имя: «Сардаана»."
 
-[node name="SpiritGuardian" parent="." instance=ExtResource("6")]
+[node name="SpiritGuardian" parent="." unique_id=24543106 instance=ExtResource("6")]
 position = Vector2(1500, 660)
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=1999978341]
 position = Vector2(0, 700)
 
-[node name="HUD" parent="." instance=ExtResource("3")]
+[node name="HUD" parent="." unique_id=1985289777 instance=ExtResource("3")]

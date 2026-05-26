@@ -1,63 +1,62 @@
-[gd_scene load_steps=7 format=3 uid="uid://room_storage"]
+[gd_scene format=3 uid="uid://0plv2j72laed"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://hideable001" path="res://scenes/objects/hideable.tscn" id="4"]
-[ext_resource type="Script" path="res://scripts/rooms/room_storage_logic.gd" id="5"]
-[ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="6"]
+[ext_resource type="Script" uid="uid://x07dl1ermy2p" path="res://scripts/rooms/room_storage_logic.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="6"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
-[node name="RoomStorage" type="Node2D"]
+[node name="RoomStorage" type="Node2D" unique_id=299318980]
 script = ExtResource("5")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1980371889]
 offset_right = 2000.0
 offset_bottom = 700.0
 color = Color(0.071, 0.051, 0.031, 1)
 
-[node name="FloorVisual" type="ColorRect" parent="."]
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=673452950]
 offset_top = 660.0
 offset_right = 2000.0
 offset_bottom = 700.0
 color = Color(0.11, 0.08, 0.05, 1)
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1474648508]
 position = Vector2(0, 660)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=163754921]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
-[node name="Player" parent="." instance=ExtResource("1")]
+[node name="Player" parent="." unique_id=1238321538 instance=ExtResource("1")]
 position = Vector2(1900, 640)
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=739807012]
 position = Vector2(1900, 640)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=2106862023]
 position = Vector2(2000, 180)
 
-[node name="DoorBack" parent="." instance=ExtResource("2")]
+[node name="DoorBack" parent="." unique_id=1174813637 instance=ExtResource("2")]
 position = Vector2(1950, 660)
 door_id = "door_back"
 
-[node name="HideableBox" parent="." instance=ExtResource("4")]
+[node name="HideableBox" parent="." unique_id=1415946041 instance=ExtResource("4")]
 position = Vector2(150, 660)
 
-[node name="StorageShelf" parent="." instance=ExtResource("6")]
+[node name="StorageShelf" parent="." unique_id=1020268189 instance=ExtResource("6")]
 position = Vector2(600, 660)
 examine_text = "Полки с припасами. Всё в порядке — кто-то хозяйничал здесь недавно."
 
-[node name="OldTrap" parent="." instance=ExtResource("6")]
+[node name="OldTrap" parent="." unique_id=1466523890 instance=ExtResource("6")]
 position = Vector2(1200, 660)
 examine_text = "Охотничий капкан. Ржавый. Давно не использовался."
 
-[node name="NoteAiyyna4" parent="." instance=ExtResource("6")]
+[node name="NoteAiyyna4" parent="." unique_id=2007211473 instance=ExtResource("6")]
 position = Vector2(900, 620)
-examine_text = ""
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=1595639576]
 position = Vector2(0, 700)
 
-[node name="HUD" parent="." instance=ExtResource("3")]
+[node name="HUD" parent="." unique_id=222700093 instance=ExtResource("3")]

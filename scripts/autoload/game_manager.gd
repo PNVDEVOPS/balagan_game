@@ -87,6 +87,7 @@ func start_finale(result: String) -> void:
 	is_transitioning = false
 
 func _place_player_at_door() -> void:
+	get_tree().current_scene.visible = true
 	var player := get_tree().get_first_node_in_group("player")
 	if not player:
 		return

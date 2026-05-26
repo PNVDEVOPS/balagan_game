@@ -30,7 +30,7 @@ func _process(_delta: float) -> void:
 			randf_range(-shake_intensity, shake_intensity)
 		)
 
-func _on_qte_end(success: bool) -> void:
+func _on_qte_end(_success: bool) -> void:
 	panel.visible = false
 	flashlight_ref = null
 	shake_intensity = 0.0
