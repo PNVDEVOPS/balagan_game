@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://ctq7btdy7bcd6" path="res://assets/sprites/forest/сух дерево 2_sprite_1.png" id="7_1yky7"]
 [ext_resource type="Texture2D" uid="uid://bqhqljsttrcva" path="res://assets/sprites/forest/пенек_sprite_1.png" id="8_i1scu"]
 [ext_resource type="Texture2D" uid="uid://b5h1xwm5tqeq1" path="res://assets/sprites/forest/слой снега_sprite_1.png" id="9_x0q7o"]
-[ext_resource type="Texture2D" uid="uid://duip3mx4w05qq" path="res://assets/sprites/forest/дорога_sprite_1.png" id="10_43pmf"]
 [ext_resource type="Texture2D" uid="uid://djltm5p06if20" path="res://assets/sprites/forest/сэргэ_sprite_1.png" id="10_ssgfx"]
 [ext_resource type="Texture2D" uid="uid://b7i6nrwj2e624" path="res://assets/sprites/forest/дорога (clone)_sprite_1.png" id="11_xm6as"]
 [ext_resource type="Texture2D" uid="uid://42l6jfapm8or" path="res://assets/sprites/forest/дерево 2_sprite_1.png" id="12_an2w0"]
@@ -32,6 +31,10 @@
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1500, 1, 1)
+direction = Vector3(-1, 0.35, 0)
+spread = 20.0
+initial_velocity_min = 30.0
+initial_velocity_max = 70.0
 gravity = Vector3(0, 100, 0)
 linear_accel_min = -2.2351742e-06
 linear_accel_max = -2.2351742e-06
@@ -42,23 +45,38 @@ radial_accel_max = -16.130001
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1200, 1, 1)
+direction = Vector3(-1, 0.4, 0)
+spread = 15.0
+initial_velocity_min = 15.0
+initial_velocity_max = 35.0
 gravity = Vector3(0, 98, 0)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_heavy_forest"]
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1200, 1, 1)
-gravity = Vector3(0, 200, 0)
+direction = Vector3(-1, 0.2, 0)
+spread = 20.0
+initial_velocity_min = 90.0
+initial_velocity_max = 170.0
+gravity = Vector3(0, 60, 0)
 linear_accel_min = -8.0
 linear_accel_max = 8.0
-scale_min = 2.0
-scale_max = 5.0
+scale_min = 0.4
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_43pmf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_laika_trigger"]
 size = Vector2(120, 369)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_silhouette_trigger"]
+size = Vector2(120, 369)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_balagan_trigger"]
+size = Vector2(120, 369)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
-size = Vector2(157.5, 361)
+size = Vector2(120.75, 361)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xm6as"]
 cull_mode = 1
@@ -76,7 +94,7 @@ script = ExtResource("1")
 [node name="Background" type="ColorRect" parent="." unique_id=211441489]
 offset_left = -348.0
 offset_top = -147.0
-offset_right = 4593.0
+offset_right = 3928.0
 offset_bottom = 361.0
 color = Color(0.039215688, 0.10980392, 0.24313726, 1)
 
@@ -150,6 +168,10 @@ texture = ExtResource("5_p1m8k")
 position = Vector2(729, 184)
 texture = ExtResource("6_ragbb")
 
+[node name="СухДеревоSprite1" type="Sprite2D" parent="Parallax2D2/СухДеревоSprite1" unique_id=1126571202]
+position = Vector2(1691, 36)
+texture = ExtResource("6_ragbb")
+
 [node name="СухДеревоSprite2" type="Sprite2D" parent="Parallax2D2" unique_id=133586062]
 position = Vector2(1413, 188)
 texture = ExtResource("6_ragbb")
@@ -158,12 +180,20 @@ texture = ExtResource("6_ragbb")
 position = Vector2(807, 204)
 texture = ExtResource("7_1yky7")
 
+[node name="СухДерево2Sprite1" type="Sprite2D" parent="Parallax2D2/СухДерево2Sprite1" unique_id=969790519]
+position = Vector2(2010, 0)
+texture = ExtResource("7_1yky7")
+
 [node name="СэргэSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1833576378]
-position = Vector2(1704, 176)
+position = Vector2(2163, 180)
 texture = ExtResource("10_ssgfx")
 
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
 position = Vector2(911, 184)
+texture = ExtResource("8_i1scu")
+
+[node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2/ПенекSprite1" unique_id=643181867]
+position = Vector2(2094, 28)
 texture = ExtResource("8_i1scu")
 
 [node name="Дерево2Sprite1" type="Sprite2D" parent="Parallax2D2" unique_id=705245447]
@@ -178,9 +208,11 @@ texture = ExtResource("12_an2w0")
 position = Vector2(-363, -230)
 amount = 150
 lifetime = 5.0
+preprocess = 5.0
 speed_scale = 0.5
 randomness = 0.38
 collision_base_size = 0.0
+visibility_rect = Rect2(-3000, -400, 8000, 1000)
 process_material = SubResource("ParticleProcessMaterial_xm6as")
 
 [node name="Дерево1Sprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1451137226]
@@ -198,6 +230,7 @@ position = Vector2(1180, -33)
 amount = 150
 lifetime = 13.66
 preprocess = 13.66
+visibility_rect = Rect2(-3000, -400, 8000, 1000)
 process_material = SubResource("ParticleProcessMaterial_0tgta")
 
 [node name="SnowHeavy" type="GPUParticles2D" parent="." unique_id=1946372810]
@@ -207,10 +240,10 @@ lifetime = 3.5
 preprocess = 3.5
 speed_scale = 1.8
 randomness = 0.5
+visibility_rect = Rect2(-3000, -400, 8000, 1000)
 process_material = SubResource("ParticleProcessMaterial_heavy_forest")
 
 [node name="Parallax2D3" type="Parallax2D" parent="." unique_id=502402756]
-visible = false
 scroll_scale = Vector2(0.9, 1)
 repeat_size = Vector2(640, 0)
 repeat_times = 5
@@ -218,6 +251,7 @@ repeat_times = 5
 [node name="СлойСнегаSprite1" type="Sprite2D" parent="Parallax2D3" unique_id=2005946862]
 position = Vector2(320, 184)
 texture = ExtResource("9_x0q7o")
+offset = Vector2(0, -5)
 
 [node name="Parallax2D5" type="Parallax2D" parent="." unique_id=426079695]
 repeat_size = Vector2(640, 0)
@@ -225,7 +259,8 @@ repeat_times = 5
 
 [node name="ДорогаSprite1" type="Sprite2D" parent="Parallax2D5" unique_id=1743582562]
 position = Vector2(322, 158)
-texture = ExtResource("10_43pmf")
+texture = SubResource("CompressedTexture2D_43pmf")
+offset = Vector2(0, 20)
 
 [node name="Parallax2D8" type="Parallax2D" parent="." unique_id=1400718819]
 
@@ -233,7 +268,7 @@ texture = ExtResource("10_43pmf")
 position = Vector2(100, 310)
 
 [node name="Parallax2D6" type="Parallax2D" parent="." unique_id=1770239544]
-visible = false
+scroll_offset = Vector2(0, -15)
 repeat_size = Vector2(640, 0)
 repeat_times = 5
 
@@ -245,57 +280,78 @@ texture = ExtResource("11_xm6as")
 position = Vector2(100, 300)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1221185496]
-position = Vector2(2357, 177)
+position = Vector2(3750, 177)
 
 [node name="Laika" parent="." unique_id=1172830912 instance=ExtResource("5")]
-position = Vector2(1149, 299)
+position = Vector2(1767, 292)
 auto_appear = false
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=1923528987]
-position = Vector2(1009, 342)
+position = Vector2(1504, 337)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1876727196]
-position = Vector2(0, -165.5)
+position = Vector2(-1, -158)
 shape = SubResource("RectangleShape2D_laika_trigger")
 
 [node name="NoteForestFather" parent="." unique_id=1458961493 instance=ExtResource("4")]
+visible = false
 position = Vector2(500, 319)
 
 [node name="BrokenBranch" parent="." unique_id=1725826739 instance=ExtResource("4")]
+visible = false
 position = Vector2(700, 319)
 examine_text = "Ветка. Свежий слом. Кто-то прошёл здесь совсем недавно."
 
 [node name="OldFireplace" parent="." unique_id=210954590 instance=ExtResource("4")]
-position = Vector2(1200, 319)
+visible = false
+position = Vector2(1650, 315)
 examine_text = "Старое кострище. Угли давно потухли. Камни сложены в круг."
 
-[node name="BalaganSign" parent="." unique_id=442104949 instance=ExtResource("4")]
-position = Vector2(2100, 319)
-examine_text = "Балаган. Огонь внутри. Кто-то живёт здесь — или жил."
+[node name="Snare" parent="." unique_id=442104949 instance=ExtResource("4")]
+position = Vector2(901, 302)
+examine_text = "Силок. Конский волос и кусок проволоки — старая охотничья петля."
+interaction_text = "Осмотреть [Е]"
+
+[node name="SilhouetteTrigger" type="Area2D" parent="." unique_id=1923528988]
+position = Vector2(2500, 342)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SilhouetteTrigger" unique_id=1876727197]
+position = Vector2(0, -165.5)
+shape = SubResource("RectangleShape2D_silhouette_trigger")
+
+[node name="BalaganTrigger" type="Area2D" parent="." unique_id=1923528989]
+position = Vector2(3421, 349)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BalaganTrigger" unique_id=1876727198]
+position = Vector2(-4, -169)
+shape = SubResource("RectangleShape2D_balagan_trigger")
 
 [node name="MurderSite" parent="." unique_id=2070419600 instance=ExtResource("4")]
 visible = false
-position = Vector2(1800, 319)
+position = Vector2(2200, 319)
 
 [node name="ShamanAmulet" parent="." unique_id=119670520 instance=ExtResource("4")]
-position = Vector2(1950, 319)
+position = Vector2(2349, 294)
 examine_text = "Амулет из птичьих костей, подвешенный на ветке."
+interaction_text = "Осмотреть [Е]"
 
 [node name="NoteFatherLast" parent="." unique_id=1777518016 instance=ExtResource("4")]
 visible = false
-position = Vector2(1500, 319)
+position = Vector2(1900, 319)
 
 [node name="NoteAiyyna2" parent="." unique_id=1857881688 instance=ExtResource("4")]
 visible = false
-position = Vector2(1000, 319)
+position = Vector2(1300, 319)
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1689144402]
-position = Vector2(2330, 350)
+position = Vector2(3849, 350)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=3492487]
-position = Vector2(150.25, -171)
+position = Vector2(8, -171)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=1192004762]
@@ -305,9 +361,10 @@ position = Vector2(0, 359)
 
 [node name="Parallax2D4" type="Parallax2D" parent="." unique_id=1213957769]
 scroll_scale = Vector2(1.1, 1)
+scroll_offset = Vector2(0, -10)
 
 [node name="ДомикSprite1" type="Sprite2D" parent="Parallax2D4" unique_id=551851956]
-position = Vector2(2240, 182)
+position = Vector2(3603, 176)
 texture = ExtResource("26_t1kjq")
 
 [node name="СухДерево3Sprite1" type="Sprite2D" parent="Parallax2D4" unique_id=695268672]
@@ -348,11 +405,12 @@ position = Vector2(525, 183)
 texture = ExtResource("18_muwxq")
 
 [node name="ЗаборSprite1" type="Sprite2D" parent="Parallax2D4" unique_id=1831889069]
-position = Vector2(2326, 182)
+position = Vector2(3677, 185)
 texture = ExtResource("25_7cvm8")
 
 [node name="Parallax2D7" type="Parallax2D" parent="." unique_id=640116831]
 scroll_scale = Vector2(1.2, 1)
+scroll_offset = Vector2(0, -10)
 repeat_size = Vector2(640, 0)
 repeat_times = 5
 

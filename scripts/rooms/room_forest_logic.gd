@@ -2,6 +2,8 @@ extends Node2D
 
 var _laika_appeared: bool = false
 var _chapter_started: bool = false
+var _silhouette_triggered: bool = false
+var _balagan_triggered: bool = false
 
 func _ready() -> void:
 	var laika_trigger := get_node_or_null("LaikaTrigger")
@@ -10,6 +12,12 @@ func _ready() -> void:
 	var exit_zone := get_node_or_null("ExitZone")
 	if exit_zone:
 		exit_zone.body_entered.connect(_on_exit_zone)
+	var silhouette_trigger := get_node_or_null("SilhouetteTrigger")
+	if silhouette_trigger:
+		silhouette_trigger.body_entered.connect(_on_silhouette_trigger)
+	var balagan_trigger := get_node_or_null("BalaganTrigger")
+	if balagan_trigger:
+		balagan_trigger.body_entered.connect(_on_balagan_trigger)
 
 	var murder := get_node_or_null("ShamanAmulet")
 	if not murder:
@@ -82,6 +90,18 @@ func _on_laika_trigger(body: Node2D) -> void:
 
 	if body.has_method("unfreeze"):
 		body.unfreeze()
+
+func _on_silhouette_trigger(body: Node2D) -> void:
+	if not body.is_in_group("player") or _silhouette_triggered:
+		return
+	_silhouette_triggered = true
+	DialogueManager.show_text("", "Там кто-то стоял. Я видел.")
+
+func _on_balagan_trigger(body: Node2D) -> void:
+	if not body.is_in_group("player") or _balagan_triggered:
+		return
+	_balagan_triggered = true
+	DialogueManager.show_text("", "Балаган. Старый, явно нежилой — но дым идёт. Здесь кто-то есть. Или был. Только что.\n\nХорошо это или плохо — я ещё не решил.")
 
 func _on_exit_zone(body: Node2D) -> void:
 	if body.is_in_group("player") and not _chapter_started:
