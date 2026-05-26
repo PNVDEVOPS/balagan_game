@@ -2,29 +2,29 @@
 
 [ext_resource type="Script" uid="uid://sno2oxikaovc" path="res://scripts/rooms/room_forest_logic.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
-[ext_resource type="Texture2D" uid="uid://dkh437lf47oy7" path="res://assets/sprites/forest/звезды_sprite_1.png" id="2_0tgta"]
+[ext_resource type="Texture2D" uid="uid://b200njkrdtw8k" path="res://assets/sprites/forest/звезды_sprite_1.png" id="2_0tgta"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
-[ext_resource type="Texture2D" uid="uid://3xxoh7dx2s0c" path="res://assets/sprites/forest/14_sprite_1.png" id="3_muwxq"]
+[ext_resource type="Texture2D" uid="uid://bg5mj8hejxm0u" path="res://assets/sprites/forest/14_sprite_1.png" id="3_muwxq"]
 [ext_resource type="Texture2D" uid="uid://7r7kbdk6bpym" path="res://assets/sprites/forest/лес 1_sprite_1.png" id="3_xm6as"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://4wpw0nnl14yr" path="res://assets/sprites/forest/лес 2 (clone)_sprite_1.png" id="4_rrqqt"]
-[ext_resource type="Texture2D" uid="uid://2dblw07osd72" path="res://assets/sprites/forest/10_sprite_1.png" id="4_ry8s4"]
+[ext_resource type="Texture2D" uid="uid://bwh61ejfh6add" path="res://assets/sprites/forest/10_sprite_1.png" id="4_ry8s4"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="5"]
-[ext_resource type="Texture2D" uid="uid://fumvl3c2wll7" path="res://assets/sprites/forest/кустики задние_sprite_1.png" id="5_p1m8k"]
-[ext_resource type="Texture2D" uid="uid://jg7448y13xc2" path="res://assets/sprites/forest/сух дерево_sprite_1.png" id="6_ragbb"]
-[ext_resource type="Texture2D" uid="uid://c1cokkc3hk66a" path="res://assets/sprites/forest/сух дерево 2_sprite_1.png" id="7_1yky7"]
-[ext_resource type="Texture2D" uid="uid://c8ylwioynatar" path="res://assets/sprites/forest/пенек_sprite_1.png" id="8_i1scu"]
-[ext_resource type="Texture2D" uid="uid://moyv13pghapm" path="res://assets/sprites/forest/слой снега_sprite_1.png" id="9_x0q7o"]
-[ext_resource type="Texture2D" uid="uid://70ai118c6piu" path="res://assets/sprites/forest/дорога_sprite_1.png" id="10_43pmf"]
+[ext_resource type="Texture2D" uid="uid://dryt0elwtfmqs" path="res://assets/sprites/forest/кустики задние_sprite_1.png" id="5_p1m8k"]
+[ext_resource type="Texture2D" uid="uid://78hetedrkmpf" path="res://assets/sprites/forest/сух дерево_sprite_1.png" id="6_ragbb"]
+[ext_resource type="Texture2D" uid="uid://ctq7btdy7bcd6" path="res://assets/sprites/forest/сух дерево 2_sprite_1.png" id="7_1yky7"]
+[ext_resource type="Texture2D" uid="uid://bqhqljsttrcva" path="res://assets/sprites/forest/пенек_sprite_1.png" id="8_i1scu"]
+[ext_resource type="Texture2D" uid="uid://b5h1xwm5tqeq1" path="res://assets/sprites/forest/слой снега_sprite_1.png" id="9_x0q7o"]
+[ext_resource type="Texture2D" uid="uid://duip3mx4w05qq" path="res://assets/sprites/forest/дорога_sprite_1.png" id="10_43pmf"]
 [ext_resource type="Texture2D" uid="uid://djltm5p06if20" path="res://assets/sprites/forest/сэргэ_sprite_1.png" id="10_ssgfx"]
-[ext_resource type="Texture2D" uid="uid://b0f8dijj12fd1" path="res://assets/sprites/forest/дорога (clone)_sprite_1.png" id="11_xm6as"]
+[ext_resource type="Texture2D" uid="uid://b7i6nrwj2e624" path="res://assets/sprites/forest/дорога (clone)_sprite_1.png" id="11_xm6as"]
 [ext_resource type="Texture2D" uid="uid://42l6jfapm8or" path="res://assets/sprites/forest/дерево 2_sprite_1.png" id="12_an2w0"]
-[ext_resource type="Texture2D" uid="uid://dq1nx2702w7se" path="res://assets/sprites/forest/сух дерево 3_sprite_1.png" id="12_rrqqt"]
+[ext_resource type="Texture2D" uid="uid://ciatu62nnou14" path="res://assets/sprites/forest/сух дерево 3_sprite_1.png" id="12_rrqqt"]
 [ext_resource type="Texture2D" uid="uid://dkih82yodj1ye" path="res://assets/sprites/forest/дерево 1_sprite_1.png" id="13_6cfsq"]
-[ext_resource type="Texture2D" uid="uid://du2vmuin4egi0" path="res://assets/sprites/forest/пенек передний_sprite_1.png" id="13_ssgfx"]
-[ext_resource type="Texture2D" uid="uid://02gnrgtxhj5s" path="res://assets/sprites/forest/передняя дорога_sprite_1.png" id="14_an2w0"]
+[ext_resource type="Texture2D" uid="uid://73ws0yfql71l" path="res://assets/sprites/forest/пенек передний_sprite_1.png" id="13_ssgfx"]
+[ext_resource type="Texture2D" uid="uid://bpa8immg5i0ig" path="res://assets/sprites/forest/передняя дорога_sprite_1.png" id="14_an2w0"]
 [ext_resource type="Texture2D" uid="uid://vag2pntljdpv" path="res://assets/sprites/forest/дерево 1 (clone)_sprite_1.png" id="14_vugsk"]
-[ext_resource type="Texture2D" uid="uid://chyo7wax1m8i6" path="res://assets/sprites/forest/кустики передние_sprite_1.png" id="18_muwxq"]
+[ext_resource type="Texture2D" uid="uid://dhx6eof43qc8c" path="res://assets/sprites/forest/кустики передние_sprite_1.png" id="18_muwxq"]
 [ext_resource type="Texture2D" uid="uid://c06vuepnvy31" path="res://assets/sprites/forest/забор_sprite_1.png" id="25_7cvm8"]
 [ext_resource type="Texture2D" uid="uid://xjiwwrowlw5n" path="res://assets/sprites/forest/домик_sprite_1.png" id="26_t1kjq"]
 
@@ -41,8 +41,18 @@ radial_accel_max = -16.130001
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0tgta"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(640, 1, 1)
+emission_box_extents = Vector3(1200, 1, 1)
 gravity = Vector3(0, 98, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_heavy_forest"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1200, 1, 1)
+gravity = Vector3(0, 200, 0)
+linear_accel_min = -8.0
+linear_accel_max = 8.0
+scale_min = 2.0
+scale_max = 5.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_laika_trigger"]
 size = Vector2(120, 369)
@@ -184,10 +194,20 @@ texture = ExtResource("14_vugsk")
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=11468611]
 modulate = Color(0.55495375, 0.5549537, 0.5549537, 1)
 self_modulate = Color(0.70251584, 0.8341449, 0.91095364, 1)
-position = Vector2(349, -33)
+position = Vector2(1180, -33)
 amount = 150
 lifetime = 13.66
+preprocess = 13.66
 process_material = SubResource("ParticleProcessMaterial_0tgta")
+
+[node name="SnowHeavy" type="GPUParticles2D" parent="." unique_id=1946372810]
+position = Vector2(1180, -30)
+amount = 700
+lifetime = 3.5
+preprocess = 3.5
+speed_scale = 1.8
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_heavy_forest")
 
 [node name="Parallax2D3" type="Parallax2D" parent="." unique_id=502402756]
 visible = false
@@ -240,16 +260,13 @@ position = Vector2(0, -165.5)
 shape = SubResource("RectangleShape2D_laika_trigger")
 
 [node name="NoteForestFather" parent="." unique_id=1458961493 instance=ExtResource("4")]
-visible = false
 position = Vector2(500, 319)
 
 [node name="BrokenBranch" parent="." unique_id=1725826739 instance=ExtResource("4")]
-visible = false
 position = Vector2(700, 319)
 examine_text = "Ветка. Свежий слом. Кто-то прошёл здесь совсем недавно."
 
 [node name="OldFireplace" parent="." unique_id=210954590 instance=ExtResource("4")]
-visible = false
 position = Vector2(1200, 319)
 examine_text = "Старое кострище. Угли давно потухли. Камни сложены в круг."
 
@@ -262,7 +279,6 @@ visible = false
 position = Vector2(1800, 319)
 
 [node name="ShamanAmulet" parent="." unique_id=119670520 instance=ExtResource("4")]
-visible = false
 position = Vector2(1950, 319)
 examine_text = "Амулет из птичьих костей, подвешенный на ветке."
 
