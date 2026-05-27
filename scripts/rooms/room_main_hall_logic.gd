@@ -30,6 +30,13 @@ func _ready() -> void:
 		await get_tree().process_frame
 		SubtitleManager.show_subtitle("Ты дошёл.", SubtitleManager.Pos.TOP_CENTER)
 
+	var exit_zone := get_node_or_null("ExitZone")
+	if exit_zone:
+		exit_zone.body_entered.connect(func(body: Node2D):
+			if body.is_in_group("player"):
+				GameManager.change_room("door_right")
+		)
+
 func _setup_puzzle() -> void:
 	var amulet_done := GameManager.artifacts_collected.has("amulet")
 

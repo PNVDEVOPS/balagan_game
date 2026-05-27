@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cx11by5tdde44"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5"]
@@ -10,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(60, 400)
 
 [node name="RoomMainHall" type="Node2D" unique_id=1713279881]
 script = ExtResource("6")
@@ -40,19 +42,12 @@ position = Vector2(1200, 640)
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1674324491]
 position = Vector2(2400, 180)
 
-[node name="DoorEntrance" parent="." unique_id=1289355478 instance=ExtResource("2")]
-position = Vector2(50, 660)
-door_id = "door_entrance"
-lock_message = "Снаружи темно. Пути назад нет."
+[node name="ExitZone" type="Area2D" parent="." unique_id=2081614143]
+position = Vector2(2390, 500)
+collision_layer = 0
 
-[node name="DoorLeft" parent="." unique_id=1601404546 instance=ExtResource("2")]
-position = Vector2(700, 660)
-door_id = "door_left"
-lock_message = "Заперто."
-
-[node name="DoorRight" parent="." unique_id=2081614143 instance=ExtResource("2")]
-position = Vector2(2350, 660)
-door_id = "door_right"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2081614144]
+shape = SubResource("RectangleShape2D_exit")
 
 [node name="Laika" parent="." unique_id=1849410618 instance=ExtResource("4")]
 position = Vector2(1200, 648)

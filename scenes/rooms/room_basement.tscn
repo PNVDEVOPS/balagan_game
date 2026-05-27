@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dl1xurtwd7rck"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="Script" uid="uid://byqcrfiln1xmk" path="res://scripts/rooms/room_basement_logic.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="5"]
@@ -39,10 +38,6 @@ position = Vector2(100, 640)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=659818241]
 position = Vector2(2200, 180)
-
-[node name="DoorUp" parent="." unique_id=188046540 instance=ExtResource("2")]
-position = Vector2(50, 660)
-door_id = "door_up"
 
 [node name="NoteAiyyna5" parent="." unique_id=412767159 instance=ExtResource("7")]
 position = Vector2(400, 620)

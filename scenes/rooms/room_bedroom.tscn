@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://room_bedroom"]
+[gd_scene load_steps=9 format=3 uid="uid://room_bedroom"]
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://door001" path="res://scenes/objects/door.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://hideable001" path="res://scenes/objects/hideable.tscn" id="4"]
 [ext_resource type="Script" path="res://scripts/rooms/room_bedroom_logic.gd" id="5"]
@@ -39,10 +38,6 @@ position = Vector2(1700, 640)
 
 [node name="RoomRight" type="Marker2D" parent="."]
 position = Vector2(1800, 180)
-
-[node name="DoorBack" parent="." instance=ExtResource("2")]
-position = Vector2(1750, 660)
-door_id = "door_back"
 
 [node name="Wardrobe" parent="." instance=ExtResource("4")]
 position = Vector2(100, 660)
