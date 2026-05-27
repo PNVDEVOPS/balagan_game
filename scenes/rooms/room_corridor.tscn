@@ -9,10 +9,10 @@
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
 [sub_resource type="RectangleShape2D" id="LeftWallShape"]
-size = Vector2(40, 373)
+size = Vector2(40, 700)
 
 [sub_resource type="RectangleShape2D" id="RightWallShape"]
-size = Vector2(40, 373)
+size = Vector2(40, 700)
 
 [sub_resource type="RectangleShape2D" id="ExitShape"]
 size = Vector2(60, 140)
@@ -25,16 +25,22 @@ script = ExtResource("1_corr")
 
 [node name="Background" type="ColorRect" parent="." unique_id=769216410]
 offset_right = 1600.0
-offset_bottom = 360.0
+offset_bottom = 700.0
 color = Color(0.03, 0.02, 0.05, 1)
 
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=769216411]
+offset_top = 660.0
+offset_right = 1600.0
+offset_bottom = 700.0
+color = Color(0.05, 0.04, 0.07, 1)
+
 [node name="Player" parent="." unique_id=1035253465 instance=ExtResource("2_player")]
-position = Vector2(80, 290)
+position = Vector2(80, 640)
 
 [node name="HUD" parent="." unique_id=1235727158 instance=ExtResource("3_hud")]
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=330029862]
-position = Vector2(0, 330)
+position = Vector2(0, 660)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270060]
 shape = SubResource("FloorShape")
@@ -43,44 +49,47 @@ shape = SubResource("FloorShape")
 position = Vector2(-20, 350)
 
 [node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=1485990731]
-position = Vector2(0, -176)
 shape = SubResource("LeftWallShape")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392014]
 position = Vector2(1600, 350)
 
 [node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392015]
-position = Vector2(0, -176)
 shape = SubResource("RightWallShape")
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=406902745]
-position = Vector2(80, 290)
+position = Vector2(80, 640)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1299071123]
 position = Vector2(1600, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=755932259]
-position = Vector2(0, 360)
+position = Vector2(0, 700)
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1412378077]
-position = Vector2(1560, 260)
+position = Vector2(1560, 640)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2066047497]
 shape = SubResource("ExitShape")
 
 [node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("5_exam")]
-position = Vector2(200, 200)
-examine_text = "Двор. Снег по колено, ничего не разобрать."
+position = Vector2(200, 650)
+examine_text = "Темно за окном."
 interaction_text = "Посмотреть в окно"
 
+[node name="NoteCorr1" parent="." unique_id=156421092 instance=ExtResource("5_exam")]
+position = Vector2(700, 650)
+examine_text = ""
+interaction_text = "Осмотреть записку"
+
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=874890696]
-position = Vector2(700, 260)
+position = Vector2(900, 640)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1636203791]
 shape = SubResource("LaikaTriggerShape")
 
 [node name="Laika" parent="." unique_id=157373864 instance=ExtResource("4_laika")]
-position = Vector2(1100, 290)
+position = Vector2(1200, 660)
 auto_appear = false

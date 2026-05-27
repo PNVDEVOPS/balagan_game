@@ -1,6 +1,14 @@
 extends Node2D
 
 func _ready() -> void:
+	var player := get_node_or_null("Player")
+	if player:
+		var cam: Camera2D = player.get_node_or_null("Camera2D")
+		if cam:
+			cam.limit_left = 0
+			cam.limit_right = 640
+			cam.limit_bottom = 700
+
 	var forward_zone := get_node_or_null("ForwardZone")
 	if forward_zone:
 		forward_zone.body_entered.connect(_on_forward_zone)

@@ -12,6 +12,7 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left = 0
 			cam.limit_right = 1600
+			cam.limit_bottom = 700
 
 	var exit_zone := get_node_or_null("ExitZone")
 	if exit_zone:
