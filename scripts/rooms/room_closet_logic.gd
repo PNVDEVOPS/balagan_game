@@ -7,7 +7,6 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left = 0
 			cam.limit_right = 640
-			cam.limit_bottom = 700
 
 	var forward_zone := get_node_or_null("ForwardZone")
 	if forward_zone:

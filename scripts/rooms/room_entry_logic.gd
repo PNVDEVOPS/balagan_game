@@ -7,7 +7,6 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left = 0
 			cam.limit_right = 1280
-			cam.limit_bottom = 700
 
 	var exit_door := get_node_or_null("ExitDoorZone")
 	if exit_door:
