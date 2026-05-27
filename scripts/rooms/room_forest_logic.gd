@@ -82,6 +82,8 @@ func _on_silhouette_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _silhouette_triggered:
 		return
 	_silhouette_triggered = true
+	_flash_ghost()
+	await get_tree().create_timer(0.6).timeout
 	DialogueManager.show_text("", "Там кто-то стоял. Я видел.")
 
 func _on_balagan_trigger(body: Node2D) -> void:

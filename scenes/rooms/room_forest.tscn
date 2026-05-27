@@ -194,11 +194,12 @@ texture = ExtResource("10_ssgfx")
 [node name="GhostFigure" type="Sprite2D" parent="Parallax2D2" unique_id=1847392013]
 visible = false
 modulate = Color(0.04, 0.04, 0.09, 0.88)
-position = Vector2(2373, 233.99998)
-scale = Vector2(0.28, 0.45)
+position = Vector2(2452, 218)
+scale = Vector2(0.31456792, 0.50555557)
 texture = ExtResource("6_ragbb")
 
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
+visible = false
 position = Vector2(911, 184)
 texture = ExtResource("8_i1scu")
 
@@ -293,15 +294,15 @@ position = Vector2(100, 300)
 position = Vector2(3750, 177)
 
 [node name="Laika" parent="." unique_id=1172830912 instance=ExtResource("5")]
-position = Vector2(1767, 292)
+position = Vector2(1767, 290)
 auto_appear = false
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=1923528987]
-position = Vector2(1504, 337)
+position = Vector2(1617, 337)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1876727196]
-position = Vector2(-1, -158)
+position = Vector2(2, -157)
 shape = SubResource("RectangleShape2D_laika_trigger")
 
 [node name="BrokenBranch" parent="." unique_id=1725826739 instance=ExtResource("4")]
@@ -315,7 +316,7 @@ position = Vector2(1650, 315)
 examine_text = "Старое кострище. Угли давно потухли. Камни сложены в круг."
 
 [node name="Snare" parent="." unique_id=442104949 instance=ExtResource("4")]
-position = Vector2(901, 302)
+position = Vector2(490, 298)
 examine_text = "Силок. Конский волос и кусок проволоки — старая охотничья петля."
 interaction_text = "Осмотреть [Е]"
 
@@ -340,12 +341,12 @@ visible = false
 position = Vector2(2200, 319)
 
 [node name="ShamanAmulet" parent="." unique_id=119670520 instance=ExtResource("4")]
-position = Vector2(2349, 294)
+position = Vector2(2400, 289)
 examine_text = "Амулет из птичьих костей, подвешенный на ветке."
 interaction_text = "Осмотреть [Е]"
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1689144402]
-position = Vector2(3849, 350)
+position = Vector2(3701, 353)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=3492487]
@@ -395,7 +396,7 @@ position = Vector2(1136, 183)
 texture = ExtResource("18_muwxq")
 
 [node name="КустикиПередниеSprite3" type="Sprite2D" parent="Parallax2D4" unique_id=1527280203]
-position = Vector2(1629, 184)
+position = Vector2(1689, 184)
 texture = ExtResource("18_muwxq")
 
 [node name="КустикиПередниеSprite4" type="Sprite2D" parent="Parallax2D4" unique_id=182341856]
