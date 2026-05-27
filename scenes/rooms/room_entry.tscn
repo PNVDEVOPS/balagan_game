@@ -1,66 +1,86 @@
 [gd_scene format=3 uid="uid://bwnn04woowr0b"]
 
 [ext_resource type="Script" uid="uid://bn180b0k5nyen" path="res://scripts/rooms/room_entry_logic.gd" id="1_entry"]
-[ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="2_laika"]
-[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="3_exam"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
 
-[sub_resource type="RectangleShape2D" id="ExitShape"]
+[sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
+
+[sub_resource type="RectangleShape2D" id="LeftWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="RightWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="ExitDoorShape"]
 size = Vector2(60, 140)
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)
 
-[sub_resource type="RectangleShape2D" id="LaikaShape"]
-size = Vector2(80, 160)
-
 [node name="RoomEntry" type="Node2D" unique_id=880896680]
 script = ExtResource("1_entry")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1315570580]
-offset_right = 640.0
+offset_right = 1280.0
 offset_bottom = 360.0
 color = Color(0.04, 0.02, 0.06, 1)
 
+[node name="Player" parent="." unique_id=1035253464 instance=ExtResource("2_player")]
+position = Vector2(80, 290)
+
+[node name="HUD" parent="." unique_id=1235727157 instance=ExtResource("3_hud")]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=330029861]
+position = Vector2(0, 330)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270059]
+shape = SubResource("FloorShape")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1299585735]
+position = Vector2(-20, 350)
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=1485990730]
+position = Vector2(0, -176)
+shape = SubResource("LeftWallShape")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392012]
+position = Vector2(1280, 350)
+
+[node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392013]
+position = Vector2(0, -176)
+shape = SubResource("RightWallShape")
+
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=91499139]
-position = Vector2(320, 290)
+position = Vector2(80, 290)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=746070553]
-position = Vector2(640, 0)
+position = Vector2(1280, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=1437339109]
 position = Vector2(0, 360)
 
-[node name="ExitZone" type="Area2D" parent="." unique_id=1711091007]
+[node name="ExitDoorZone" type="Area2D" parent="." unique_id=1711091007]
 position = Vector2(30, 260)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=593362008]
-shape = SubResource("ExitShape")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitDoorZone" unique_id=593362008]
+shape = SubResource("ExitDoorShape")
 
 [node name="ForwardZone" type="Area2D" parent="." unique_id=1545464917]
-position = Vector2(590, 260)
+position = Vector2(1240, 260)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone" unique_id=613535758]
 shape = SubResource("FwdShape")
 
-[node name="ClothesExaminable" parent="." unique_id=563221368 instance=ExtResource("3_exam")]
-position = Vector2(200, 270)
-examine_text = "Тяжёлая шуба. Чья-то — не понять. Давно не надевали."
+[node name="ClothesExaminable" parent="." unique_id=563221368 instance=ExtResource("4_exam")]
+position = Vector2(300, 270)
+examine_text = "Довольно старинного вида одежда."
 interaction_text = "Осмотреть"
 
-[node name="WindowEntry" parent="." unique_id=2105272201 instance=ExtResource("3_exam")]
-position = Vector2(500, 200)
+[node name="WindowEntry" parent="." unique_id=2105272201 instance=ExtResource("4_exam")]
+position = Vector2(700, 200)
 examine_text = "Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."
 interaction_text = "Посмотреть в окно"
-
-[node name="LaikaTrigger" type="Area2D" parent="." unique_id=771778865]
-position = Vector2(420, 260)
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1014131918]
-shape = SubResource("LaikaShape")
-
-[node name="Laika" parent="." unique_id=1154797512 instance=ExtResource("2_laika")]
-position = Vector2(560, 280)
-auto_appear = false
