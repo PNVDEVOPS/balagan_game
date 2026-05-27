@@ -192,14 +192,6 @@ texture = ExtResource("7_1yky7")
 position = Vector2(2163, 180)
 texture = ExtResource("10_ssgfx")
 
-[node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
-visible = false
-modulate = Color(0.6, 0.75, 1.0, 0.85)
-position = Vector2(2570, 285)
-scale = Vector2(1.8, 1.8)
-z_index = 5
-texture = ExtResource("27_spirit")
-
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
 position = Vector2(911, 184)
 texture = ExtResource("8_i1scu")
@@ -234,6 +226,14 @@ texture = ExtResource("13_6cfsq")
 [node name="Дерево1(clone)Sprite1" type="Sprite2D" parent="Parallax2D2" unique_id=192654391]
 position = Vector2(1911, 194)
 texture = ExtResource("14_vugsk")
+
+[node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
+visible = false
+modulate = Color(0.6, 0.75, 1, 0.85)
+z_index = 5
+position = Vector2(2570, 285)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("27_spirit")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=11468611]
 modulate = Color(0.55495375, 0.5549537, 0.5549537, 1)
@@ -346,11 +346,11 @@ examine_text = "Амулет из птичьих костей, подвешен�
 interaction_text = "Осмотреть [Е]"
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1689144402]
-position = Vector2(3701, 353)
+position = Vector2(3741, 353)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=3492487]
-position = Vector2(8, -171)
+position = Vector2(-1, -177)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=1192004762]
@@ -359,11 +359,11 @@ position = Vector2(0, 359)
 [node name="HUD" parent="." unique_id=630465264 instance=ExtResource("3")]
 
 [node name="ДомикSprite1" type="Sprite2D" parent="." unique_id=551851956]
-position = Vector2(3486, 166)
+position = Vector2(3606, 172)
 texture = ExtResource("26_t1kjq")
 
 [node name="ЗаборSprite1" type="Sprite2D" parent="." unique_id=1831889069]
-position = Vector2(3560, 175)
+position = Vector2(3678, 186)
 texture = ExtResource("25_7cvm8")
 
 [node name="Parallax2D4" type="Parallax2D" parent="." unique_id=1213957769]

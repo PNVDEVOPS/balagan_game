@@ -59,7 +59,9 @@
       "Bash(python /tmp/validate_scene_v2.py \"C:\\\\Users\\\\gugom\\\\OneDrive\\\\Рабочий стол\\\\Godot game\\\\scenes\\\\rooms\\\\room_entry.tscn\")",
       "Bash(python /tmp/validate_final.py)",
       "Bash(python /tmp/compare_patterns.py)",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(\"C:\\\\Users\\\\gugom\\\\AppData\\\\Local\\\\Programs\\\\Godot_v4.3-stable_win64\\\\Godot_v4.3-stable_win64.exe\" --headless --path . res://scenes/rooms/room_forest.tscn --quit)",
+      "Bash(python3 -c ' *)"
     ]
   },
   "enabledPlugins": {}
