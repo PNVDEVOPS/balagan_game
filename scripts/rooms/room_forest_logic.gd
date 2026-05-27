@@ -37,7 +37,9 @@ func _on_murder_site_examined() -> void:
 	if not _ghost_shown:
 		_ghost_shown = true
 		_flash_ghost_once()
-	DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.\n\nТакое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")
+	DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.")
+	await DialogueManager.dialogue_finished
+	DialogueManager.show_text("", "Такое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")
 
 func _flash_ghost_once() -> void:
 	var ghost := get_node_or_null("GhostFigure")
@@ -57,13 +59,10 @@ func _on_laika_trigger(body: Node2D) -> void:
 	if body.has_method("freeze"):
 		body.freeze()
 
-	var laika := get_node_or_null("Laika")
-	if laika:
-		laika.appear()
-
-	DialogueManager.show_text("", "Лайка? Чья она? Возможно она приведёт меня к людям")
+	DialogueManager.show_text("", "Лайка... Испугалась. Куда побежала?")
 	await DialogueManager.dialogue_finished
 
+	var laika := get_node_or_null("Laika")
 	if laika and is_instance_valid(laika):
 		laika.set_physics_process(false)
 		var anim: AnimatedSprite2D = laika.get_node_or_null("AnimatedSprite2D")

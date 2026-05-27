@@ -76,8 +76,8 @@ func _setup_puzzle() -> void:
 		note1 = get_node_or_null("NoteAiyyna1")
 	if note1:
 		note1.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_kydaana_1")
-			GameManager.mark_note_found("note_kydaana_1")
+			DialogueManager.start_dialogue("notes/note_kydaana_2")
+			GameManager.mark_note_found("note_kydaana_2")
 		)
 
 	# Env notes
@@ -115,7 +115,7 @@ func _on_kamylok_examined() -> void:
 		return
 	match kamylok_state:
 		KamylokState.COLD:
-			DialogueManager.show_text("", "Железная печь с чугунным поддувалом. Угли холодные — давно не топили.\n\nВнешняя сторона кована якутским узором. Тонкая работа, старая.")
+			DialogueManager.show_text("", "Камелёк — глиняный очаг, обложенный жердями. Стенки потрескались от старости.\n\nУголь холодный. Давно не топили. Запах дыма ещё держится в щелях — въелся за годы.")
 		KamylokState.BURNING:
 			DialogueManager.show_text("", "Огонь горит ровно, жарко. Среди угля — что-то поблёскивает.")
 		KamylokState.RITUAL_READY:

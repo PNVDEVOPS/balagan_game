@@ -191,10 +191,12 @@ texture = ExtResource("7_1yky7")
 position = Vector2(2163, 180)
 texture = ExtResource("10_ssgfx")
 
-[node name="GhostFigure" type="Sprite2D" parent="Parallax2D2" unique_id=1847392013]
-modulate = Color(0.6, 0.75, 1, 0)
-position = Vector2(2484.1692, 182)
-scale = Vector2(0.41509637, 0.70555556)
+[node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
+visible = false
+modulate = Color(0.55, 0.7, 1.0, 0.85)
+position = Vector2(2570, 295)
+scale = Vector2(0.38, 0.62)
+z_index = 5
 texture = ExtResource("6_ragbb")
 
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
@@ -293,7 +295,6 @@ position = Vector2(3750, 177)
 
 [node name="Laika" parent="." unique_id=1172830912 instance=ExtResource("5")]
 position = Vector2(1767, 290)
-auto_appear = false
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=1923528987]
 position = Vector2(1617, 337)

@@ -37,22 +37,29 @@ func _ready() -> void:
 
 func _setup_window(window: Node, room_id: String) -> void:
 	match room_id:
-		"entry_c1", "entry_c2":
-			window.examine_text = "Двор. Снег по колено, ничего не разобрать."
+		"entry_c1":
+			window.examine_text = "Двор занесло по пояс. Забор — едва угадывается. Где-то там загон, дровяник, тропинка к реке. Сейчас всё одно — белое."
 			window.examined.connect(func():
 				if not _window_examined:
 					_window_examined = true
-					window.examine_text = "..."
+					window.examine_text = "Смотрю и жду, что появится хоть кто-то. Но снег ровный — ни следа, ни огня."
+			)
+		"entry_c2":
+			window.examine_text = "Метель стихает. Небо чуть светлее у горизонта — не рассвет, просто луна за облаком."
+			window.examined.connect(func():
+				if not _window_examined:
+					_window_examined = true
+					window.examine_text = "Деревья стоят неподвижно. Как будто слушают."
 			)
 		"entry_c3":
-			window.examine_text = "Мне кажется, или кто-то смотрит в ответ из темноты?"
+			window.examine_text = "Тьма за стеклом такая плотная, что смотришь в неё — и кажется, что она смотрит обратно."
 			window.examined.connect(func():
 				if not _window_examined:
 					_window_examined = true
-					window.examine_text = "..."
+					window.examine_text = "Там что-то есть. Или было. Я отошёл от окна."
 			)
 		"entry_c4":
-			window.examine_text = "Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."
+			window.examine_text = "Дорога почти исчезла под снегом. Следы мои уже замело — будто я не приходил. Обратного пути нет."
 		_:
 			window.examine_text = "Темно за окном."
 
