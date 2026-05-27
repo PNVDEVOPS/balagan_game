@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://dhx6eof43qc8c" path="res://assets/sprites/forest/кустики передние_sprite_1.png" id="18_muwxq"]
 [ext_resource type="Texture2D" uid="uid://c06vuepnvy31" path="res://assets/sprites/forest/забор_sprite_1.png" id="25_7cvm8"]
 [ext_resource type="Texture2D" uid="uid://xjiwwrowlw5n" path="res://assets/sprites/forest/домик_sprite_1.png" id="26_t1kjq"]
+[ext_resource type="Texture2D" uid="uid://d4ey2udxha4dh" path="res://assets/sprites/spirit_placeholder.png" id="27_spirit"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xm6as"]
 particle_flag_disable_z = true
@@ -193,11 +194,11 @@ texture = ExtResource("10_ssgfx")
 
 [node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
 visible = false
-modulate = Color(0.55, 0.7, 1.0, 0.85)
-position = Vector2(2570, 295)
-scale = Vector2(0.38, 0.62)
+modulate = Color(0.6, 0.75, 1.0, 0.85)
+position = Vector2(2570, 285)
+scale = Vector2(1.8, 1.8)
 z_index = 5
-texture = ExtResource("6_ragbb")
+texture = ExtResource("27_spirit")
 
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
 position = Vector2(911, 184)
