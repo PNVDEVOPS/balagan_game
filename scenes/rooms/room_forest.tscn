@@ -44,7 +44,7 @@ radial_accel_max = -16.130001
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0tgta"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1200, 1, 1)
+emission_box_extents = Vector3(2100, 1, 1)
 direction = Vector3(-1, 0.4, 0)
 spread = 15.0
 initial_velocity_min = 15.0
@@ -54,7 +54,7 @@ gravity = Vector3(0, 98, 0)
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_heavy_forest"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1200, 1, 1)
+emission_box_extents = Vector3(2100, 1, 1)
 direction = Vector3(-1, 0.2, 0)
 spread = 20.0
 initial_velocity_min = 90.0
@@ -237,7 +237,7 @@ texture = ExtResource("14_vugsk")
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=11468611]
 modulate = Color(0.55495375, 0.5549537, 0.5549537, 1)
 self_modulate = Color(0.70251584, 0.8341449, 0.91095364, 1)
-position = Vector2(1180, -33)
+position = Vector2(1964, -33)
 amount = 150
 lifetime = 13.66
 preprocess = 13.66
@@ -245,7 +245,7 @@ visibility_rect = Rect2(-3000, -400, 8000, 1000)
 process_material = SubResource("ParticleProcessMaterial_0tgta")
 
 [node name="SnowHeavy" type="GPUParticles2D" parent="." unique_id=1946372810]
-position = Vector2(1180, -30)
+position = Vector2(1964, -30)
 amount = 700
 lifetime = 3.5
 preprocess = 3.5
@@ -257,7 +257,7 @@ process_material = SubResource("ParticleProcessMaterial_heavy_forest")
 [node name="Parallax2D3" type="Parallax2D" parent="." unique_id=502402756]
 scroll_scale = Vector2(0.9, 1)
 repeat_size = Vector2(640, 0)
-repeat_times = 5
+repeat_times = 7
 
 [node name="СлойСнегаSprite1" type="Sprite2D" parent="Parallax2D3" unique_id=2005946862]
 position = Vector2(320, 184)

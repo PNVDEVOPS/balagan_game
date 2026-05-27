@@ -26,7 +26,7 @@ func _ready() -> void:
 	if GameManager.escape_attempts == 1:
 		await get_tree().process_frame
 		await get_tree().process_frame
-		SubtitleManager.show_subtitle("Что здесь происходит?", SubtitleManager.Pos.TOP_LEFT)
+		DialogueManager.show_text("", "Что здесь происходит?")
 
 func _on_exit_door(body: Node2D) -> void:
 	if not body.is_in_group("player"):
