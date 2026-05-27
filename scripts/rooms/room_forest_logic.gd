@@ -34,26 +34,20 @@ func _ready() -> void:
 		murder.examined.connect(_on_murder_site_examined)
 
 func _on_murder_site_examined() -> void:
-	_flash_ghost()
+	if not _ghost_shown:
+		_ghost_shown = true
+		_flash_ghost_once()
 	DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.\n\nТакое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")
 
-func _flash_ghost() -> void:
-	if _ghost_shown:
-		return
-	_ghost_shown = true
+func _flash_ghost_once() -> void:
 	var ghost := get_node_or_null("GhostFigure")
 	if not ghost:
 		return
+	ghost.modulate = Color(0.6, 0.75, 1.0, 0.8)
 	ghost.visible = true
-	var tween := create_tween()
-	# fade in
-	tween.tween_property(ghost, "modulate:a", 0.75, 0.4)
-	# hold
-	tween.tween_interval(0.8)
-	# fade out
-	tween.tween_property(ghost, "modulate:a", 0.0, 0.6)
-	await tween.finished
+	await get_tree().create_timer(1.2).timeout
 	ghost.visible = false
+	ghost.modulate = Color(0.6, 0.75, 1.0, 0.0)
 
 func _on_laika_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _laika_appeared:
@@ -89,9 +83,16 @@ func _on_silhouette_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _silhouette_triggered:
 		return
 	_silhouette_triggered = true
-	_flash_ghost()
+	var ghost := get_node_or_null("GhostFigure")
+	if ghost:
+		ghost.modulate = Color(0.6, 0.75, 1.0, 0.8)
+		ghost.visible = true
 	await get_tree().create_timer(0.5).timeout
 	DialogueManager.show_text("", "Там кто-то стоял. Я видел.")
+	await get_tree().create_timer(1.5).timeout
+	if ghost:
+		ghost.visible = false
+		ghost.modulate = Color(0.6, 0.75, 1.0, 0.0)
 
 func _on_balagan_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _balagan_triggered:

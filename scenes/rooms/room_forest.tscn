@@ -192,14 +192,12 @@ position = Vector2(2163, 180)
 texture = ExtResource("10_ssgfx")
 
 [node name="GhostFigure" type="Sprite2D" parent="Parallax2D2" unique_id=1847392013]
-visible = false
-modulate = Color(0.6, 0.75, 1.0, 0.0)
-position = Vector2(2452, 218)
-scale = Vector2(0.31456792, 0.50555557)
+modulate = Color(0.6, 0.75, 1, 0)
+position = Vector2(2484.1692, 182)
+scale = Vector2(0.41509637, 0.70555556)
 texture = ExtResource("6_ragbb")
 
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
-visible = false
 position = Vector2(911, 184)
 texture = ExtResource("8_i1scu")
 
