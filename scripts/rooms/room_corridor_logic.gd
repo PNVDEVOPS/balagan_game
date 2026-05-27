@@ -26,6 +26,10 @@ func _ready() -> void:
 	if window:
 		_setup_window(window, room_id)
 
+	var note := get_node_or_null("NoteCorr1")
+	if note:
+		_setup_note(note, room_id)
+
 	if room_id == "entry_c4":
 		var laika_trigger := get_node_or_null("LaikaTrigger")
 		if laika_trigger:
@@ -51,6 +55,21 @@ func _setup_window(window: Node, room_id: String) -> void:
 			window.examine_text = "Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."
 		_:
 			window.examine_text = "Темно за окном."
+
+func _setup_note(note: Node, room_id: String) -> void:
+	var note_key := ""
+	match room_id:
+		"entry_c1": note_key = "note_env_2"
+		"entry_c2": note_key = "note_env_3"
+		"entry_c3": note_key = "note_father_3"
+		"entry_c4": note_key = "note_father_4"
+	if note_key.is_empty():
+		note.queue_free()
+		return
+	note.examined.connect(func():
+		DialogueManager.start_dialogue("notes/" + note_key)
+		GameManager.mark_note_found(note_key)
+	)
 
 func _on_exit_zone(body: Node2D) -> void:
 	if body.is_in_group("player"):

@@ -16,6 +16,13 @@ func _ready() -> void:
 	if forward:
 		forward.body_entered.connect(_on_forward_zone)
 
+	var note := get_node_or_null("NoteEntry1")
+	if note:
+		note.examined.connect(func():
+			DialogueManager.start_dialogue("notes/note_kydaana_2")
+			GameManager.mark_note_found("note_kydaana_2")
+		)
+
 	if GameManager.escape_attempts == 1:
 		await get_tree().process_frame
 		await get_tree().process_frame
