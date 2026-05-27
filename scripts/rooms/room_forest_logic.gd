@@ -45,7 +45,14 @@ func _flash_ghost() -> void:
 	if not ghost:
 		return
 	ghost.visible = true
-	await get_tree().create_timer(1.0).timeout
+	var tween := create_tween()
+	# fade in
+	tween.tween_property(ghost, "modulate:a", 0.75, 0.4)
+	# hold
+	tween.tween_interval(0.8)
+	# fade out
+	tween.tween_property(ghost, "modulate:a", 0.0, 0.6)
+	await tween.finished
 	ghost.visible = false
 
 func _on_laika_trigger(body: Node2D) -> void:
@@ -83,7 +90,7 @@ func _on_silhouette_trigger(body: Node2D) -> void:
 		return
 	_silhouette_triggered = true
 	_flash_ghost()
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(0.5).timeout
 	DialogueManager.show_text("", "Там кто-то стоял. Я видел.")
 
 func _on_balagan_trigger(body: Node2D) -> void:
