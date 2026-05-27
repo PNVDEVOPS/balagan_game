@@ -16,12 +16,6 @@ func _ready() -> void:
 	if forward:
 		forward.body_entered.connect(_on_forward_zone)
 
-	var clothes := get_node_or_null("ClothesExaminable")
-	if clothes:
-		clothes.examined.connect(func():
-			DialogueManager.show_text("", "Довольно старинного вида одежда.")
-		)
-
 	if GameManager.escape_attempts == 1:
 		await get_tree().process_frame
 		await get_tree().process_frame

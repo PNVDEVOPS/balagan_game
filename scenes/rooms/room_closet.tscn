@@ -1,7 +1,17 @@
 [gd_scene format=3 uid="uid://csrstlaog537j"]
 
 [ext_resource type="Script" uid="uid://tivhok4mwjms" path="res://scripts/rooms/room_closet_logic.gd" id="1_clos"]
-[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="2_exam"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
+
+[sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
+
+[sub_resource type="RectangleShape2D" id="LeftWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="RightWallShape"]
+size = Vector2(40, 373)
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)
@@ -14,11 +24,36 @@ offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0.05, 0.03, 0.04, 1)
 
+[node name="Player" parent="." unique_id=1035253466 instance=ExtResource("2_player")]
+position = Vector2(80, 290)
+
+[node name="HUD" parent="." unique_id=1235727159 instance=ExtResource("3_hud")]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=330029863]
+position = Vector2(0, 330)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270061]
+shape = SubResource("FloorShape")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1299585737]
+position = Vector2(-20, 350)
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=1485990732]
+position = Vector2(0, -176)
+shape = SubResource("LeftWallShape")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392016]
+position = Vector2(640, 350)
+
+[node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392017]
+position = Vector2(0, -176)
+shape = SubResource("RightWallShape")
+
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1335134438]
 position = Vector2(80, 290)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1731915596]
-position = Vector2(640, 0)
+position = Vector2(640, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=2092527239]
 position = Vector2(0, 360)
@@ -30,16 +65,16 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone" unique_id=359820628]
 shape = SubResource("FwdShape")
 
-[node name="KapkansExaminable" parent="." unique_id=14846692 instance=ExtResource("2_exam")]
+[node name="KapkansExaminable" parent="." unique_id=14846692 instance=ExtResource("4_exam")]
 position = Vector2(280, 270)
 examine_text = "Ржавые капканы. Один сломан — пружина лопнула. Давно."
 interaction_text = "Осмотреть"
 
-[node name="ChestExaminable" parent="." unique_id=1466904414 instance=ExtResource("2_exam")]
+[node name="ChestExaminable" parent="." unique_id=1466904414 instance=ExtResource("4_exam")]
 position = Vector2(420, 270)
 examine_text = "Деревянный ларец. Внутри — записка."
 interaction_text = "Осмотреть"
 
-[node name="ShelvesExamine" parent="." unique_id=2126327350 instance=ExtResource("2_exam")]
+[node name="ShelvesExamine" parent="." unique_id=2126327350 instance=ExtResource("4_exam")]
 position = Vector2(520, 220)
 interaction_text = "Осмотреть полку"
