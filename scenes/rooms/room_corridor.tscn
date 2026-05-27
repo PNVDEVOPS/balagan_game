@@ -1,55 +1,86 @@
 [gd_scene format=3 uid="uid://ceyj8lw7koq7e"]
 
 [ext_resource type="Script" uid="uid://33qigk25a227" path="res://scripts/rooms/room_corridor_logic.gd" id="1_corr"]
-[ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="2_laika"]
-[ext_resource type="PackedScene" uid="uid://cubt8kdlixynf" path="res://scenes/characters/spirit_guardian.tscn" id="3_spirit"]
-[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4_laika"]
+[ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5_exam"]
 
-[sub_resource type="RectangleShape2D" id="FwdShape"]
+[sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
+
+[sub_resource type="RectangleShape2D" id="LeftWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="RightWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="ExitShape"]
 size = Vector2(60, 140)
 
-[sub_resource type="RectangleShape2D" id="LaikaShape"]
+[sub_resource type="RectangleShape2D" id="LaikaTriggerShape"]
 size = Vector2(80, 160)
 
 [node name="RoomCorridor" type="Node2D" unique_id=131571024]
 script = ExtResource("1_corr")
 
 [node name="Background" type="ColorRect" parent="." unique_id=769216410]
-offset_right = 640.0
+offset_right = 1600.0
 offset_bottom = 360.0
 color = Color(0.03, 0.02, 0.05, 1)
+
+[node name="Player" parent="." unique_id=1035253465 instance=ExtResource("2_player")]
+position = Vector2(80, 290)
+
+[node name="HUD" parent="." unique_id=1235727158 instance=ExtResource("3_hud")]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=330029862]
+position = Vector2(0, 330)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270060]
+shape = SubResource("FloorShape")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1299585736]
+position = Vector2(-20, 350)
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=1485990731]
+position = Vector2(0, -176)
+shape = SubResource("LeftWallShape")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392014]
+position = Vector2(1600, 350)
+
+[node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392015]
+position = Vector2(0, -176)
+shape = SubResource("RightWallShape")
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=406902745]
 position = Vector2(80, 290)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1299071123]
-position = Vector2(640, 0)
+position = Vector2(1600, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=755932259]
 position = Vector2(0, 360)
 
-[node name="ForwardZone" type="Area2D" parent="." unique_id=1412378077]
-position = Vector2(590, 260)
+[node name="ExitZone" type="Area2D" parent="." unique_id=1412378077]
+position = Vector2(1560, 260)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone" unique_id=2066047497]
-shape = SubResource("FwdShape")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2066047497]
+shape = SubResource("ExitShape")
+
+[node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("5_exam")]
+position = Vector2(200, 200)
+examine_text = "Двор. Снег по колено, ничего не разобрать."
+interaction_text = "Посмотреть в окно"
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=874890696]
-position = Vector2(400, 260)
+position = Vector2(700, 260)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1636203791]
-shape = SubResource("LaikaShape")
+shape = SubResource("LaikaTriggerShape")
 
-[node name="Laika" parent="." unique_id=157373864 instance=ExtResource("2_laika")]
-position = Vector2(560, 280)
+[node name="Laika" parent="." unique_id=157373864 instance=ExtResource("4_laika")]
+position = Vector2(1100, 290)
 auto_appear = false
-
-[node name="SpiritGuardian" parent="." unique_id=1587675299 instance=ExtResource("3_spirit")]
-position = Vector2(300, 280)
-
-[node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("4_exam")]
-position = Vector2(160, 200)
-examine_text = "Черно. Только снег мельтешит в свете луны. Тихо, как будто мир снаружи вымер."
-interaction_text = "Посмотреть в окно"
