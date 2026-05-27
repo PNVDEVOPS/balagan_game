@@ -33,39 +33,6 @@ func _ready() -> void:
 	if murder:
 		murder.examined.connect(_on_murder_site_examined)
 
-	# Кыдаана note 2 — with fallback for old node name
-	var kydaana2 := get_node_or_null("NoteKydaana2")
-	if not kydaana2:
-		kydaana2 = get_node_or_null("NoteAiyyna2")
-	if kydaana2:
-		kydaana2.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_kydaana_2")
-			GameManager.mark_note_found("note_kydaana_2")
-		)
-
-	# Father's last note (note_father_4)
-	var father_last := get_node_or_null("NoteFatherLast")
-	if father_last:
-		father_last.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_father_4")
-			GameManager.mark_note_found("note_father_4")
-		)
-
-	# Old NoteForestFather also maps to father notes
-	var forest_father := get_node_or_null("NoteForestFather")
-	if forest_father:
-		forest_father.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_father_3")
-			GameManager.mark_note_found("note_father_3")
-		)
-
-	var env2 := get_node_or_null("NoteEnv2")
-	if env2:
-		env2.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_env_2")
-			GameManager.mark_note_found("note_env_2")
-		)
-
 func _on_murder_site_examined() -> void:
 	_flash_ghost()
 	DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.\n\nТакое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")

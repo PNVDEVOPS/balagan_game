@@ -51,7 +51,15 @@
       "Read(//c/Users/gugom/OneDrive/Рабочий стол/Godot Game 2/**)",
       "Read(//c/Users/gugom/OneDrive/Рабочий стол/Godot Game 2/scenes/rooms/**)",
       "PowerShell(Get-ChildItem -Path \"C:/Users/gugom/OneDrive/Рабочий стол/Godot game/\" -Recurse -File | Where-Object {$_.Extension -in @\\('.tscn', '.tres', '.gd', '.gdshader'\\)} | Sort-Object FullName | Select-Object -ExpandProperty FullName)",
-      "Bash([ ! -f \"C:/Users/gugom/OneDrive/Рабочий стол/Godot game/$f\" ])"
+      "Bash([ ! -f \"C:/Users/gugom/OneDrive/Рабочий стол/Godot game/$f\" ])",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\gugom\\\\OneDrive\\\\Рабочий стол\\\\Godot game\\\\scenes\\\\rooms\" -Filter \"*.tscn\")",
+      "Bash(Select-Object Name)",
+      "Bash(cat)",
+      "Bash(python /tmp/validate_scene.py \"C:\\\\Users\\\\gugom\\\\OneDrive\\\\Рабочий стол\\\\Godot game\\\\scenes\\\\rooms\\\\room_entry.tscn\")",
+      "Bash(python /tmp/validate_scene_v2.py \"C:\\\\Users\\\\gugom\\\\OneDrive\\\\Рабочий стол\\\\Godot game\\\\scenes\\\\rooms\\\\room_entry.tscn\")",
+      "Bash(python /tmp/validate_final.py)",
+      "Bash(python /tmp/compare_patterns.py)",
+      "Skill(update-config)"
     ]
   },
   "enabledPlugins": {}

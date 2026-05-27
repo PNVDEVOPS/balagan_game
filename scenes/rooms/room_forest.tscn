@@ -191,12 +191,19 @@ texture = ExtResource("7_1yky7")
 position = Vector2(2163, 180)
 texture = ExtResource("10_ssgfx")
 
+[node name="GhostFigure" type="Sprite2D" parent="Parallax2D2" unique_id=1847392013]
+visible = false
+modulate = Color(0.04, 0.04, 0.09, 0.88)
+position = Vector2(2373, 233.99998)
+scale = Vector2(0.28, 0.45)
+texture = ExtResource("6_ragbb")
+
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2" unique_id=1280577331]
 position = Vector2(911, 184)
 texture = ExtResource("8_i1scu")
 
 [node name="ПенекSprite1" type="Sprite2D" parent="Parallax2D2/ПенекSprite1" unique_id=643181867]
-position = Vector2(2094, 28)
+position = Vector2(2005, -1)
 texture = ExtResource("8_i1scu")
 
 [node name="Дерево2Sprite1" type="Sprite2D" parent="Parallax2D2" unique_id=705245447]
@@ -297,10 +304,6 @@ collision_layer = 0
 position = Vector2(-1, -158)
 shape = SubResource("RectangleShape2D_laika_trigger")
 
-[node name="NoteForestFather" parent="." unique_id=1458961493 instance=ExtResource("4")]
-visible = false
-position = Vector2(500, 319)
-
 [node name="BrokenBranch" parent="." unique_id=1725826739 instance=ExtResource("4")]
 visible = false
 position = Vector2(700, 319)
@@ -341,14 +344,6 @@ position = Vector2(2349, 294)
 examine_text = "Амулет из птичьих костей, подвешенный на ветке."
 interaction_text = "Осмотреть [Е]"
 
-[node name="NoteFatherLast" parent="." unique_id=1777518016 instance=ExtResource("4")]
-visible = false
-position = Vector2(1900, 319)
-
-[node name="NoteAiyyna2" parent="." unique_id=1857881688 instance=ExtResource("4")]
-visible = false
-position = Vector2(1300, 319)
-
 [node name="ExitZone" type="Area2D" parent="." unique_id=1689144402]
 position = Vector2(3849, 350)
 collision_layer = 0
@@ -362,13 +357,17 @@ position = Vector2(0, 359)
 
 [node name="HUD" parent="." unique_id=630465264 instance=ExtResource("3")]
 
+[node name="ДомикSprite1" type="Sprite2D" parent="." unique_id=551851956]
+position = Vector2(3486, 166)
+texture = ExtResource("26_t1kjq")
+
+[node name="ЗаборSprite1" type="Sprite2D" parent="." unique_id=1831889069]
+position = Vector2(3560, 175)
+texture = ExtResource("25_7cvm8")
+
 [node name="Parallax2D4" type="Parallax2D" parent="." unique_id=1213957769]
 scroll_scale = Vector2(1.1, 1)
 scroll_offset = Vector2(0, -10)
-
-[node name="ДомикSprite1" type="Sprite2D" parent="Parallax2D4" unique_id=551851956]
-position = Vector2(3603, 176)
-texture = ExtResource("26_t1kjq")
 
 [node name="СухДерево3Sprite1" type="Sprite2D" parent="Parallax2D4" unique_id=695268672]
 position = Vector2(1427, 163.00002)
@@ -407,13 +406,9 @@ texture = ExtResource("18_muwxq")
 position = Vector2(525, 183)
 texture = ExtResource("18_muwxq")
 
-[node name="ЗаборSprite1" type="Sprite2D" parent="Parallax2D4" unique_id=1831889069]
-position = Vector2(3677, 185)
-texture = ExtResource("25_7cvm8")
-
 [node name="Parallax2D7" type="Parallax2D" parent="." unique_id=640116831]
 scroll_scale = Vector2(1.2, 1)
-scroll_offset = Vector2(0, -10)
+scroll_offset = Vector2(0, 1)
 repeat_size = Vector2(640, 0)
 repeat_times = 5
 
@@ -435,15 +430,8 @@ position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392011]
-position = Vector2(3920, 350)
+position = Vector2(3906, 348)
 
 [node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392012]
 position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_right_wall")
-
-[node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
-visible = false
-position = Vector2(2220, 278)
-scale = Vector2(0.28, 0.45)
-modulate = Color(0.04, 0.04, 0.09, 0.88)
-texture = ExtResource("6_ragbb")
