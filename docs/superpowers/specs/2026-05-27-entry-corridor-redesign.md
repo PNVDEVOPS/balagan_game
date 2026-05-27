@@ -39,7 +39,8 @@ entry → entry_c1 → entry_c2 → closet → entry_c3 → entry_c4 → main_ha
 | SpawnPoint | Marker2D | (80, 290) |
 | RoomRight | Marker2D | (1280, 180) |
 | RoomBottom | Marker2D | (0, 360) |
-| ExitZone | Area2D + RectangleShape2D(60×140) | x=1240 |
+| ExitDoorZone | Area2D + RectangleShape2D(60×140) | x=30 (левый край) — попытка выйти из дома |
+| ForwardZone | Area2D + RectangleShape2D(60×140) | x=1240 (правый край) — вглубь дома |
 | ClothesExaminable | instance examinable.tscn | x=300 |
 | WindowEntry | instance examinable.tscn | x=700 |
 | LaikaTrigger | Area2D | убрать (Лайка не в entry) |
@@ -48,8 +49,16 @@ entry → entry_c1 → entry_c2 → closet → entry_c3 → entry_c4 → main_ha
 ### Контент
 - **ClothesExaminable** `examine_text`: `"Довольно старинного вида одежда."`
 - **WindowEntry** `examine_text`: `"Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."`
-- Никаких субтитров при входе
-- Никаких субтитров при осмотре объектов
+- Никаких субтитров при первом входе
+
+### Механика петли (ExitDoorZone)
+
+Игрок может пытаться выйти из дома через левую дверь — его возвращает обратно в `entry`.
+
+- Счётчик попыток хранится в `GameManager.escape_attempts` (персистентный между сценами)
+- При входе в `ExitDoorZone`: `escape_attempts += 1`, затем `change_room("door_exit")`
+- `door_exit` в room_graph указывает обратно на `"entry"` — бесконечная петля
+- При загрузке `entry` с `escape_attempts >= 1`: SubtitleManager показывает **"Что здесь происходит?"** (один раз при `== 1`, дальнейшие попытки — тихо)
 
 ---
 
@@ -71,7 +80,6 @@ entry → entry_c1 → entry_c2 → closet → entry_c3 → entry_c4 → main_ha
 | RoomBottom | Marker2D | (0, 360) |
 | ExitZone | Area2D + RectangleShape2D(60×140) | x=1560 |
 | WindowExamine | instance examinable.tscn | x=200 |
-| SpiritGuardian | instance spirit_guardian.tscn | x=900, без триггера |
 | LaikaTrigger | Area2D + RectangleShape2D(80×160) | x=700 |
 | Laika | instance laika.tscn | x=1100, auto_appear=false |
 
@@ -92,7 +100,7 @@ entry → entry_c1 → entry_c2 → closet → entry_c3 → entry_c4 → main_ha
 | `entry_c4` | LaikaTrigger (один раз) | DialogueManager: `"Опять эта лайка… Возможно, она ведёт меня куда-то?"` |
 | `entry_c4` | Осмотр окна | `"Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."` (нет повторного) |
 
-- **SpiritGuardian** — присутствует визуально во всех коридорах, без триггеров и реплик
+- **SpiritGuardian** — убран из сцены полностью
 
 ---
 
@@ -101,10 +109,17 @@ entry → entry_c1 → entry_c2 → closet → entry_c3 → entry_c4 → main_ha
 ```
 _ready():
   - Установить cam.limit_right = 1280 (через Player → Camera2D)
-  - Подключить ExitZone.body_entered → _on_exit_zone
-  - Подключить ClothesExaminable.examined → examine_text напрямую через examinable (examine_text уже задан в сцене)
+  - Подключить ExitDoorZone.body_entered → _on_exit_door
+  - Подключить ForwardZone.body_entered → _on_forward_zone
+  - Если GameManager.escape_attempts == 1:
+      SubtitleManager.show_subtitle("Что здесь происходит?", TOP_LEFT)
 
-_on_exit_zone(body):
+_on_exit_door(body):
+  - if player:
+      GameManager.escape_attempts += 1
+      GameManager.change_room("door_exit")   # петля обратно в entry
+
+_on_forward_zone(body):
   - if player → GameManager.change_room("door_forward")
 ```
 
@@ -138,7 +153,7 @@ _on_laika_trigger(body):
 ```json
 "entry": {
   "scene": "res://scenes/rooms/room_entry.tscn",
-  "doors": { "door_forward": "entry_c1" }
+  "doors": { "door_forward": "entry_c1", "door_exit": "entry" }
 },
 "entry_c1": {
   "scene": "res://scenes/rooms/room_corridor.tscn",
