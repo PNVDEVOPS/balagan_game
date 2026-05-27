@@ -10,11 +10,27 @@
     },
     "entry": {
       "scene": "res://scenes/rooms/room_entry.tscn",
-      "doors": { "door_forward": "closet", "door_exit": "main_hall" }
+      "doors": { "door_forward": "entry_c1", "door_exit": "entry" }
+    },
+    "entry_c1": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "entry_c2" }
+    },
+    "entry_c2": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "closet" }
+    },
+    "entry_c3": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "entry_c4" }
+    },
+    "entry_c4": {
+      "scene": "res://scenes/rooms/room_corridor.tscn",
+      "doors": { "door_forward": "main_hall" }
     },
     "closet": {
       "scene": "res://scenes/rooms/room_closet.tscn",
-      "doors": { "door_forward": "entry2" }
+      "doors": { "door_forward": "entry_c3" }
     },
     "entry2": {
       "scene": "res://scenes/rooms/room_entry.tscn",
