@@ -59,7 +59,7 @@ func _on_laika_trigger(body: Node2D) -> void:
 	if body.has_method("freeze"):
 		body.freeze()
 
-	DialogueManager.show_text("", "Лайка... Испугалась. Куда побежала?")
+	DialogueManager.show_text("", "Лайка? Куда побежала? Возможно она приведёт меня к людям.")
 	await DialogueManager.dialogue_finished
 
 	var laika := get_node_or_null("Laika")
@@ -82,16 +82,7 @@ func _on_silhouette_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _silhouette_triggered:
 		return
 	_silhouette_triggered = true
-	var ghost := get_node_or_null("GhostFigure")
-	if ghost:
-		ghost.modulate = Color(0.6, 0.75, 1.0, 0.8)
-		ghost.visible = true
-	await get_tree().create_timer(0.5).timeout
 	DialogueManager.show_text("", "Там кто-то стоял. Я видел.")
-	await get_tree().create_timer(1.5).timeout
-	if ghost:
-		ghost.visible = false
-		ghost.modulate = Color(0.6, 0.75, 1.0, 0.0)
 
 func _on_balagan_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _balagan_triggered:
