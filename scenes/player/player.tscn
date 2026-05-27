@@ -19,6 +19,7 @@ shape = SubResource("RectangleShape2D_col")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2104586973]
 position = Vector2(0, -32)
+scale = Vector2(0.25, 0.25)
 sprite_frames = ExtResource("3")
 animation = &"idle"
 autoplay = "idle"
