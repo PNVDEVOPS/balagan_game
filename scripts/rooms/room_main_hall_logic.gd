@@ -132,22 +132,24 @@ func _on_damper_examined() -> void:
 	DialogueManager.show_text("", "Чугунная задвижка дымохода. Закрыта.")
 	await DialogueManager.dialogue_finished
 	_damper_open = true
-	DialogueManager.show_text("", "Открываю. Что-то падает на поленья — маленькое, тёмное.")
+	DialogueManager.show_text("", "Открываю. В темноте трубы — что-то поблёскивает. Не достать так.")
+
+func _fire_lit() -> void:
+	DialogueManager.show_text("", "Ты бросаешь дрова. Огонь занимается медленно, потом ярко — камелёк снова живёт.")
+	await DialogueManager.dialogue_finished
+	await get_tree().create_timer(2.0).timeout
+	DialogueManager.show_text("", "Среди огня — что-то не горит. Маленькое, тёмное. Харысхал.")
 	await DialogueManager.dialogue_finished
 	var amulet := get_node_or_null("AmuletPickable")
 	if amulet:
 		amulet.visible = true
 		amulet.set_deferred("monitoring", true)
 
-func _fire_lit() -> void:
-	DialogueManager.show_text("", "Ты бросаешь дрова. Огонь занимается медленно, потом ярко — камелёк снова живёт.")
-	await DialogueManager.dialogue_finished
-	await get_tree().create_timer(1.0).timeout
-	_show_kydaana_spirit()
-
 func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")
-	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в тепле все эти годы.")
+	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в огне все эти годы.")
+	await DialogueManager.dialogue_finished
+	_show_kydaana_spirit()
 
 func _show_kydaana_spirit() -> void:
 	var silhouette := Sprite2D.new()
@@ -155,7 +157,7 @@ func _show_kydaana_spirit() -> void:
 	if ResourceLoader.exists(tex_path):
 		silhouette.texture = load(tex_path)
 	silhouette.modulate = Color(0.2, 0.2, 0.5, 0.0)
-	silhouette.position = Vector2(1400, 580)
+	silhouette.position = Vector2(1400, 200)
 	silhouette.scale = Vector2(1.8, 1.8)
 	add_child(silhouette)
 

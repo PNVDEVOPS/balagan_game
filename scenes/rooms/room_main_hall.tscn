@@ -2,118 +2,118 @@
 
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5"]
 [ext_resource type="Script" uid="uid://cpjkte3x2o1qw" path="res://scripts/rooms/room_main_hall_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="7"]
-[ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
+size = Vector2(40, 373)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
-size = Vector2(60, 400)
+size = Vector2(60, 360)
 
 [node name="RoomMainHall" type="Node2D" unique_id=1713279881]
 script = ExtResource("6")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2010495703]
 offset_right = 2400.0
-offset_bottom = 700.0
+offset_bottom = 360.0
 color = Color(0.102, 0.059, 0.039, 1)
 
 [node name="FloorVisual" type="ColorRect" parent="." unique_id=349864924]
-offset_top = 660.0
+offset_top = 330.0
 offset_right = 2400.0
-offset_bottom = 700.0
+offset_bottom = 360.0
 color = Color(0.176, 0.106, 0.063, 1)
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=330029860]
-position = Vector2(0, 660)
+position = Vector2(0, 330)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270058]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1299585735]
+position = Vector2(-20, 350)
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=1485990730]
+position = Vector2(0, -176)
+shape = SubResource("RectangleShape2D_left")
+
 [node name="Player" parent="." unique_id=1035253463 instance=ExtResource("1")]
-position = Vector2(1200, 640)
+position = Vector2(80, 300)
+
+[node name="HUD" parent="." unique_id=1235727156 instance=ExtResource("3")]
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=783490545]
-position = Vector2(1200, 640)
+position = Vector2(80, 300)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1674324491]
 position = Vector2(2400, 180)
 
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=763442234]
+position = Vector2(0, 360)
+
 [node name="ExitZone" type="Area2D" parent="." unique_id=2081614143]
-position = Vector2(2390, 500)
+position = Vector2(2380, 180)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2081614144]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="Laika" parent="." unique_id=1849410618 instance=ExtResource("4")]
-position = Vector2(1200, 648)
-auto_appear = false
-
-[node name="TableExamine" parent="." unique_id=1154507970 instance=ExtResource("5")]
-position = Vector2(1600, 660)
-examine_text = "Стол накрыт на одного. Тарелка с едой, ещё тёплая. Кто-то ждал гостей."
-
 [node name="WoodPickable" parent="." unique_id=860000060 instance=ExtResource("7")]
-position = Vector2(450, 660)
+position = Vector2(450, 310)
 item_id = "firewood"
 item_name = "Вязанка дров"
 pickup_text = "Берёзовые дрова. Сухие. Кто-то заготовил заранее."
 
-[node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
-position = Vector2(2000, 660)
-
-[node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
-position = Vector2(1800, 620)
-
-[node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
-visible = false
-position = Vector2(1900, 660)
-monitoring = false
-item_id = "amulet"
-item_name = "Харысхал"
-pickup_text = "Харысхал. Тёплый на ощупь — будто жил в тепле все эти годы."
-
-[node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
-position = Vector2(1400, 620)
+[node name="FoxRiddleCarving" parent="." unique_id=242742010 instance=ExtResource("5")]
+position = Vector2(500, 260)
+examine_text = "Красная лисица из норы выглядывает,\nбелые щёки лижет — никто не перечит.\nСпит — погаснет, кормят — растёт."
+interaction_text = "Прочитать надпись"
 
 [node name="NoteEnv1" parent="." unique_id=242742007 instance=ExtResource("5")]
-position = Vector2(200, 620)
+position = Vector2(200, 280)
 examine_text = "На притолоке вырезаны слова, уже потемневшие: «Эбэ, хаан буолуой». Чтобы духи предков берегли этот порог."
 interaction_text = "Осмотреть притолоку"
 
 [node name="NoteEnv5" parent="." unique_id=242742008 instance=ExtResource("5")]
-position = Vector2(700, 580)
+position = Vector2(700, 260)
 examine_text = "Дом. Собака. Солнце. Буквами снизу — неровно: «Кыдаана»."
 interaction_text = "Осмотреть рисунок"
 
+[node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
+position = Vector2(1300, 280)
+
+[node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
+position = Vector2(1700, 280)
+
 [node name="Damper" parent="." unique_id=242742009 instance=ExtResource("5")]
-position = Vector2(1900, 620)
+position = Vector2(1900, 280)
 examine_text = "Чугунная задвижка дымохода."
 interaction_text = "Осмотреть задвижку"
 
-[node name="FoxRiddleCarving" parent="." unique_id=242742010 instance=ExtResource("5")]
-position = Vector2(500, 580)
-examine_text = "Красная лисица из норы выглядывает,\nбелые щёки лижет — никто не перечит.\nСпит — погаснет, кормят — растёт."
-interaction_text = "Прочитать надпись"
+[node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
+position = Vector2(2000, 310)
+
+[node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
+visible = false
+position = Vector2(2000, 310)
+monitoring = false
+item_id = "amulet"
+item_name = "Харысхал"
+pickup_text = "Харысхал. Тёплый на ощупь — будто жил в огне все эти годы."
 
 [node name="LoopFallenPicture" type="ColorRect" parent="." unique_id=1427627737]
 visible = false
 offset_left = 250.0
-offset_top = 540.0
+offset_top = 220.0
 offset_right = 290.0
-offset_bottom = 600.0
+offset_bottom = 280.0
 color = Color(0.05, 0.03, 0.02, 1)
 
 [node name="LoopWallText" parent="." unique_id=95727743 instance=ExtResource("5")]
 visible = false
-position = Vector2(1100, 600)
+position = Vector2(1100, 280)
 examine_text = "На стене — нацарапано. «УХОДИ». Буквы неровные, будто в спешке."
-
-[node name="RoomBottom" type="Marker2D" parent="." unique_id=763442234]
-position = Vector2(0, 700)
-
-[node name="HUD" parent="." unique_id=1235727156 instance=ExtResource("3")]
