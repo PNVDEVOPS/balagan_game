@@ -69,33 +69,36 @@ position = Vector2(2000, 660)
 [node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
 position = Vector2(1800, 620)
 
-[node name="KeyPickable" parent="." unique_id=42400403 instance=ExtResource("7")]
-visible = false
-position = Vector2(2000, 660)
-monitoring = false
-item_id = "chest_key_1"
-item_name = "Ключ от сундука"
-pickup_text = "Старый ключ. Нашёлся среди углей камелька."
-
-[node name="ChestAmulet" parent="." unique_id=340881463 instance=ExtResource("8")]
-position = Vector2(2200, 660)
-success_text = "Крышка поддаётся. Внутри что-то завёрнуто в старую кожу."
-fail_text = "Сундук заперт. Нужен ключ."
-required_item = "chest_key_1"
-
 [node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
 visible = false
-position = Vector2(2200, 660)
+position = Vector2(1900, 660)
 monitoring = false
 item_id = "amulet"
-item_name = "Амулет"
-pickup_text = "Древняя косточка. Тёплая на ощупь, будто живая."
+item_name = "Харысхал"
+pickup_text = "Харысхал. Тёплый на ощупь — будто жил в тепле все эти годы."
 
 [node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
 position = Vector2(1400, 620)
 
-[node name="NoteAiyyna1" parent="." unique_id=242742007 instance=ExtResource("5")]
-position = Vector2(800, 620)
+[node name="NoteEnv1" parent="." unique_id=242742007 instance=ExtResource("5")]
+position = Vector2(200, 620)
+examine_text = "На притолоке вырезаны слова, уже потемневшие: «Эбэ, хаан буолуой». Чтобы духи предков берегли этот порог."
+interaction_text = "Осмотреть притолоку"
+
+[node name="NoteEnv5" parent="." unique_id=242742008 instance=ExtResource("5")]
+position = Vector2(700, 580)
+examine_text = "Дом. Собака. Солнце. Буквами снизу — неровно: «Кыдаана»."
+interaction_text = "Осмотреть рисунок"
+
+[node name="Damper" parent="." unique_id=242742009 instance=ExtResource("5")]
+position = Vector2(1900, 620)
+examine_text = "Чугунная задвижка дымохода."
+interaction_text = "Осмотреть задвижку"
+
+[node name="FoxRiddleCarving" parent="." unique_id=242742010 instance=ExtResource("5")]
+position = Vector2(500, 580)
+examine_text = "Красная лисица из норы выглядывает,\nбелые щёки лижет — никто не перечит.\nСпит — погаснет, кормят — растёт."
+interaction_text = "Прочитать надпись"
 
 [node name="LoopFallenPicture" type="ColorRect" parent="." unique_id=1427627737]
 visible = false
