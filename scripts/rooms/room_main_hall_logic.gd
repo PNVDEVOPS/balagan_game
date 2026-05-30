@@ -2,27 +2,19 @@ extends Node2D
 
 enum KamylokState { COLD, BURNING, RITUAL_READY, RITUAL_ACTIVE }
 
-var _wake_up_shown: bool = false
-
 var kamylok_state: KamylokState = KamylokState.COLD
 var ritual_items: Array[String] = []
 var _idle_subtitle_timer: float = 0.0
 var _idle_subtitle_shown: bool = false
+var _damper_open: bool = false
 const CORRECT_ORDER: Array[String] = ["amulet", "doll", "earring"]
 const ARTIFACT_NAMES: Dictionary = {
-	"amulet": "амулет",
+	"amulet": "харысхал",
 	"doll": "куклу",
 	"earring": "серёжку"
 }
 
 func _ready() -> void:
-	if not _wake_up_shown and ChapterManager.current_chapter == ChapterManager.Chapter.BALAGAN \
-			and GameManager.artifacts_collected.is_empty():
-		_wake_up_shown = true
-		await get_tree().process_frame
-		await get_tree().process_frame
-		DialogueManager.start_dialogue("chapter2_balagan/wake_up")
-
 	_apply_loop_visuals()
 	_setup_puzzle()
 
@@ -33,15 +25,19 @@ func _ready() -> void:
 	var exit_zone := get_node_or_null("ExitZone")
 	if exit_zone:
 		exit_zone.body_entered.connect(func(body: Node2D):
-			if body.is_in_group("player"):
-				GameManager.change_room("door_right")
+			if not body.is_in_group("player"):
+				return
+			if not GameManager.artifacts_collected.has("amulet"):
+				SubtitleManager.show_subtitle("Что-то не отпускает меня.", SubtitleManager.Pos.MID_LEFT)
+				return
+			GameManager.change_room("door_right")
 		)
 
 func _setup_puzzle() -> void:
 	var amulet_done := GameManager.artifacts_collected.has("amulet")
 
 	if amulet_done:
-		for node_name in ["KeyPickable", "ChestAmulet", "AmuletPickable", "WoodPickable"]:
+		for node_name in ["Damper", "AmuletPickable", "WoodPickable"]:
 			var n = get_node_or_null(node_name)
 			if n:
 				n.queue_free()
@@ -58,10 +54,15 @@ func _setup_puzzle() -> void:
 	if riddle:
 		riddle.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_kamyolk"))
 
+	var fox_carving := get_node_or_null("FoxRiddleCarving")
+	if fox_carving:
+		fox_carving.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_kamyolk"))
+
+	var damper := get_node_or_null("Damper")
+	if damper and not amulet_done:
+		damper.examined.connect(_on_damper_examined)
+
 	if not amulet_done:
-		var chest := get_node_or_null("ChestAmulet")
-		if chest:
-			chest.item_used.connect(_on_chest_used)
 		var amulet := get_node_or_null("AmuletPickable")
 		if amulet:
 			amulet.picked_up.connect(func(_id): _on_amulet_picked_up())
@@ -70,20 +71,8 @@ func _setup_puzzle() -> void:
 	if poem:
 		poem.examined.connect(func(): DialogueManager.start_dialogue("notes/poem_ritual"))
 
-	# Кыдаана note 1 — with fallback for old scene node name
-	var note1 := get_node_or_null("NoteKydaana1")
-	if not note1:
-		note1 = get_node_or_null("NoteAiyyna1")
-	if note1:
-		note1.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_kydaana_2")
-			GameManager.mark_note_found("note_kydaana_2")
-		)
-
-	# Env notes
 	for note_data: Array in [
 			["NoteEnv1", "notes/note_env_1", "note_env_1"],
-			["NoteEnv4", "notes/note_env_4", "note_env_4"],
 			["NoteEnv5", "notes/note_env_5", "note_env_5"]]:
 		var note := get_node_or_null(note_data[0])
 		var key: String = note_data[1]
@@ -115,66 +104,68 @@ func _on_kamylok_examined() -> void:
 		return
 	match kamylok_state:
 		KamylokState.COLD:
-			DialogueManager.show_text("", "Камелёк — глиняный очаг, обложенный жердями. Стенки потрескались от старости.\n\nУголь холодный. Давно не топили. Запах дыма ещё держится в щелях — въелся за годы.")
+			DialogueManager.show_text("", "Камелёк — глиняный очаг, обложенный жердями. Угли холодные. Давно не топили.")
 		KamylokState.BURNING:
-			DialogueManager.show_text("", "Огонь горит ровно, жарко. Среди угля — что-то поблёскивает.")
+			DialogueManager.show_text("", "Огонь горит ровно. Тепло наконец.")
 		KamylokState.RITUAL_READY:
 			DialogueManager.show_text("", "Пламя стало другим — тихое, почти прозрачное. Ждёт даров.")
 	await DialogueManager.dialogue_finished
 	match kamylok_state:
 		KamylokState.COLD:
 			if Inventory.has_item("firewood"):
-				Inventory.remove_item("firewood")
-				kamylok_state = KamylokState.BURNING
-				_fire_lit()
+				if not _damper_open:
+					DialogueManager.show_text("", "Задвижка дымохода закрыта. Если разжечь так — дымом задохнусь. Надо сначала открыть её.")
+				else:
+					Inventory.remove_item("firewood")
+					kamylok_state = KamylokState.BURNING
+					_fire_lit()
 			else:
-				DialogueManager.show_text("", "Камелёк потух. Угли холодные. Нужно чем-то разжечь.")
-		KamylokState.BURNING:
-			DialogueManager.show_text("", "Огонь горит ровно. Среди углей что-то поблёскивает.")
+				DialogueManager.show_text("", "Угли холодные. Нужно дров.")
 		KamylokState.RITUAL_READY:
 			kamylok_state = KamylokState.RITUAL_ACTIVE
 			DialogueManager.show_text("", "Пламя ждёт.")
 
-func _fire_lit() -> void:
-	DialogueManager.show_text("", "Ты бросаешь дрова. Огонь занимается медленно, потом ярко — камелёк снова живёт.")
+func _on_damper_examined() -> void:
+	if _damper_open:
+		DialogueManager.show_text("", "Задвижка открыта.")
+		return
+	DialogueManager.show_text("", "Чугунная задвижка дымохода. Закрыта.")
 	await DialogueManager.dialogue_finished
-	var key := get_node_or_null("KeyPickable")
-	if key:
-		key.visible = true
-		key.set_deferred("monitoring", true)
-	DialogueManager.show_text("", "Среди углей что-то поблёскивает. Можно достать.")
-
-func _on_chest_used() -> void:
-	DialogueManager.show_text("", "Внутри — что-то завёрнуто в старую кожу. Тяжёлое. Тёплое на ощупь.\n\nПтичьи кости на нити. Старый. Очень старый.")
+	_damper_open = true
+	DialogueManager.show_text("", "Открываю. Что-то падает на поленья — маленькое, тёмное.")
 	await DialogueManager.dialogue_finished
 	var amulet := get_node_or_null("AmuletPickable")
 	if amulet:
 		amulet.visible = true
 		amulet.set_deferred("monitoring", true)
 
+func _fire_lit() -> void:
+	DialogueManager.show_text("", "Ты бросаешь дрова. Огонь занимается медленно, потом ярко — камелёк снова живёт.")
+	await DialogueManager.dialogue_finished
+	await get_tree().create_timer(1.0).timeout
+	_show_kydaana_spirit()
+
 func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")
-	await _trigger_flashback("notes/artifact_amulet")
-	_show_kydaana_silhouette()
+	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в тепле все эти годы.")
 
-func _show_kydaana_silhouette() -> void:
+func _show_kydaana_spirit() -> void:
 	var silhouette := Sprite2D.new()
-	var tex_path := "res://assets/sprites/spirit_placeholder.png"
+	var tex_path := "res://assets/sprites/ghost_figure.webp"
 	if ResourceLoader.exists(tex_path):
 		silhouette.texture = load(tex_path)
-	silhouette.modulate = Color(0.05, 0.02, 0.1, 0.0)
-	silhouette.position = Vector2(520, 260)
-	silhouette.scale = Vector2(1.2, 1.5)
+	silhouette.modulate = Color(0.2, 0.2, 0.5, 0.0)
+	silhouette.position = Vector2(1400, 580)
+	silhouette.scale = Vector2(1.8, 1.8)
 	add_child(silhouette)
 
 	var tw := create_tween()
-	tw.tween_property(silhouette, "modulate:a", 0.8, 1.5)
-	tw.tween_interval(3.5)
-	tw.tween_property(silhouette, "modulate:a", 0.0, 1.5)
+	tw.tween_property(silhouette, "modulate:a", 0.75, 2.5)
+	tw.tween_interval(5.0)
+	# TBD: Кыдаана реплики и реакция героя добавить здесь
+	tw.tween_property(silhouette, "modulate:a", 0.0, 2.0)
 	await tw.finished
 	silhouette.queue_free()
-
-	SubtitleManager.show_subtitle("Ты видел меня.", SubtitleManager.Pos.TOP_RIGHT)
 
 func _place_ritual_artifact() -> void:
 	var selected := Inventory.selected_item
@@ -217,25 +208,4 @@ func _process(delta: float) -> void:
 	_idle_subtitle_timer += delta
 	if _idle_subtitle_timer >= 10.0:
 		_idle_subtitle_shown = true
-		SubtitleManager.show_subtitle("Зачем ты здесь стоишь?", SubtitleManager.Pos.MID_RIGHT)
-
-func _trigger_flashback(dialogue_key: String) -> void:
-	var player := get_tree().get_first_node_in_group("player")
-	var fl = player.get_node("Flashlight") if player else null
-	if fl:
-		fl.scripted_off()
-	var bg := get_node_or_null("Background") as ColorRect
-	var original_color := bg.color if bg else Color.BLACK
-	if bg:
-		var tween := create_tween()
-		tween.tween_property(bg, "color", Color(0.24, 0.17, 0.1), 1.0)
-		await tween.finished
-	await get_tree().create_timer(2.0).timeout
-	DialogueManager.start_dialogue(dialogue_key)
-	await DialogueManager.dialogue_finished
-	if bg:
-		var tween := create_tween()
-		tween.tween_property(bg, "color", original_color, 1.0)
-		await tween.finished
-	if fl:
-		fl.scripted_on()
+		SubtitleManager.show_subtitle("Холодно.", SubtitleManager.Pos.MID_RIGHT)
