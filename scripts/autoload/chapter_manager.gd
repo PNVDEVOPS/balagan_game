@@ -8,7 +8,6 @@ var current_chapter: Chapter = Chapter.ROAD
 
 var _fade_layer: CanvasLayer
 var _fade_rect: ColorRect
-var _title_label: Label
 
 func _ready() -> void:
 	_fade_layer = CanvasLayer.new()
@@ -22,25 +21,12 @@ func _ready() -> void:
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fade_layer.add_child(_fade_rect)
 
-	_title_label = Label.new()
-	_title_label.set_anchors_preset(Control.PRESET_CENTER)
-	_title_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_title_label.grow_vertical = Control.GROW_DIRECTION_BOTH
-	_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_title_label.modulate.a = 0.0
-	_title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_title_label.add_theme_font_size_override("font_size", 24)
-	_fade_layer.add_child(_title_label)
-
 func start_chapter(chapter: Chapter) -> void:
 	current_chapter = chapter
-	var title_text := _get_chapter_title(chapter)
 	var scene_path := _get_chapter_scene(chapter)
 	var room_id := _get_chapter_room(chapter)
 
 	await _fade_out()
-	if not title_text.is_empty():
-		await _show_title(title_text)
 
 	GameManager.current_room = room_id
 	get_tree().change_scene_to_file(scene_path)
@@ -50,13 +36,6 @@ func start_chapter(chapter: Chapter) -> void:
 	SaveManager.autosave()
 	await _fade_in()
 	chapter_started.emit(chapter)
-
-func _get_chapter_title(chapter: Chapter) -> String:
-	match chapter:
-		Chapter.ROAD: return "Глава 1: Дорога"
-		Chapter.BALAGAN: return "Глава 2: Балаган"
-		Chapter.RELEASE: return "Глава 3: Освобождение"
-	return ""
 
 func _get_chapter_scene(chapter: Chapter) -> String:
 	match chapter:
@@ -84,12 +63,4 @@ func _fade_out() -> void:
 func _fade_in() -> void:
 	var tween := create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", 0.0, 0.8)
-	await tween.finished
-
-func _show_title(text: String) -> void:
-	_title_label.text = text
-	var tween := create_tween()
-	tween.tween_property(_title_label, "modulate:a", 1.0, 0.5)
-	tween.tween_interval(2.0)
-	tween.tween_property(_title_label, "modulate:a", 0.0, 0.5)
 	await tween.finished
