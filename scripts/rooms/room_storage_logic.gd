@@ -1,6 +1,6 @@
 extends Node2D
 
-var _back_trigger_count: int = 0
+static var _back_trigger_count: int = 0
 
 func _ready() -> void:
 	var forward_zone := get_node_or_null("ForwardZone")

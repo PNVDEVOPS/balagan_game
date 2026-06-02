@@ -6,8 +6,7 @@ var kamylok_state: KamylokState = KamylokState.COLD
 var ritual_items: Array[String] = []
 var _idle_subtitle_timer: float = 0.0
 var _idle_subtitle_shown: bool = false
-var _puzzle_solved: bool = false
-var _back_trigger_count: int = 0
+static var _back_trigger_count: int = 0
 const CORRECT_ORDER: Array[String] = ["amulet", "doll", "earring"]
 const ARTIFACT_NAMES: Dictionary = {
 	"amulet": "харысхал",
@@ -48,7 +47,7 @@ func _setup_puzzle() -> void:
 		if amulet_node:
 			amulet_node.queue_free()
 		kamylok_state = KamylokState.BURNING
-		_puzzle_solved = true
+		GameManager.puzzle_unblock_solved = true
 	else:
 		var amulet_node := get_node_or_null("AmuletPickable")
 		if amulet_node:
@@ -106,7 +105,7 @@ func _on_kamylok_examined() -> void:
 		_place_ritual_artifact()
 		return
 	if kamylok_state == KamylokState.COLD:
-		if not _puzzle_solved:
+		if not GameManager.puzzle_unblock_solved:
 			DialogueManager.show_text("", "Под золой — что-то есть. Дрова завалили вход.")
 			await DialogueManager.dialogue_finished
 			_open_puzzle()
@@ -130,10 +129,9 @@ func _open_puzzle() -> void:
 	var puzzle := MinigameUnblock.new()
 	add_child(puzzle)
 	puzzle.minigame_completed.connect(_on_puzzle_solved)
-	puzzle.minigame_cancelled.connect(puzzle.queue_free)
 
 func _on_puzzle_solved(_id: String) -> void:
-	_puzzle_solved = true
+	GameManager.puzzle_unblock_solved = true
 	DialogueManager.show_text("", "Под золой — что-то блестит.")
 	await DialogueManager.dialogue_finished
 	var amulet_node := get_node_or_null("AmuletPickable")

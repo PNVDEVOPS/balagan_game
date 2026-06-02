@@ -17,8 +17,6 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left = 0
 			cam.limit_right = 1600
-		if GameManager.spawn_door_id == "door_back":
-			player.global_position.x = 1450.0
 
 	_add_back_zone()
 

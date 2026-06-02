@@ -15,6 +15,7 @@ var spawn_door_id: String = ""
 var loop_state: int = 0
 var escape_attempts: int = 0
 var ritual_result: String = ""
+var puzzle_unblock_solved: bool = false
 
 var _room_graph_original: Dictionary = {}
 var _screen_fade: Node = null
@@ -94,6 +95,11 @@ func _place_player_at_door() -> void:
 	var spawn := get_tree().current_scene.get_node_or_null("SpawnPoint")
 	if spawn:
 		player.global_position = spawn.global_position
+
+	if spawn_door_id == "door_back":
+		var room_right := get_tree().current_scene.get_node_or_null("RoomRight")
+		if room_right:
+			player.global_position.x = room_right.global_position.x - 120.0
 
 	var camera: Camera2D = player.get_node_or_null("Camera2D")
 	if camera:

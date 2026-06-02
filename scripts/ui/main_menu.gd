@@ -23,6 +23,7 @@ func _on_new_game_pressed() -> void:
 	GameManager.loop_state = 0
 	GameManager.escape_attempts = 0
 	GameManager.ritual_result = ""
+	GameManager.puzzle_unblock_solved = false
 	Inventory.items.clear()
 	Inventory.selected_item = ""
 	GameManager.transition_count = 0
