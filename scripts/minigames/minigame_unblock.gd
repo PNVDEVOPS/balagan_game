@@ -136,28 +136,28 @@ func _cell_in_block(row: int, col: int, b: Block) -> bool:
 	else:
 		return col == b.c and row >= b.r and row < b.r + b.sz
 
-func _try_slide_to(idx: int, tr: int, tc: int) -> bool:
+func _try_slide_to(idx: int, target_row: int, target_col: int) -> bool:
 	var b: Block = _blocks[idx]
 	if b.horiz:
-		if tr != b.r:
+		if target_row != b.r:
 			_selected = -1
 			_grid_ctrl.queue_redraw()
 			return false
-		if tc >= b.c and tc < b.c + b.sz:
+		if target_col >= b.c and target_col < b.c + b.sz:
 			return false
-		var new_c: int = tc if tc < b.c else tc - b.sz + 1
+		var new_c: int = target_col if target_col < b.c else target_col - b.sz + 1
 		new_c = clampi(new_c, 0, GRID_COLS - b.sz)
 		if not _can_slide_h(idx, new_c):
 			return false
 		_blocks[idx].c = new_c
 	else:
-		if tc != b.c:
+		if target_col != b.c:
 			_selected = -1
 			_grid_ctrl.queue_redraw()
 			return false
-		if tr >= b.r and tr < b.r + b.sz:
+		if target_row >= b.r and target_row < b.r + b.sz:
 			return false
-		var new_r: int = tr if tr < b.r else tr - b.sz + 1
+		var new_r: int = target_row if target_row < b.r else target_row - b.sz + 1
 		new_r = clampi(new_r, 0, GRID_ROWS - b.sz)
 		if not _can_slide_v(idx, new_r):
 			return false
