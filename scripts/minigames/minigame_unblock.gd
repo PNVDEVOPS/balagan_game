@@ -14,7 +14,7 @@ class Block:
 const GRID_COLS := 6
 const GRID_ROWS := 6
 const EXIT_ROW := 2
-const CELL := 80
+const CELL := 44
 
 # [row, col, is_horizontal, size, is_amulet]
 const LAYOUT: Array = [
