@@ -87,17 +87,17 @@ collision_layer = 0
 shape = SubResource("FwdShape")
 
 [node name="ClothesExaminable" parent="." unique_id=563221368 instance=ExtResource("4_exam")]
-position = Vector2(300, 240)
+position = Vector2(300, 255)
 examine_text = "Довольно старинного вида одежда."
 interaction_text = "Осмотреть"
 
 [node name="WindowEntry" parent="." unique_id=2105272201 instance=ExtResource("4_exam")]
-position = Vector2(700, 240)
+position = Vector2(700, 255)
 examine_text = "Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."
 interaction_text = "Посмотреть в окно"
 
 [node name="NoteEntry1" parent="." unique_id=2105272202 instance=ExtResource("4_exam")]
-position = Vector2(500, 240)
+position = Vector2(500, 255)
 interaction_text = "Осмотреть записку"
 
 [node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900001]
