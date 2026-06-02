@@ -27,7 +27,7 @@ const COLOR_BG     := Color(0.10, 0.07, 0.04)
 const COLOR_GRID   := Color(0.06, 0.04, 0.02)
 const COLOR_EXIT   := Color(0.85, 0.65, 0.10, 0.25)
 
-var _blocks: Array = []
+var _blocks: Array[Dictionary] = []
 var _selected: int = -1
 var _can_interact: bool = true
 var _grid_ctrl: Control
