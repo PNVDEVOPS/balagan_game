@@ -81,12 +81,12 @@ collision_layer = 0
 shape = SubResource("ExitShape")
 
 [node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("5_exam")]
-position = Vector2(330, 238)
+position = Vector2(330, 252)
 examine_text = "Темно за окном."
 interaction_text = "Посмотреть в окно"
 
 [node name="NoteCorr1" parent="." unique_id=156421092 instance=ExtResource("5_exam")]
-position = Vector2(700, 238)
+position = Vector2(700, 252)
 interaction_text = "Осмотреть записку"
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=874890696]

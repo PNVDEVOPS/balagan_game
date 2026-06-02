@@ -69,43 +69,43 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="WoodPickable" parent="." unique_id=860000060 instance=ExtResource("7")]
-position = Vector2(450, 235)
+position = Vector2(450, 255)
 item_id = "firewood"
 item_name = "Вязанка дров"
 pickup_text = "Берёзовые дрова. Сухие. Кто-то заготовил заранее."
 
 [node name="FoxRiddleCarving" parent="." unique_id=242742010 instance=ExtResource("5")]
-position = Vector2(500, 195)
+position = Vector2(500, 255)
 examine_text = "Красная лисица из норы выглядывает,\nбелые щёки лижет — никто не перечит.\nСпит — погаснет, кормят — растёт."
 interaction_text = "Прочитать надпись"
 
 [node name="NoteEnv1" parent="." unique_id=242742007 instance=ExtResource("5")]
-position = Vector2(200, 205)
+position = Vector2(200, 255)
 examine_text = "На притолоке вырезаны слова, уже потемневшие: «Эбэ, хаан буолуой». Чтобы духи предков берегли этот порог."
 interaction_text = "Осмотреть притолоку"
 
 [node name="NoteEnv5" parent="." unique_id=242742008 instance=ExtResource("5")]
-position = Vector2(700, 195)
+position = Vector2(700, 255)
 examine_text = "Дом. Собака. Солнце. Буквами снизу — неровно: «Кыдаана»."
 interaction_text = "Осмотреть рисунок"
 
 [node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
-position = Vector2(1300, 205)
+position = Vector2(1300, 255)
 
 [node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
-position = Vector2(1700, 205)
+position = Vector2(1700, 255)
 
 [node name="Damper" parent="." unique_id=242742009 instance=ExtResource("5")]
-position = Vector2(1900, 205)
+position = Vector2(1900, 255)
 examine_text = "Чугунная задвижка дымохода."
 interaction_text = "Осмотреть задвижку"
 
 [node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
-position = Vector2(2000, 235)
+position = Vector2(2000, 255)
 
 [node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
 visible = false
-position = Vector2(2000, 235)
+position = Vector2(2000, 255)
 monitoring = false
 item_id = "amulet"
 item_name = "Харысхал"
@@ -121,7 +121,7 @@ color = Color(0.05, 0.03, 0.02, 1)
 
 [node name="LoopWallText" parent="." unique_id=95727743 instance=ExtResource("5")]
 visible = false
-position = Vector2(1100, 205)
+position = Vector2(1100, 255)
 examine_text = "На стене — нацарапано. «УХОДИ». Буквы неровные, будто в спешке."
 [node name="Window1" type="Sprite2D" parent="." unique_id=1810000001]
 position = Vector2(320, 120)
