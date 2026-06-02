@@ -20,7 +20,7 @@ func _ready() -> void:
 	if room_id == "entry_c3":
 		await get_tree().process_frame
 		await get_tree().process_frame
-		SubtitleManager.show_subtitle("Уходи.", SubtitleManager.Pos.TOP_LEFT)
+		SubtitleManager.show_subtitle("Уходи.", SubtitleManager.Pos.TOP_CENTER)
 
 	var window := get_node_or_null("WindowExamine")
 	if window:
