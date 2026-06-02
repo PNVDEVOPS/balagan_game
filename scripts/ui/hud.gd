@@ -31,6 +31,9 @@ func show_hint(text: String) -> void:
 func hide_hint() -> void:
 	$InteractHint.visible = false
 
+func set_darkness(alpha: float) -> void:
+	$DarkOverlay.color.a = clampf(alpha, 0.0, 1.0)
+
 func _on_saved() -> void:
 	$SavedLabel.visible = true
 	_save_timer = 2.0
