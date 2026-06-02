@@ -4,12 +4,19 @@ extends CanvasLayer
 signal minigame_completed(minigame_id: String)
 signal minigame_cancelled()
 
+class Block:
+	var r: int = 0
+	var c: int = 0
+	var horiz: bool = true
+	var sz: int = 1
+	var amulet: bool = false
+
 const GRID_COLS := 6
 const GRID_ROWS := 6
 const EXIT_ROW := 2
 const CELL := 80
 
-# [row, col, is_horizontal, length, is_amulet]
+# [row, col, is_horizontal, size, is_amulet]
 const LAYOUT: Array = [
 	[2, 0, true,  2, true],
 	[1, 2, false, 2, false],
@@ -27,15 +34,21 @@ const COLOR_BG     := Color(0.10, 0.07, 0.04)
 const COLOR_GRID   := Color(0.06, 0.04, 0.02)
 const COLOR_EXIT   := Color(0.85, 0.65, 0.10, 0.25)
 
-var _blocks: Array[Dictionary] = []
+var _blocks: Array[Block] = []
 var _selected: int = -1
 var _can_interact: bool = true
 var _grid_ctrl: Control
 
 func _ready() -> void:
 	layer = 10
-	for entry in LAYOUT:
-		_blocks.append({r = entry[0], c = entry[1], horiz = entry[2], len = entry[3], amulet = entry[4]})
+	for entry: Array in LAYOUT:
+		var b := Block.new()
+		b.r = entry[0]
+		b.c = entry[1]
+		b.horiz = entry[2]
+		b.sz = entry[3]
+		b.amulet = entry[4]
+		_blocks.append(b)
 	_build_ui()
 
 func _build_ui() -> void:
@@ -84,7 +97,7 @@ func _on_grid_draw() -> void:
 	var ey := EXIT_ROW * CELL
 	_grid_ctrl.draw_rect(Rect2(Vector2(_grid_ctrl.size.x - 4, ey + 6), Vector2(6, CELL - 12)), COLOR_EXIT)
 	for i in range(_blocks.size()):
-		var b: Dictionary = _blocks[i]
+		var b: Block = _blocks[i]
 		var rect := _block_rect(b)
 		var col := COLOR_AMULET if b.amulet else COLOR_WOOD
 		_grid_ctrl.draw_rect(rect.grow(-4), col)
@@ -92,9 +105,9 @@ func _on_grid_draw() -> void:
 			_grid_ctrl.draw_rect(rect.grow(-4), COLOR_SELECT)
 		_grid_ctrl.draw_rect(rect.grow(-4), Color(0, 0, 0, 0.4), false, 2.0)
 
-func _block_rect(b: Dictionary) -> Rect2:
-	var w := float(CELL * b.len) if b.horiz else float(CELL)
-	var h := float(CELL) if b.horiz else float(CELL * b.len)
+func _block_rect(b: Block) -> Rect2:
+	var w := float(CELL * b.sz) if b.horiz else float(CELL)
+	var h := float(CELL) if b.horiz else float(CELL * b.sz)
 	return Rect2(float(b.c * CELL), float(b.r * CELL), w, h)
 
 func _on_grid_input(event: InputEvent) -> void:
@@ -117,23 +130,23 @@ func _find_block_at(row: int, col: int) -> int:
 			return i
 	return -1
 
-func _cell_in_block(row: int, col: int, b: Dictionary) -> bool:
+func _cell_in_block(row: int, col: int, b: Block) -> bool:
 	if b.horiz:
-		return row == b.r and col >= b.c and col < b.c + b.len
+		return row == b.r and col >= b.c and col < b.c + b.sz
 	else:
-		return col == b.c and row >= b.r and row < b.r + b.len
+		return col == b.c and row >= b.r and row < b.r + b.sz
 
 func _try_slide_to(idx: int, tr: int, tc: int) -> bool:
-	var b: Dictionary = _blocks[idx]
+	var b: Block = _blocks[idx]
 	if b.horiz:
 		if tr != b.r:
 			_selected = -1
 			_grid_ctrl.queue_redraw()
 			return false
-		if tc >= b.c and tc < b.c + b.len:
+		if tc >= b.c and tc < b.c + b.sz:
 			return false
-		var new_c := tc if tc < b.c else tc - b.len + 1
-		new_c = clampi(new_c, 0, GRID_COLS - b.len)
+		var new_c: int = tc if tc < b.c else tc - b.sz + 1
+		new_c = clampi(new_c, 0, GRID_COLS - b.sz)
 		if not _can_slide_h(idx, new_c):
 			return false
 		_blocks[idx].c = new_c
@@ -142,10 +155,10 @@ func _try_slide_to(idx: int, tr: int, tc: int) -> bool:
 			_selected = -1
 			_grid_ctrl.queue_redraw()
 			return false
-		if tr >= b.r and tr < b.r + b.len:
+		if tr >= b.r and tr < b.r + b.sz:
 			return false
-		var new_r := tr if tr < b.r else tr - b.len + 1
-		new_r = clampi(new_r, 0, GRID_ROWS - b.len)
+		var new_r: int = tr if tr < b.r else tr - b.sz + 1
+		new_r = clampi(new_r, 0, GRID_ROWS - b.sz)
 		if not _can_slide_v(idx, new_r):
 			return false
 		_blocks[idx].r = new_r
@@ -154,9 +167,9 @@ func _try_slide_to(idx: int, tr: int, tc: int) -> bool:
 	return true
 
 func _can_slide_h(idx: int, new_c: int) -> bool:
-	var b: Dictionary = _blocks[idx]
+	var b: Block = _blocks[idx]
 	var lo := mini(b.c, new_c)
-	var hi := maxi(b.c + b.len - 1, new_c + b.len - 1)
+	var hi := maxi(b.c + b.sz - 1, new_c + b.sz - 1)
 	for i in range(_blocks.size()):
 		if i == idx:
 			continue
@@ -166,9 +179,9 @@ func _can_slide_h(idx: int, new_c: int) -> bool:
 	return true
 
 func _can_slide_v(idx: int, new_r: int) -> bool:
-	var b: Dictionary = _blocks[idx]
+	var b: Block = _blocks[idx]
 	var lo := mini(b.r, new_r)
-	var hi := maxi(b.r + b.len - 1, new_r + b.len - 1)
+	var hi := maxi(b.r + b.sz - 1, new_r + b.sz - 1)
 	for i in range(_blocks.size()):
 		if i == idx:
 			continue
@@ -179,8 +192,8 @@ func _can_slide_v(idx: int, new_r: int) -> bool:
 
 func _check_win() -> void:
 	for i in range(_blocks.size()):
-		var b: Dictionary = _blocks[i]
-		if b.amulet and b.r == EXIT_ROW and b.c + b.len >= GRID_COLS:
+		var b: Block = _blocks[i]
+		if b.amulet and b.r == EXIT_ROW and b.c + b.sz >= GRID_COLS:
 			_on_solved()
 			return
 
@@ -207,20 +220,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _selected < 0:
 		return
-	var b: Dictionary = _blocks[_selected]
+	var b: Block = _blocks[_selected]
 	var moved := false
 	if b.horiz:
 		if event.is_action_pressed("ui_left") and b.c > 0 and _can_slide_h(_selected, b.c - 1):
 			_blocks[_selected].c -= 1
 			moved = true
-		elif event.is_action_pressed("ui_right") and b.c + b.len < GRID_COLS and _can_slide_h(_selected, b.c + 1):
+		elif event.is_action_pressed("ui_right") and b.c + b.sz < GRID_COLS and _can_slide_h(_selected, b.c + 1):
 			_blocks[_selected].c += 1
 			moved = true
 	else:
 		if event.is_action_pressed("ui_up") and b.r > 0 and _can_slide_v(_selected, b.r - 1):
 			_blocks[_selected].r -= 1
 			moved = true
-		elif event.is_action_pressed("ui_down") and b.r + b.len < GRID_ROWS and _can_slide_v(_selected, b.r + 1):
+		elif event.is_action_pressed("ui_down") and b.r + b.sz < GRID_ROWS and _can_slide_v(_selected, b.r + 1):
 			_blocks[_selected].r += 1
 			moved = true
 	if moved:
