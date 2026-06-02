@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4_laika"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5_exam"]
+[ext_resource type="Texture2D" uid="uid://o16k4msbpnkd" path="res://assets/sprites/manor/floor.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://j6atugji2j01" path="res://assets/sprites/manor/wall.jpg" id="manor_wall"]
+[ext_resource type="Texture2D" uid="uid://rb8oyjo3jyqw" path="res://assets/sprites/manor/window.png" id="manor_window"]
 
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
@@ -23,24 +26,26 @@ size = Vector2(80, 160)
 [node name="RoomCorridor" type="Node2D" unique_id=131571024]
 script = ExtResource("1_corr")
 
-[node name="Background" type="ColorRect" parent="." unique_id=769216410]
+[node name="Background" type="TextureRect" parent="." unique_id=769216410]
 offset_right = 1600.0
-offset_bottom = 360.0
-color = Color(0.03, 0.02, 0.05, 1)
+offset_bottom = 215.0
+texture = ExtResource("manor_wall")
+stretch_mode = 1
 
-[node name="FloorVisual" type="ColorRect" parent="." unique_id=769216411]
-offset_top = 330.0
+[node name="FloorVisual" type="TextureRect" parent="." unique_id=769216411]
+offset_top = 215.0
 offset_right = 1600.0
 offset_bottom = 360.0
-color = Color(0.05, 0.04, 0.07, 1)
+texture = ExtResource("manor_floor")
+stretch_mode = 1
 
 [node name="Player" parent="." unique_id=1035253465 instance=ExtResource("2_player")]
-position = Vector2(80, 300)
+position = Vector2(80, 240)
 
 [node name="HUD" parent="." unique_id=1235727158 instance=ExtResource("3_hud")]
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=330029862]
-position = Vector2(0, 330)
+position = Vector2(0, 258)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270060]
 shape = SubResource("FloorShape")
@@ -60,7 +65,7 @@ position = Vector2(0, -176)
 shape = SubResource("RightWallShape")
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=406902745]
-position = Vector2(80, 300)
+position = Vector2(80, 240)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1299071123]
 position = Vector2(1600, 180)
@@ -69,29 +74,38 @@ position = Vector2(1600, 180)
 position = Vector2(0, 360)
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1412378077]
-position = Vector2(1560, 310)
+position = Vector2(1560, 235)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2066047497]
 shape = SubResource("ExitShape")
 
 [node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("5_exam")]
-position = Vector2(200, 319)
+position = Vector2(330, 238)
 examine_text = "Темно за окном."
 interaction_text = "Посмотреть в окно"
 
 [node name="NoteCorr1" parent="." unique_id=156421092 instance=ExtResource("5_exam")]
-position = Vector2(700, 319)
-examine_text = ""
+position = Vector2(700, 238)
 interaction_text = "Осмотреть записку"
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=874890696]
-position = Vector2(900, 310)
+position = Vector2(900, 235)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1636203791]
 shape = SubResource("LaikaTriggerShape")
 
 [node name="Laika" parent="." unique_id=157373864 instance=ExtResource("4_laika")]
-position = Vector2(1200, 320)
+position = Vector2(1073, 245)
 auto_appear = false
+
+[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900002]
+position = Vector2(332, 110)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("manor_window")
+
+[node name="WindowSprite2" type="Sprite2D" parent="." unique_id=1900003]
+position = Vector2(1000, 110)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("manor_window")

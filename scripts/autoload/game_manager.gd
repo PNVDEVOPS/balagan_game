@@ -4,6 +4,8 @@ signal room_changed(room_id: String)
 signal artifact_collected(artifact_id: String)
 
 const TOTAL_NOTES: int = 18
+# Темнота комнат: измени это число (0.0 = полная темнота, 1.0 = нет затемнения)
+const ROOM_DARKNESS: float = 0.42
 
 var current_room: String = "main_hall"
 var artifacts_collected: Array[String] = []
@@ -111,6 +113,13 @@ func _place_player_at_door() -> void:
 		camera.limit_right = right_limit
 		camera.limit_top = 0
 		camera.limit_bottom = bottom_limit
+
+	var mod_node := get_tree().current_scene.get_node_or_null("RoomModulate")
+	if not mod_node:
+		mod_node = CanvasModulate.new()
+		mod_node.name = "RoomModulate"
+		get_tree().current_scene.add_child(mod_node)
+	(mod_node as CanvasModulate).color = Color(ROOM_DARKNESS, ROOM_DARKNESS, ROOM_DARKNESS * 1.05)
 
 func _ensure_fade() -> void:
 	_screen_fade = get_tree().get_first_node_in_group("screen_fade")

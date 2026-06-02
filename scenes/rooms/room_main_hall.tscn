@@ -5,6 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5"]
 [ext_resource type="Script" uid="uid://cpjkte3x2o1qw" path="res://scripts/rooms/room_main_hall_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall.jpg" id="manor_wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor.png" id="manor_floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/window.png" id="manor_window"]
+
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
@@ -17,19 +21,21 @@ size = Vector2(60, 360)
 [node name="RoomMainHall" type="Node2D" unique_id=1713279881]
 script = ExtResource("6")
 
-[node name="Background" type="ColorRect" parent="." unique_id=2010495703]
+[node name="Background" type="TextureRect" parent="." unique_id=2010495703]
 offset_right = 2400.0
-offset_bottom = 360.0
-color = Color(0.102, 0.059, 0.039, 1)
+offset_bottom = 215.0
+texture = ExtResource("manor_wall")
+stretch_mode = 1
 
-[node name="FloorVisual" type="ColorRect" parent="." unique_id=349864924]
-offset_top = 330.0
+[node name="FloorVisual" type="TextureRect" parent="." unique_id=349864924]
+offset_top = 215.0
 offset_right = 2400.0
 offset_bottom = 360.0
-color = Color(0.176, 0.106, 0.063, 1)
+texture = ExtResource("manor_floor")
+stretch_mode = 1
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=330029860]
-position = Vector2(0, 330)
+position = Vector2(0, 258)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270058]
 shape = SubResource("WorldBoundaryShape2D_floor")
@@ -42,12 +48,12 @@ position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_left")
 
 [node name="Player" parent="." unique_id=1035253463 instance=ExtResource("1")]
-position = Vector2(80, 300)
+position = Vector2(80, 240)
 
 [node name="HUD" parent="." unique_id=1235727156 instance=ExtResource("3")]
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=783490545]
-position = Vector2(80, 300)
+position = Vector2(80, 240)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1674324491]
 position = Vector2(2400, 180)
@@ -63,43 +69,43 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="WoodPickable" parent="." unique_id=860000060 instance=ExtResource("7")]
-position = Vector2(450, 310)
+position = Vector2(450, 235)
 item_id = "firewood"
 item_name = "Вязанка дров"
 pickup_text = "Берёзовые дрова. Сухие. Кто-то заготовил заранее."
 
 [node name="FoxRiddleCarving" parent="." unique_id=242742010 instance=ExtResource("5")]
-position = Vector2(500, 260)
+position = Vector2(500, 195)
 examine_text = "Красная лисица из норы выглядывает,\nбелые щёки лижет — никто не перечит.\nСпит — погаснет, кормят — растёт."
 interaction_text = "Прочитать надпись"
 
 [node name="NoteEnv1" parent="." unique_id=242742007 instance=ExtResource("5")]
-position = Vector2(200, 280)
+position = Vector2(200, 205)
 examine_text = "На притолоке вырезаны слова, уже потемневшие: «Эбэ, хаан буолуой». Чтобы духи предков берегли этот порог."
 interaction_text = "Осмотреть притолоку"
 
 [node name="NoteEnv5" parent="." unique_id=242742008 instance=ExtResource("5")]
-position = Vector2(700, 260)
+position = Vector2(700, 195)
 examine_text = "Дом. Собака. Солнце. Буквами снизу — неровно: «Кыдаана»."
 interaction_text = "Осмотреть рисунок"
 
 [node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
-position = Vector2(1300, 280)
+position = Vector2(1300, 205)
 
 [node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
-position = Vector2(1700, 280)
+position = Vector2(1700, 205)
 
 [node name="Damper" parent="." unique_id=242742009 instance=ExtResource("5")]
-position = Vector2(1900, 280)
+position = Vector2(1900, 205)
 examine_text = "Чугунная задвижка дымохода."
 interaction_text = "Осмотреть задвижку"
 
 [node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
-position = Vector2(2000, 310)
+position = Vector2(2000, 235)
 
 [node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
 visible = false
-position = Vector2(2000, 310)
+position = Vector2(2000, 235)
 monitoring = false
 item_id = "amulet"
 item_name = "Харысхал"
@@ -108,12 +114,21 @@ pickup_text = "Харысхал. Тёплый на ощупь — будто ж�
 [node name="LoopFallenPicture" type="ColorRect" parent="." unique_id=1427627737]
 visible = false
 offset_left = 250.0
-offset_top = 220.0
+offset_top = 155.0
 offset_right = 290.0
-offset_bottom = 280.0
+offset_bottom = 210.0
 color = Color(0.05, 0.03, 0.02, 1)
 
 [node name="LoopWallText" parent="." unique_id=95727743 instance=ExtResource("5")]
 visible = false
-position = Vector2(1100, 280)
+position = Vector2(1100, 205)
 examine_text = "На стене — нацарапано. «УХОДИ». Буквы неровные, будто в спешке."
+[node name="Window1" type="Sprite2D" parent="." unique_id=1810000001]
+position = Vector2(320, 120)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("manor_window")
+
+[node name="Window2" type="Sprite2D" parent="." unique_id=1810000002]
+position = Vector2(1100, 120)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("manor_window")
