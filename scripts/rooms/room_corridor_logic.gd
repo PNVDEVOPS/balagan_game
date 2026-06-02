@@ -2,9 +2,14 @@ extends Node2D
 
 var _window_examined: bool = false
 var _laika_triggered: bool = false
+static var _visit_counts: Dictionary = {}
 
 func _ready() -> void:
 	var room_id: String = GameManager.current_room
+
+	if not _visit_counts.has(room_id):
+		_visit_counts[room_id] = 0
+	_visit_counts[room_id] += 1
 
 	var player := get_node_or_null("Player")
 	if player:
@@ -12,6 +17,10 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left = 0
 			cam.limit_right = 1600
+		if GameManager.spawn_door_id == "door_back":
+			player.global_position.x = 1450.0
+
+	_add_back_zone()
 
 	var exit_zone := get_node_or_null("ExitZone")
 	if exit_zone:
@@ -34,6 +43,37 @@ func _ready() -> void:
 		var laika_trigger := get_node_or_null("LaikaTrigger")
 		if laika_trigger:
 			laika_trigger.body_entered.connect(_on_laika_trigger)
+
+	_show_revisit_reaction(room_id)
+
+func _add_back_zone() -> void:
+	var area := Area2D.new()
+	area.name = "BackZone"
+	area.collision_layer = 0
+	area.collision_mask = 1
+	var shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(40, 400)
+	shape.position = Vector2(0, 180)
+	shape.shape = rect
+	area.add_child(shape)
+	add_child(area)
+	area.body_entered.connect(_on_back_zone)
+
+func _on_back_zone(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		GameManager.change_room("door_back")
+
+func _show_revisit_reaction(room_id: String) -> void:
+	var count: int = _visit_counts.get(room_id, 1)
+	if count == 2:
+		await get_tree().process_frame
+		await get_tree().process_frame
+		DialogueManager.show_text("", "Опять этот коридор.")
+	elif count >= 3:
+		await get_tree().process_frame
+		await get_tree().process_frame
+		DialogueManager.show_text("", "Снова и снова. Стены одинаковые.")
 
 func _setup_window(window: Node, room_id: String) -> void:
 	match room_id:
