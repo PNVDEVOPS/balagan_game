@@ -5,6 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://c4vwrgukhdpog" path="res://scenes/ui/dialogue_box.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://cvoopombrmlq8" path="res://scenes/ui/qte_overlay.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://b2cbnatgxu6w8" path="res://scenes/ui/pause_menu.tscn" id="5"]
+[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="6"]
+[ext_resource type="Shader" path="res://assets/shaders/film_grain.gdshader" id="7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("6")
+shader_parameter/strength = 0.38
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grain"]
+shader = ExtResource("7")
+shader_parameter/strength = 0.07
 
 [node name="HUD" type="CanvasLayer" unique_id=1029247214]
 process_mode = 3
@@ -17,32 +27,69 @@ script = ExtResource("1")
 
 [node name="QTEOverlay" parent="." unique_id=1569880064 instance=ExtResource("4")]
 
-[node name="FlashlightBar" type="ProgressBar" parent="." unique_id=1197127324]
-process_mode = 3
-offset_left = 8.0
-offset_top = 336.0
-offset_right = 128.0
-offset_bottom = 350.0
-value = 100.0
-show_percentage = false
-
 [node name="SavedLabel" type="Label" parent="." unique_id=840329302]
 process_mode = 3
 visible = false
 offset_left = 460.0
-offset_top = 4.0
+offset_top = 44.0
 offset_right = 636.0
-offset_bottom = 20.0
+offset_bottom = 60.0
 text = "Сохранено"
 horizontal_alignment = 2
 
 [node name="InteractHint" type="Label" parent="." unique_id=1381783967]
 visible = false
 offset_left = 120.0
-offset_top = 320.0
+offset_top = 276.0
 offset_right = 520.0
-offset_bottom = 344.0
+offset_bottom = 300.0
 theme_override_font_sizes/font_size = 13
 horizontal_alignment = 1
 
 [node name="PauseMenu" parent="." unique_id=1021430467 instance=ExtResource("5")]
+
+[node name="Vignette" type="ColorRect" parent="." unique_id=1100000001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_vignette")
+color = Color(1, 1, 1, 1)
+
+[node name="Grain" type="ColorRect" parent="." unique_id=1100000002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_grain")
+color = Color(1, 1, 1, 1)
+
+[node name="LetterboxTop" type="ColorRect" parent="." unique_id=1100000010]
+layout_mode = 1
+anchors_preset = 1
+anchor_right = 1.0
+anchor_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 1
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="LetterboxBottom" type="ColorRect" parent="." unique_id=1100000011]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+offset_top = -40.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

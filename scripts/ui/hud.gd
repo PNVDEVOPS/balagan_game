@@ -6,7 +6,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	SaveManager.saved.connect(_on_saved)
 	$SavedLabel.visible = false
-	$FlashlightBar.visible = false
 
 func _process(delta: float) -> void:
 	if _save_timer > 0.0:
