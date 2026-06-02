@@ -6,7 +6,8 @@ var kamylok_state: KamylokState = KamylokState.COLD
 var ritual_items: Array[String] = []
 var _idle_subtitle_timer: float = 0.0
 var _idle_subtitle_shown: bool = false
-var _damper_open: bool = false
+var _puzzle_solved: bool = false
+var _back_trigger_count: int = 0
 const CORRECT_ORDER: Array[String] = ["amulet", "doll", "earring"]
 const ARTIFACT_NAMES: Dictionary = {
 	"amulet": "харысхал",
@@ -17,6 +18,7 @@ const ARTIFACT_NAMES: Dictionary = {
 func _ready() -> void:
 	_apply_loop_visuals()
 	_setup_puzzle()
+	_add_back_zone()
 
 	if _all_artifacts_collected():
 		await get_tree().process_frame
@@ -36,12 +38,22 @@ func _ready() -> void:
 func _setup_puzzle() -> void:
 	var amulet_done := GameManager.artifacts_collected.has("amulet")
 
+	for node_name in ["Damper", "WoodPickable"]:
+		var n := get_node_or_null(node_name)
+		if n:
+			n.queue_free()
+
 	if amulet_done:
-		for node_name in ["Damper", "AmuletPickable", "WoodPickable"]:
-			var n = get_node_or_null(node_name)
-			if n:
-				n.queue_free()
+		var amulet_node := get_node_or_null("AmuletPickable")
+		if amulet_node:
+			amulet_node.queue_free()
 		kamylok_state = KamylokState.BURNING
+		_puzzle_solved = true
+	else:
+		var amulet_node := get_node_or_null("AmuletPickable")
+		if amulet_node:
+			amulet_node.visible = false
+			amulet_node.picked_up.connect(func(_id): _on_amulet_picked_up())
 
 	if _all_artifacts_collected():
 		kamylok_state = KamylokState.RITUAL_READY
@@ -57,15 +69,6 @@ func _setup_puzzle() -> void:
 	var fox_carving := get_node_or_null("FoxRiddleCarving")
 	if fox_carving:
 		fox_carving.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_kamyolk"))
-
-	var damper := get_node_or_null("Damper")
-	if damper and not amulet_done:
-		damper.examined.connect(_on_damper_examined)
-
-	if not amulet_done:
-		var amulet := get_node_or_null("AmuletPickable")
-		if amulet:
-			amulet.picked_up.connect(func(_id): _on_amulet_picked_up())
 
 	var poem := get_node_or_null("RitualPoem")
 	if poem:
@@ -102,48 +105,46 @@ func _on_kamylok_examined() -> void:
 	if kamylok_state == KamylokState.RITUAL_ACTIVE:
 		_place_ritual_artifact()
 		return
-	match kamylok_state:
-		KamylokState.COLD:
-			DialogueManager.show_text("", "Камелёк — глиняный очаг, обложенный жердями. Угли холодные. Давно не топили.")
-		KamylokState.BURNING:
-			DialogueManager.show_text("", "Огонь горит ровно. Тепло наконец.")
-		KamylokState.RITUAL_READY:
-			DialogueManager.show_text("", "Пламя стало другим — тихое, почти прозрачное. Ждёт даров.")
-	await DialogueManager.dialogue_finished
-	match kamylok_state:
-		KamylokState.COLD:
-			if Inventory.has_item("firewood"):
-				if not _damper_open:
-					DialogueManager.show_text("", "Задвижка дымохода закрыта. Если разжечь так — дымом задохнусь. Надо сначала открыть её.")
-				else:
-					Inventory.remove_item("firewood")
-					kamylok_state = KamylokState.BURNING
-					_fire_lit()
-			else:
-				DialogueManager.show_text("", "Угли холодные. Нужно дров.")
-		KamylokState.RITUAL_READY:
-			kamylok_state = KamylokState.RITUAL_ACTIVE
-			DialogueManager.show_text("", "Пламя ждёт.")
-
-func _on_damper_examined() -> void:
-	if _damper_open:
-		DialogueManager.show_text("", "Задвижка открыта.")
+	if kamylok_state == KamylokState.COLD:
+		if not _puzzle_solved:
+			DialogueManager.show_text("", "Под золой — что-то есть. Дрова завалили вход.")
+			await DialogueManager.dialogue_finished
+			_open_puzzle()
+			return
+		else:
+			DialogueManager.show_text("", "Угли холодные. Можно разжечь.")
+			await DialogueManager.dialogue_finished
+			kamylok_state = KamylokState.BURNING
+			await _fire_lit()
+			return
+	if kamylok_state == KamylokState.BURNING:
+		DialogueManager.show_text("", "Огонь горит ровно. Тепло наконец.")
 		return
-	DialogueManager.show_text("", "Чугунная задвижка дымохода. Закрыта.")
+	if kamylok_state == KamylokState.RITUAL_READY:
+		DialogueManager.show_text("", "Пламя стало другим — тихое, почти прозрачное. Ждёт даров.")
+		await DialogueManager.dialogue_finished
+		kamylok_state = KamylokState.RITUAL_ACTIVE
+		DialogueManager.show_text("", "Пламя ждёт.")
+
+func _open_puzzle() -> void:
+	var puzzle := MinigameUnblock.new()
+	add_child(puzzle)
+	puzzle.minigame_completed.connect(_on_puzzle_solved)
+	puzzle.minigame_cancelled.connect(puzzle.queue_free)
+
+func _on_puzzle_solved(_id: String) -> void:
+	_puzzle_solved = true
+	DialogueManager.show_text("", "Под золой — что-то блестит.")
 	await DialogueManager.dialogue_finished
-	_damper_open = true
-	DialogueManager.show_text("", "Открываю. В темноте трубы — что-то поблёскивает. Не достать так.")
+	var amulet_node := get_node_or_null("AmuletPickable")
+	if amulet_node:
+		amulet_node.visible = true
+		amulet_node.set_deferred("monitoring", true)
 
 func _fire_lit() -> void:
-	DialogueManager.show_text("", "Ты бросаешь дрова. Огонь занимается медленно, потом ярко — камелёк снова живёт.")
+	DialogueManager.show_text("", "Огонь занимается медленно, потом ярко — камелёк снова живёт.")
 	await DialogueManager.dialogue_finished
 	await get_tree().create_timer(2.0).timeout
-	DialogueManager.show_text("", "Среди огня — что-то не горит. Маленькое, тёмное. Харысхал.")
-	await DialogueManager.dialogue_finished
-	var amulet := get_node_or_null("AmuletPickable")
-	if amulet:
-		amulet.visible = true
-		amulet.set_deferred("monitoring", true)
 
 func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")
@@ -160,11 +161,9 @@ func _show_kydaana_spirit() -> void:
 	silhouette.position = Vector2(1400, 200)
 	silhouette.scale = Vector2(1.8, 1.8)
 	add_child(silhouette)
-
 	var tw := create_tween()
 	tw.tween_property(silhouette, "modulate:a", 0.75, 2.5)
 	tw.tween_interval(5.0)
-	# TBD: Кыдаана реплики и реакция героя добавить здесь
 	tw.tween_property(silhouette, "modulate:a", 0.0, 2.0)
 	await tw.finished
 	silhouette.queue_free()
@@ -177,13 +176,11 @@ func _place_ritual_artifact() -> void:
 	if ritual_items.has(selected):
 		DialogueManager.show_text("", "Этот дар уже в огне.")
 		return
-
 	ritual_items.append(selected)
 	Inventory.remove_item(selected)
 	var count := ritual_items.size()
 	DialogueManager.show_text("", "Ты кладёшь %s в огонь. (%d из 3)" % [ARTIFACT_NAMES.get(selected, selected), count])
 	await DialogueManager.dialogue_finished
-
 	if count >= 3:
 		_complete_ritual()
 
@@ -203,6 +200,34 @@ func _complete_ritual() -> void:
 		DialogueManager.show_text("", "Огонь гаснет. Тишина становится абсолютной.")
 		await DialogueManager.dialogue_finished
 		GameManager.start_finale("bad")
+
+func _add_back_zone() -> void:
+	var area := Area2D.new()
+	area.name = "BackZone"
+	area.collision_layer = 0
+	area.collision_mask = 1
+	var shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(40, 400)
+	shape.position = Vector2(0, 180)
+	shape.shape = rect
+	area.add_child(shape)
+	add_child(area)
+	area.body_entered.connect(_on_back_zone)
+
+func _on_back_zone(body: Node2D) -> void:
+	if not body.is_in_group("player"):
+		return
+	_back_trigger_count += 1
+	DialogueManager.show_text("", _get_loop_text(_back_trigger_count))
+	await DialogueManager.dialogue_finished
+	GameManager.change_room("door_exit")
+
+func _get_loop_text(count: int) -> String:
+	match count:
+		1: return "Снова здесь. Что-то не пускает."
+		2: return "Та же дверь. Тот же коридор."
+		_: return "Я хожу по кругу."
 
 func _process(delta: float) -> void:
 	if _idle_subtitle_shown:
