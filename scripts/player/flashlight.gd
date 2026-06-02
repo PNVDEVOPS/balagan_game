@@ -44,8 +44,8 @@ func _generate_cone_texture() -> void:
 	# Sharp triangular edges, 18° half-angle
 	const IMG := 128
 	const HALF_F := float(IMG) / 2.0
-	const MAX_D := HALF_F * 1.8         # how far the beam reaches
-	const COS_HALF := 0.766             # cos(40°) — wide beam
+	const MAX_D := HALF_F * 0.75        # how far the beam reaches
+	const COS_HALF := 0.9511            # cos(18°)
 
 	var image := Image.create(IMG, IMG, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0, 0, 0, 0))

@@ -81,6 +81,8 @@ func _on_laika_trigger(body: Node2D) -> void:
 func _on_silhouette_trigger(body: Node2D) -> void:
 	if not body.is_in_group("player") or _silhouette_triggered:
 		return
+	if not _ghost_shown:
+		return
 	_silhouette_triggered = true
 	DialogueManager.show_text("", "Там кто-то стоял. Я видел.")
 

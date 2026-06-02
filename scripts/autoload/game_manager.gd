@@ -5,7 +5,7 @@ signal artifact_collected(artifact_id: String)
 
 const TOTAL_NOTES: int = 18
 # Темнота комнат: измени это число (0.0 = полная темнота, 1.0 = нет затемнения)
-const ROOM_DARKNESS: float = 0.42
+const ROOM_DARKNESS: float = 0.58
 
 var current_room: String = "main_hall"
 var artifacts_collected: Array[String] = []
@@ -121,7 +121,9 @@ func _place_player_at_door() -> void:
 		get_tree().current_scene.add_child(mod_node)
 	(mod_node as CanvasModulate).color = Color(ROOM_DARKNESS, ROOM_DARKNESS, ROOM_DARKNESS * 1.05)
 
-	_add_letterbox(get_tree().current_scene)
+	var outdoor_rooms := ["forest", "highway"]
+	if not outdoor_rooms.has(current_room):
+		_add_letterbox(get_tree().current_scene)
 
 func _add_letterbox(scene: Node) -> void:
 	if scene.get_node_or_null("LetterboxBars"):
