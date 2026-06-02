@@ -121,6 +121,25 @@ func _place_player_at_door() -> void:
 		get_tree().current_scene.add_child(mod_node)
 	(mod_node as CanvasModulate).color = Color(ROOM_DARKNESS, ROOM_DARKNESS, ROOM_DARKNESS * 1.05)
 
+	_add_letterbox(get_tree().current_scene)
+
+func _add_letterbox(scene: Node) -> void:
+	if scene.get_node_or_null("LetterboxBars"):
+		return
+	var layer := CanvasLayer.new()
+	layer.name = "LetterboxBars"
+	layer.layer = 3
+	scene.add_child(layer)
+	var vp_size := get_viewport().get_visible_rect().size
+	var bar_h := int(vp_size.y * 0.18)
+	for i in 2:
+		var bar := ColorRect.new()
+		bar.color = Color.BLACK
+		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bar.size = Vector2(vp_size.x, bar_h)
+		bar.position = Vector2(0, 0) if i == 0 else Vector2(0, vp_size.y - bar_h)
+		layer.add_child(bar)
+
 func _ensure_fade() -> void:
 	_screen_fade = get_tree().get_first_node_in_group("screen_fade")
 	if not _screen_fade:

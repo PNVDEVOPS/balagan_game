@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-const WALK_SPEED := 80.0
-const RUN_SPEED := 140.0
+const WALK_SPEED := 100.0
 const GRAVITY := 600.0
 
 var facing_right := true
@@ -39,15 +38,13 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0
 
 	move_and_slide()
+	position = position.round()
 	_update_animation()
 	_check_interaction()
 
 func _handle_movement() -> void:
 	var direction := Input.get_axis("move_left", "move_right")
-	var is_running := Input.is_action_pressed("run")
-	var speed := RUN_SPEED if is_running else WALK_SPEED
-
-	velocity.x = direction * speed
+	velocity.x = direction * WALK_SPEED
 
 	if direction > 0:
 		facing_right = true
@@ -67,12 +64,10 @@ func _update_animation() -> void:
 		sprite.play("idle")
 		return
 	if is_interacting:
-		sprite.play("crank")
+		sprite.play("idle")
 		return
 	if abs(velocity.x) < 1.0:
 		sprite.play("idle")
-	elif Input.is_action_pressed("run"):
-		sprite.play("run")
 	else:
 		sprite.play("walk")
 

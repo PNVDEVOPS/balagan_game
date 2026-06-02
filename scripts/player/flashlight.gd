@@ -28,8 +28,10 @@ var qte_timer: float = 0.0
 var _base_energy: float = 2.8
 var _base_scale: float = 2.0
 var _flicker_timer: float = 0.0
+var _base_x: float = 0.0
 
 func _ready() -> void:
+	_base_x = position.x
 	_generate_cone_texture()
 	texture_scale = _base_scale
 	energy = _base_energy
@@ -42,8 +44,8 @@ func _generate_cone_texture() -> void:
 	# Sharp triangular edges, 18° half-angle
 	const IMG := 128
 	const HALF_F := float(IMG) / 2.0
-	const MAX_D := HALF_F * 0.75        # how far the beam reaches
-	const COS_HALF := 0.9511            # cos(18°)
+	const MAX_D := HALF_F * 1.8         # how far the beam reaches
+	const COS_HALF := 0.766             # cos(40°) — wide beam
 
 	var image := Image.create(IMG, IMG, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0, 0, 0, 0))
@@ -75,6 +77,7 @@ func _generate_cone_texture() -> void:
 
 func set_facing(facing_right: bool) -> void:
 	scale.x = 1.0 if facing_right else -1.0
+	position.x = _base_x if facing_right else -_base_x
 
 func _process(delta: float) -> void:
 	if is_scripted_off:
