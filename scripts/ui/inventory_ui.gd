@@ -6,37 +6,53 @@ const ITEM_COMMENTS: Dictionary = {
 	"flashlight": "Фонарик. Аккумулятор заряжен — пока выручает.",
 }
 
-@onready var inventory_bar: HBoxContainer = $InventoryBar
-@onready var bag_button: Button = $InventoryBar/BagButton
-@onready var slots_row: HBoxContainer = $InventoryBar/SlotsRow
+@onready var inventory_panel: PanelContainer = $InventoryPanel
+@onready var bag_button: Button = $BagButton
+@onready var slots_row: HBoxContainer = $InventoryPanel/SlotsRow
 
 var is_open: bool = false
 var _slots: Array[Button] = []
 
 func _ready() -> void:
+	_apply_panel_style()
 	Inventory.inventory_changed.connect(_refresh)
 	bag_button.pressed.connect(toggle)
 	_build_slots()
+
+func _apply_panel_style() -> void:
+	# Общий фон не нужен — только сами слоты имеют оформление
+	inventory_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):
 		toggle()
 
 func _build_slots() -> void:
+	var slot_tex := load("res://assets/ui/inv_slot.png") as Texture2D
 	for i in SLOT_COUNT:
 		var slot := Button.new()
 		slot.custom_minimum_size = Vector2(28, 22)
 		slot.focus_mode = Control.FOCUS_NONE
-		slot.flat = true
+		slot.flat = false
 		slot.add_theme_font_size_override("font_size", 8)
+		if slot_tex:
+			var style := StyleBoxTexture.new()
+			style.texture = slot_tex
+			style.texture_margin_left   = 5
+			style.texture_margin_right  = 5
+			style.texture_margin_top    = 5
+			style.texture_margin_bottom = 5
+			slot.add_theme_stylebox_override("normal",   style)
+			slot.add_theme_stylebox_override("disabled", style)
+			slot.add_theme_stylebox_override("hover",    style)
+			slot.add_theme_stylebox_override("pressed",  style)
 		slot.pressed.connect(_on_slot_pressed.bind(i))
 		slots_row.add_child(slot)
 		_slots.append(slot)
 
 func toggle() -> void:
 	is_open = not is_open
-	slots_row.visible = is_open
-	inventory_bar.modulate.a = 0.92 if is_open else 0.6
+	inventory_panel.visible = is_open
 	_refresh()
 
 func _refresh() -> void:

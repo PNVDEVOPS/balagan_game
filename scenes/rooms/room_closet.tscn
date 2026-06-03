@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
 
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
@@ -19,16 +21,18 @@ size = Vector2(60, 140)
 [node name="RoomCloset" type="Node2D" unique_id=1682888383]
 script = ExtResource("1_clos")
 
-[node name="Background" type="ColorRect" parent="." unique_id=253234205]
+[node name="Background" type="TextureRect" parent="." unique_id=253234205]
 offset_right = 640.0
-offset_bottom = 360.0
-color = Color(0.05, 0.03, 0.04, 1)
+offset_bottom = 215.0
+texture = ExtResource("manor_wall")
+stretch_mode = 1
 
-[node name="FloorVisual" type="ColorRect" parent="." unique_id=253234206]
+[node name="FloorVisual" type="TextureRect" parent="." unique_id=253234206]
 offset_top = 215.0
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.08, 0.05, 0.06, 1)
+texture = ExtResource("manor_floor")
+stretch_mode = 1
 
 [node name="Player" parent="." unique_id=1035253466 instance=ExtResource("2_player")]
 position = Vector2(80, 240)

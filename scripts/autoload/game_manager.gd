@@ -25,6 +25,7 @@ var _screen_fade: Node = null
 func _ready() -> void:
 	_load_room_graph()
 	artifact_collected.connect(_on_artifact_collected)
+	get_viewport().canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
 
 func _load_room_graph() -> void:
 	var file := FileAccess.open("res://data/room_graph.json", FileAccess.READ)
@@ -133,7 +134,7 @@ func _add_letterbox(scene: Node) -> void:
 	layer.layer = 3
 	scene.add_child(layer)
 	var vp_size := get_viewport().get_visible_rect().size
-	var bar_h := int(vp_size.y * 0.18)
+	var bar_h := int(vp_size.y * 0.10)
 	for i in 2:
 		var bar := ColorRect.new()
 		bar.color = Color.BLACK

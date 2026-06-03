@@ -104,10 +104,9 @@ func _setup_window(window: Node, room_id: String) -> void:
 func _setup_note(note: Node, room_id: String) -> void:
 	var note_key := ""
 	match room_id:
-		"entry_c1": note_key = "note_env_2"
 		"corridor2": note_key = "note_father_4"
 		"entry_c4":
-			note_key = "note_haryshal"
+			note_key = "artifact_amulet"
 			note.interaction_text = "Осмотреть записку на тумбе"
 	if note_key.is_empty():
 		note.queue_free()

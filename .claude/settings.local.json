@@ -61,7 +61,13 @@
       "Bash(python /tmp/compare_patterns.py)",
       "Skill(update-config)",
       "Bash(\"C:\\\\Users\\\\gugom\\\\AppData\\\\Local\\\\Programs\\\\Godot_v4.3-stable_win64\\\\Godot_v4.3-stable_win64.exe\" --headless --path . res://scenes/rooms/room_forest.tscn --quit)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(Get-ChildItem *)",
+      "Bash(python3 -c \"from PIL import Image; print\\('PIL OK'\\)\")",
+      "Bash(python -c \"from PIL import Image; print\\('PIL OK'\\)\")",
+      "Read(//c/Users/gugom/Downloads/внутри здания/**)",
+      "Bash(dir \"C:\\\\Users\\\\gugom\\\\Downloads\\\\внутри здания\")",
+      "Bash(python3 *)"
     ]
   },
   "enabledPlugins": {}

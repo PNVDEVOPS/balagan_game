@@ -11,6 +11,8 @@ enum Hint { NONE, SIT_AT_DOOR, GROWL, SCRATCH, HAPPY }
 
 @export var hint_target: Node2D = null
 @export var auto_appear: bool = true
+# TODO: подключи в инспекторе: res://assets/audio/sfx_laika_bark.ogg (ассет ещё не создан)
+@export var bark_sound: AudioStream = null
 
 var state: State = State.IDLE
 var current_hint: Hint = Hint.NONE
@@ -107,6 +109,8 @@ func appear() -> void:
 	var tween := create_tween()
 	modulate.a = 0.0
 	tween.tween_property(self, "modulate:a", 0.7, 0.8)
+	if bark_sound:
+		AudioManager.play_sfx(bark_sound)
 
 func disappear() -> void:
 	var tween := create_tween()
@@ -137,3 +141,14 @@ func happy() -> void:
 func reset_hint() -> void:
 	current_hint = Hint.NONE
 	idle_timer = 0.0
+
+const _BARKS: Array[String] = [
+	"Гав... гав.",
+	"Гав! Гав-гав...",
+	"Ав! ...Ав.",
+	"Гав. Гав-гав.",
+	"Ав-ав... гав.",
+]
+
+func bark() -> void:
+	DialogueManager.show_text("Лайка", _BARKS[randi() % _BARKS.size()])

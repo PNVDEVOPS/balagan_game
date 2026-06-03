@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://ditix7hmlgbki"]
 
-[ext_resource type="Texture2D" uid="uid://d4ey2udxha4dh" path="res://assets/sprites/spirit_placeholder.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ghost_figure.webp" id="1"]
 
 [resource]
 animations = [{

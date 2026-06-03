@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bcllov3j0blpg" path="res://scripts/characters/laika.gd" id="1"]
 [ext_resource type="SpriteFrames" uid="uid://d1hy4suvnp4vy" path="res://assets/sprites/laika_frames.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="3"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_laika"]
 size = Vector2(20, 16)
 
@@ -16,14 +15,16 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_laika")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1663700967]
-modulate = Color(0.82, 0.7, 0.55, 0.7)
+modulate = Color(1.0, 0.92, 0.78, 1.0)
 position = Vector2(0, -10)
+scale = Vector2(0.12, 0.15)
 sprite_frames = ExtResource("2")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="Glow" type="PointLight2D" parent="." unique_id=319767614]
 color = Color(1, 0.973, 0.91, 1)
-energy = 0.4
+energy = 0.7
 texture = ExtResource("3")
 texture_scale = 0.8
+

@@ -37,11 +37,6 @@ func _ready() -> void:
 func _setup_puzzle() -> void:
 	var amulet_done := GameManager.artifacts_collected.has("amulet")
 
-	for node_name in ["Damper", "WoodPickable"]:
-		var n := get_node_or_null(node_name)
-		if n:
-			n.queue_free()
-
 	if amulet_done:
 		var amulet_node := get_node_or_null("AmuletPickable")
 		if amulet_node:
@@ -52,6 +47,8 @@ func _setup_puzzle() -> void:
 		var amulet_node := get_node_or_null("AmuletPickable")
 		if amulet_node:
 			amulet_node.visible = false
+			# Отключаем monitorable — иначе RayCast2D игрока находит амулет даже скрытым
+			amulet_node.set_deferred("monitorable", false)
 			amulet_node.picked_up.connect(func(_id): _on_amulet_picked_up())
 
 	if _all_artifacts_collected():
@@ -65,16 +62,11 @@ func _setup_puzzle() -> void:
 	if riddle:
 		riddle.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_kamyolk"))
 
-	var fox_carving := get_node_or_null("FoxRiddleCarving")
-	if fox_carving:
-		fox_carving.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_kamyolk"))
-
 	var poem := get_node_or_null("RitualPoem")
 	if poem:
 		poem.examined.connect(func(): DialogueManager.start_dialogue("notes/poem_ritual"))
 
 	for note_data: Array in [
-			["NoteEnv1", "notes/note_env_1", "note_env_1"],
 			["NoteEnv5", "notes/note_env_5", "note_env_5"]]:
 		var note := get_node_or_null(note_data[0])
 		var key: String = note_data[1]
@@ -126,11 +118,22 @@ func _on_kamylok_examined() -> void:
 		DialogueManager.show_text("", "Пламя ждёт.")
 
 func _open_puzzle() -> void:
-	var puzzle := MinigameUnblock.new()
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("freeze"):
+		player.freeze()
+	var puzzle := KlotskiPuzzle.new()
 	add_child(puzzle)
-	puzzle.minigame_completed.connect(_on_puzzle_solved)
+	puzzle.puzzle_solved.connect(_on_puzzle_solved)
+	puzzle.puzzle_closed.connect(func():
+		var p := get_tree().get_first_node_in_group("player")
+		if p and p.has_method("unfreeze"):
+			p.unfreeze()
+	)
 
-func _on_puzzle_solved(_id: String) -> void:
+func _on_puzzle_solved(_moves: int) -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("unfreeze"):
+		player.unfreeze()
 	GameManager.puzzle_unblock_solved = true
 	DialogueManager.show_text("", "Под золой — что-то блестит.")
 	await DialogueManager.dialogue_finished
@@ -138,6 +141,7 @@ func _on_puzzle_solved(_id: String) -> void:
 	if amulet_node:
 		amulet_node.visible = true
 		amulet_node.set_deferred("monitoring", true)
+		amulet_node.set_deferred("monitorable", true)
 
 func _fire_lit() -> void:
 	DialogueManager.show_text("", "Огонь занимается медленно, потом ярко — камелёк снова живёт.")
@@ -148,9 +152,14 @@ func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")
 	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в огне все эти годы.")
 	await DialogueManager.dialogue_finished
-	_show_kydaana_spirit()
+	await _demo_amulet_sequence()
 
-func _show_kydaana_spirit() -> void:
+func _demo_amulet_sequence() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("freeze"):
+		player.freeze()
+
+	# Появление духа
 	var silhouette := Sprite2D.new()
 	var tex_path := "res://assets/sprites/ghost_figure.webp"
 	if ResourceLoader.exists(tex_path):
@@ -159,12 +168,68 @@ func _show_kydaana_spirit() -> void:
 	silhouette.position = Vector2(1400, 200)
 	silhouette.scale = Vector2(1.8, 1.8)
 	add_child(silhouette)
-	var tw := create_tween()
-	tw.tween_property(silhouette, "modulate:a", 0.75, 2.5)
-	tw.tween_interval(5.0)
-	tw.tween_property(silhouette, "modulate:a", 0.0, 2.0)
-	await tw.finished
+	var tw_in := create_tween()
+	tw_in.tween_property(silhouette, "modulate:a", 0.75, 2.5)
+	await tw_in.finished
+
+	# Диалог Кыдааны (заглушка — текст заменить в chapter2_balagan.json → kydaana_demo_end)
+	DialogueManager.start_dialogue("chapter2_balagan/kydaana_demo_end")
+	await DialogueManager.dialogue_finished
+
+	# Дух уходит
+	var tw_out := create_tween()
+	tw_out.tween_property(silhouette, "modulate:a", 0.0, 2.0)
+	await tw_out.finished
 	silhouette.queue_free()
+
+	# Карточка «Конец демоверсии»
+	await _show_demo_end_card()
+
+func _show_demo_end_card() -> void:
+	var overlay := CanvasLayer.new()
+	overlay.layer = 10
+	get_tree().current_scene.add_child(overlay)
+
+	var bg := ColorRect.new()
+	bg.color = Color(0.0, 0.0, 0.0, 0.0)
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.add_child(bg)
+
+	var tw_fade := create_tween()
+	tw_fade.tween_property(bg, "color:a", 1.0, 1.5)
+	await tw_fade.finished
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 14)
+	center.add_child(vbox)
+
+	var title := Label.new()
+	title.text = "КОНЕЦ ДЕМОВЕРСИИ"
+	title.add_theme_font_size_override("font_size", 24)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.modulate = Color(0.85, 0.75, 0.55, 0.0)
+	vbox.add_child(title)
+
+	var sub := Label.new()
+	sub.text = "Спасибо за игру."
+	sub.add_theme_font_size_override("font_size", 14)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.modulate = Color(0.6, 0.55, 0.45, 0.0)
+	vbox.add_child(sub)
+
+	var tw_text := create_tween()
+	tw_text.tween_property(title, "modulate:a", 1.0, 1.0)
+	tw_text.parallel().tween_property(sub, "modulate:a", 1.0, 1.0)
+	await tw_text.finished
+
+	await get_tree().create_timer(4.0).timeout
+	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 func _place_ritual_artifact() -> void:
 	var selected := Inventory.selected_item

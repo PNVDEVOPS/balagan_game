@@ -17,12 +17,15 @@ func _ready() -> void:
 	var table := get_node_or_null("TableExaminable")
 	if table:
 		table.examined.connect(func():
-			DialogueManager.show_text("", "Тарелки на двоих. Еда остыла, но не заветрела — ушли недавно. Или не ушли.\n\nЧашка у края стола перевёрнута. Чай разлился и высох.")
+			DialogueManager.show_text("", "Тарелки на двоих. Еда остыла, но не заветрела — ушли недавно. Или не ушли.\n\nЧашка у края стола перевёрнута. Чай разлился и высох.\n\nНа краю — тетрадь. Чужой почерк.")
 			await DialogueManager.dialogue_finished
-			GameManager.mark_note_found("note_mother_2")
-			DialogueManager.start_dialogue("notes/note_mother_2")
+			for key: String in ["note_mother_1", "note_mother_2", "note_mother_3"]:
+				GameManager.mark_note_found(key)
+				DialogueManager.start_dialogue("notes/" + key)
+				await DialogueManager.dialogue_finished
 		)
 
+	# WindowExamine показывает только свой inline examine_text (атмосфера)
 
 	await get_tree().process_frame
 	await get_tree().process_frame

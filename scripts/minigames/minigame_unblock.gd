@@ -66,6 +66,16 @@ func _build_ui() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(title)
 
+	var hint := Label.new()
+	hint.text = "Клик — выбрать блок. Стрелки — двигать. Золотой блок — вправо к выходу."
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.modulate = Color(0.8, 0.75, 0.5, 1.0)
+	hint.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	hint.position = Vector2(-240.0, 82.0)
+	hint.size = Vector2(480.0, 24.0)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	add_child(hint)
+
 	var grid_size := float(CELL * GRID_COLS)
 	_grid_ctrl = Control.new()
 	_grid_ctrl.name = "GridCtrl"

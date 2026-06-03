@@ -1,6 +1,23 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://d1hy4suvnp4vy"]
 
 [ext_resource type="Texture2D" uid="uid://dpqhd6okyp5d2" path="res://assets/sprites/laika_placeholder.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dml2sd7s7awfs" path="res://assets/sprites/laika/sit/1.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cgh14dihcbke8" path="res://assets/sprites/laika/sit/2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dmyo3egrh77x4" path="res://assets/sprites/laika/sit/3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://b5p1s0ff0mcnp" path="res://assets/sprites/laika/sit/4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://bk35scowns7lt" path="res://assets/sprites/laika/sit/5.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://cclrtlaj54l4" path="res://assets/sprites/laika/sit/6.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://bx3xb4kesh7hi" path="res://assets/sprites/laika/sit/7.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://uq2tsgpaxa7y" path="res://assets/sprites/laika/sit/8.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://cc6r5ir6lfsbn" path="res://assets/sprites/laika/walk/1.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://bqmivv8705iwd" path="res://assets/sprites/laika/walk/2.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://bq6xw8iox4e2y" path="res://assets/sprites/laika/walk/3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://dqdxq12gfcsqi" path="res://assets/sprites/laika/walk/4.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://dcs4whqt8aoil" path="res://assets/sprites/laika/walk/5.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://2drwupyskd48" path="res://assets/sprites/laika/walk/6.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://c7rii6jmgeg0c" path="res://assets/sprites/laika/walk/7.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://bvu4nogy7l3a0" path="res://assets/sprites/laika/walk/8.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://h48l57eytows" path="res://assets/sprites/laika/walk/9.png" id="18"]
 
 [resource]
 animations = [{
@@ -14,7 +31,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1")
+"texture": ExtResource("2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9")
 }],
 "loop": true,
 "name": &"idle",
@@ -22,17 +60,62 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1")
+"texture": ExtResource("2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9")
 }],
 "loop": true,
 "name": &"sit",
-"speed": 2.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1")
+"texture": ExtResource("10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 6.0
+"speed": 12.0
 }]

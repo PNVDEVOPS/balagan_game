@@ -7,34 +7,39 @@
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://examinable001" path="res://scenes/objects/examinable.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://usable001" path="res://scenes/objects/usable.tscn" id="8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/window_double.png" id="manor_window"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
 [node name="RoomBedroom" type="Node2D"]
 script = ExtResource("5")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 offset_right = 1800.0
 offset_bottom = 700.0
-color = Color(0.102, 0.051, 0.071, 1)
+texture = ExtResource("manor_wall")
+stretch_mode = 1
 
-[node name="FloorVisual" type="ColorRect" parent="."]
-offset_top = 660.0
+[node name="FloorVisual" type="TextureRect" parent="."]
+offset_top = 659.0
 offset_right = 1800.0
 offset_bottom = 700.0
-color = Color(0.14, 0.08, 0.1, 1)
+texture = ExtResource("manor_floor")
+stretch_mode = 1
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(0, 660)
+position = Vector2(0, 659)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_floor")
 
 [node name="Player" parent="." instance=ExtResource("1")]
-position = Vector2(1700, 640)
+position = Vector2(1700, 655)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1700, 640)
+position = Vector2(1700, 655)
 
 [node name="RoomRight" type="Marker2D" parent="."]
 position = Vector2(1800, 180)
@@ -92,10 +97,6 @@ examine_text = ""
 position = Vector2(1200, 620)
 examine_text = ""
 
-[node name="NoteAiyyna3" parent="." instance=ExtResource("7")]
-position = Vector2(1000, 620)
-examine_text = ""
-
 [node name="WindowExamine" parent="." instance=ExtResource("7")]
 position = Vector2(300, 560)
 examine_text = "За окном — метель. Деревья согнулись под снегом. Как мы выберемся отсюда?"
@@ -113,5 +114,10 @@ shape = SubResource("FwdShape")
 
 [node name="RoomBottom" type="Marker2D" parent="."]
 position = Vector2(0, 700)
+
+[node name="Window1" type="Sprite2D" parent="."]
+position = Vector2(350, 514)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")
 
 [node name="HUD" parent="." instance=ExtResource("3")]

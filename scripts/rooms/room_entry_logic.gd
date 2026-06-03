@@ -21,8 +21,8 @@ func _ready() -> void:
 	var note := get_node_or_null("NoteEntry1")
 	if note:
 		note.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_env_hunting")
-			GameManager.mark_note_found("note_env_hunting")
+			DialogueManager.start_dialogue("notes/note_kydaana_1")
+			GameManager.mark_note_found("note_kydaana_1")
 		)
 
 	if GameManager.escape_attempts == 1:

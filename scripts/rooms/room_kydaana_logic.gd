@@ -62,9 +62,11 @@ func _ready() -> void:
 
 	var note4 := get_node_or_null("NoteKydaana4")
 	if note4:
+		note4.visible = false
+		note4.set_deferred("monitoring", false)
 		note4.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_kydaana_4")
-			GameManager.mark_note_found("note_kydaana_4")
+			GameManager.mark_note_found("note_kydaana_2")
+			DialogueManager.start_dialogue("notes/note_kydaana_2")
 		)
 
 	var earring := get_node_or_null("EarringPickable")
@@ -154,6 +156,10 @@ func _on_mirror_solved_signal(_id: String) -> void:
 		player.unfreeze()
 	DialogueManager.show_text("", "Зеркало собралось. В нём — отражение комнаты. Там, где сучок в доске похож на звезду, что-то спрятано.")
 	await DialogueManager.dialogue_finished
+	var note4_reveal := get_node_or_null("NoteKydaana4")
+	if note4_reveal:
+		note4_reveal.visible = true
+		note4_reveal.set_deferred("monitoring", true)
 	var floorboard := get_node_or_null("SecretFloorboard")
 	if floorboard:
 		floorboard.visible = true

@@ -1,6 +1,25 @@
 [gd_scene format=3 uid="uid://dpyowenk8y3ax"]
 
 [ext_resource type="Script" uid="uid://dp1v0toppp3xq" path="res://scripts/ui/main_menu.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/main_menu_bg.png" id="2"]
+[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="3"]
+[ext_resource type="Shader" path="res://assets/shaders/film_grain.gdshader" id="4"]
+[ext_resource type="Shader" path="res://assets/shaders/menu_bg.gdshader" id="5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_menubg"]
+shader = ExtResource("5")
+shader_parameter/breathe_speed = 0.35
+shader_parameter/breathe_amount = 0.10
+shader_parameter/flicker_speed = 4.0
+shader_parameter/flicker_amount = 0.07
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("3")
+shader_parameter/strength = 0.65
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grain"]
+shader = ExtResource("4")
+shader_parameter/strength = 0.06
 
 [node name="MainMenu" type="Control" unique_id=770718034]
 layout_mode = 3
@@ -11,60 +30,106 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="." unique_id=2121989040]
+[node name="Background" type="TextureRect" parent="." unique_id=2121989040]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.039, 0.02, 0.012, 1)
+material = SubResource("ShaderMaterial_menubg")
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Vignette" type="ColorRect" parent="." unique_id=1200000001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_vignette")
+color = Color(1, 1, 1, 1)
+
+[node name="Grain" type="ColorRect" parent="." unique_id=1200000002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_grain")
+color = Color(1, 1, 1, 1)
 
 [node name="Title" type="Label" parent="." unique_id=1486955584]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -130.0
-offset_right = 120.0
-offset_bottom = -80.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "БАЛАГАН"
-horizontal_alignment = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -260.0
+offset_right = 220.0
+offset_bottom = -205.0
+grow_horizontal = 1
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.94, 0.92, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0.55, 0.2, 0.75, 0.8)
+theme_override_constants/outline_size = 2
+text = "үөр"
+horizontal_alignment = 0
+
+[node name="DemoLabel" type="Label" parent="." unique_id=1486955585]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -202.0
+offset_right = 160.0
+offset_bottom = -188.0
+grow_horizontal = 1
+grow_vertical = 0
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.7, 0.6, 0.85, 0.85)
+text = "(демо)"
+horizontal_alignment = 0
 
 [node name="Subtitle" type="Label" parent="." unique_id=553821145]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -75.0
-offset_right = 150.0
-offset_bottom = -55.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -185.0
+offset_right = 220.0
+offset_bottom = -173.0
+grow_horizontal = 1
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.75, 0.72, 0.82, 0.75)
 text = "якутский фолк-хоррор"
-horizontal_alignment = 1
+horizontal_alignment = 0
 
 [node name="Buttons" type="VBoxContainer" parent="." unique_id=17050918]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -40.0
-offset_right = 80.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -110.0
+offset_right = 190.0
+offset_bottom = -22.0
+grow_horizontal = 1
+grow_vertical = 0
+theme_override_constants/separation = 3
 
 [node name="NewGameBtn" type="Button" parent="Buttons" unique_id=2056559830]
 layout_mode = 2

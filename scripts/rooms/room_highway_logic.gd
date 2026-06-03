@@ -42,7 +42,8 @@ func _on_car_examined() -> void:
 
 func _give_flashlight() -> void:
 	Inventory.add_item("flashlight")
-	SubtitleManager.show_subtitle("[Вы взяли Фонарь]", SubtitleManager.Pos.TOP_CENTER)
+	var flashlight_tex := load("res://assets/sprites/item_placeholder.png") as Texture2D
+	ItemPopup.show_item("Фонарь", "Аккумулятор заряжен — пока выручает.", flashlight_tex)
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
 		player.flashlight_ctrl.scripted_on()

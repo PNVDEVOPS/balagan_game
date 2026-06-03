@@ -19,7 +19,7 @@ shape = SubResource("RectangleShape2D_col")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2104586973]
 position = Vector2(0, -45)
-scale = Vector2(0.35, 0.35)
+scale = Vector2(0.24, 0.24)
 sprite_frames = ExtResource("3")
 animation = &"idle"
 autoplay = "idle"
@@ -28,6 +28,10 @@ autoplay = "idle"
 position = Vector2(10, -42)
 color = Color(1, 0.957, 0.839, 1)
 energy = 1.5
+range_z_max = 9
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 1.0
 texture = ExtResource("4")
 texture_scale = 2.0
 script = ExtResource("2")
@@ -45,4 +49,3 @@ texture = ExtResource("5")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=145728509]
 position = Vector2(0, -5)
-position_smoothing_enabled = true

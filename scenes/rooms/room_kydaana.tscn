@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="2_exam"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="3_pick"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4_laika"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/window_single.png" id="manor_window"]
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)
@@ -14,10 +17,18 @@ size = Vector2(100, 160)
 [node name="RoomKydaana" type="Node2D" unique_id=1627768748]
 script = ExtResource("1_kyd")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1880128414]
+[node name="Background" type="TextureRect" parent="." unique_id=1880128414]
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.06, 0.04, 0.07, 1)
+texture = ExtResource("manor_wall")
+stretch_mode = 1
+
+[node name="FloorVisual" type="TextureRect" parent="."]
+offset_top = 248.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("manor_floor")
+stretch_mode = 1
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=838682354]
 position = Vector2(80, 290)
@@ -84,7 +95,7 @@ item_name = "Серёжка"
 pickup_text = "Серёжка. Одна. Вторую ты уже не найдёшь."
 
 [node name="Laika" parent="." unique_id=728616067 instance=ExtResource("4_laika")]
-position = Vector2(210, 285)
+position = Vector2(210, 290)
 auto_appear = false
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=113497485]
@@ -93,3 +104,8 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=2121764976]
 shape = SubResource("LaikaShape")
+
+[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900005]
+position = Vector2(180, 154)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")

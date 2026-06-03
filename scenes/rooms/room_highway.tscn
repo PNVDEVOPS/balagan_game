@@ -202,14 +202,17 @@ scroll_scale = Vector2(1.2, 1.2)
 repeat_size = Vector2(640, 0)
 
 [node name="СлойСнегаSprite1" type="Sprite2D" parent="ParallaxLayer3" unique_id=1331899625]
-z_index = 2
+z_index = 10
 position = Vector2(320, 210)
 scale = Vector2(1, 0.8364584)
 texture = ExtResource("12_lqx0j")
 flip_h = true
 
 [node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
-position = Vector2(314, 307)
+position = Vector2(314, 289)
+
+[node name="AnimatedSprite2D" parent="Player" unique_id=2104586973]
+scale = Vector2(0.18, 0.18)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=47794619]
 position = Vector2(1400, -20)
@@ -255,10 +258,9 @@ texture = ExtResource("5")
 texture_scale = 1.2
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=398786770]
-position = Vector2(0, 330)
+position = Vector2(1, 304)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1767522937]
-position = Vector2(0, -14)
 shape = SubResource("WorldBoundaryShape2D_floor")
 
 [node name="Pole1" type="Sprite2D" parent="." unique_id=1433476250]

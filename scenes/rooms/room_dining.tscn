@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://1yeavkhrcbjt" path="res://scripts/rooms/room_dining_logic.gd" id="1_dine"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="2_exam"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/window_double.png" id="manor_window"]
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)
@@ -9,10 +12,18 @@ size = Vector2(60, 140)
 [node name="RoomDining" type="Node2D" unique_id=1021603548]
 script = ExtResource("1_dine")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1950659847]
+[node name="Background" type="TextureRect" parent="." unique_id=1950659847]
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.05, 0.04, 0.03, 1)
+texture = ExtResource("manor_wall")
+stretch_mode = 1
+
+[node name="FloorVisual" type="TextureRect" parent="."]
+offset_top = 248.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("manor_floor")
+stretch_mode = 1
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=2063969240]
 position = Vector2(80, 290)
@@ -43,3 +54,8 @@ interaction_text = "Осмотреть"
 position = Vector2(140, 200)
 examine_text = "Двор занесло. Забор накренился под снегом. Следы у крыльца — старые."
 interaction_text = "Посмотреть в окно"
+
+[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900004]
+position = Vector2(200, 154)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")

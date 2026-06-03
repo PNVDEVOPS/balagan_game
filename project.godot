@@ -23,6 +23,8 @@ DialogueManager="*res://scripts/autoload/dialogue_manager.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
 ChapterManager="*res://scripts/autoload/chapter_manager.gd"
 SubtitleManager="*res://scripts/autoload/subtitle_manager.gd"
+ItemPopup="*res://scenes/ui/item_popup.tscn"
+NotePopup="*res://scenes/ui/note_popup.tscn"
 
 [display]
 
@@ -30,7 +32,11 @@ window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/window_width_override=1920
 window/size/window_height_override=1080
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
+
+[editor]
+
+movie_writer/movie_file="movie.avi"
 
 [input]
 
@@ -81,4 +87,4 @@ crank={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true

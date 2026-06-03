@@ -35,11 +35,11 @@ func _ready() -> void:
 	if doll:
 		doll.picked_up.connect(func(_id): _on_doll_picked_up())
 
-	# Mother diary notes (4 entries)
+	# Father's hunt notes (Зима) + mother's knife note
 	for note_data: Array in [
-			["NoteMother1", "notes/note_mother_1", "note_mother_1"],
-			["NoteMother2", "notes/note_mother_2", "note_mother_2"],
-			["NoteMother3", "notes/note_mother_3", "note_mother_3"],
+			["NoteMother1", "notes/note_father_1", "note_father_1"],
+			["NoteMother2", "notes/note_father_2", "note_father_2"],
+			["NoteMother3", "notes/note_father_3", "note_father_3"],
 			["NoteMother4", "notes/note_mother_4", "note_mother_4"]]:
 		var note := get_node_or_null(note_data[0])
 		var key: String = note_data[1]
@@ -49,16 +49,6 @@ func _ready() -> void:
 				DialogueManager.start_dialogue(key)
 				GameManager.mark_note_found(note_id)
 			)
-
-	# Кыдаана note 3 — with fallback for old node name
-	var kydaana3 := get_node_or_null("NoteKydaana3")
-	if not kydaana3:
-		kydaana3 = get_node_or_null("NoteAiyyna3")
-	if kydaana3:
-		kydaana3.examined.connect(func():
-			DialogueManager.start_dialogue("notes/note_kydaana_3")
-			GameManager.mark_note_found("note_kydaana_3")
-		)
 
 	var forward_zone := get_node_or_null("ForwardZone")
 	if forward_zone:

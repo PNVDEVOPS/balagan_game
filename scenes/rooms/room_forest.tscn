@@ -23,10 +23,10 @@
 [ext_resource type="Texture2D" uid="uid://73ws0yfql71l" path="res://assets/sprites/forest/пенек передний_sprite_1.png" id="13_ssgfx"]
 [ext_resource type="Texture2D" uid="uid://bpa8immg5i0ig" path="res://assets/sprites/forest/передняя дорога_sprite_1.png" id="14_an2w0"]
 [ext_resource type="Texture2D" uid="uid://vag2pntljdpv" path="res://assets/sprites/forest/дерево 1 (clone)_sprite_1.png" id="14_vugsk"]
+[ext_resource type="Texture2D" uid="uid://y7syahnd7p3f" path="res://assets/sprites/ghost_figure.webp" id="15_xm6as"]
 [ext_resource type="Texture2D" uid="uid://dhx6eof43qc8c" path="res://assets/sprites/forest/кустики передние_sprite_1.png" id="18_muwxq"]
 [ext_resource type="Texture2D" uid="uid://c06vuepnvy31" path="res://assets/sprites/forest/забор_sprite_1.png" id="25_7cvm8"]
 [ext_resource type="Texture2D" uid="uid://xjiwwrowlw5n" path="res://assets/sprites/forest/домик_sprite_1.png" id="26_t1kjq"]
-[ext_resource type="Texture2D" uid="uid://d4ey2udxha4dh" path="res://assets/sprites/spirit_placeholder.png" id="27_spirit"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xm6as"]
 particle_flag_disable_z = true
@@ -79,9 +79,15 @@ size = Vector2(120, 369)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(120.75, 361)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rrqqt"]
+polygon = PackedVector2Array(-949.8336, 159.99998, -937.2466, 153.63637, -932.40546, 139.99998, -930.469, 119.0909, -921.75494, 111.81818, -910.13617, 121.81816, -908.1997, 140.90907, -895.61273, 157.27272, -878.1846, 167.27272, -963.3888, 165.45454)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ssgfx"]
+polygon = PackedVector2Array(1737.973, 167.27272, 1714.7355, 106.36363, 1737.0048, 91.81818, 1749.5917, 103.63635, 1804.7809, 105.45453, 1816.3995, 94.54544, 1820.2723, 106.36363, 1873.525, 110.90907, 1884.1757, 94.54544, 1892.8898, 109.0909, 1963.5704, 117.27272, 1974.2211, 106.36363, 1983.9034, 120.90907, 2035.2196, 130.90907, 2053.6157, 121.81816, 2068.1392, 144.54546, 2082.6626, 155.45454, 2082.6626, 9.090897, 2019.7279, 9.999985, 2019.7279, -6.3636475, 2138.8203, -134.54547, 2216.2783, -114.54547, 2216.2783, 189.99998, 1739.9093, 187.27272)
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xm6as"]
 cull_mode = 1
-polygon = PackedVector2Array(49.37976, 34.54544, 35.824585, 84.54544, 20.332886, 139.99998, 176.2179, 158.18181, 102.63245, 97.27272, 95.85486, 69.999985, 91.98193, 16.363617, 132.64758, -1.8181915, 130.71106, -21.8182, 94.8866, -30.909111, 50.348022, -28.181839, 50.348022, 8.181808, 30.983398, -22.727287, 8.714111, -33.636383, 12.587036, -17.27275, -0.96813965, -4.545471, 46.475098, 20.909073)
+polygon = PackedVector2Array(49.37976, 34.54544, 35.824585, 84.54544, 24.20581, 121.81816, 14.5234375, 113.63635, 7.7458496, 120.90907, 5.8094482, 135.45454, -13.555176, 144.54546, -20.332764, 157.27272, 176.2179, 158.18181, 102.63245, 97.27272, 95.85486, 69.999985, 91.98193, 16.363617, 132.64758, -1.8181915, 130.71106, -21.8182, 94.8866, -30.909111, 50.348022, -28.181839, 50.348022, 8.181808, 30.983398, -22.727287, 8.714111, -33.636383, 12.587036, -17.27275, -0.96813965, -4.545471, 46.475098, 20.909073)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 distance = 19.0
@@ -96,10 +102,10 @@ size = Vector2(40, 373)
 script = ExtResource("1")
 
 [node name="Background" type="ColorRect" parent="." unique_id=211441489]
-offset_left = -348.0
-offset_top = -147.0
-offset_right = 3928.0
-offset_bottom = 361.0
+offset_left = -16.0
+offset_top = -140.0
+offset_right = 4260.0
+offset_bottom = 368.0
 color = Color(0.039215688, 0.10980392, 0.24313726, 1)
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=885851706]
@@ -229,11 +235,10 @@ texture = ExtResource("14_vugsk")
 
 [node name="GhostFigure" type="Sprite2D" parent="." unique_id=1847392013]
 visible = false
-modulate = Color(0.6, 0.75, 1, 0.85)
-z_index = 5
-position = Vector2(2570, 285)
-scale = Vector2(1.8, 1.8)
-texture = ExtResource("27_spirit")
+modulate = Color(0.01995947, 0.07357172, 0.12788203, 0.8509804)
+position = Vector2(2452.0002, 238.00002)
+scale = Vector2(0.21388917, 0.21388917)
+texture = ExtResource("15_xm6as")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=11468611]
 modulate = Color(0.55495375, 0.5549537, 0.5549537, 1)
@@ -279,6 +284,9 @@ offset = Vector2(0, 20)
 [node name="Player" parent="." unique_id=41208932 instance=ExtResource("2")]
 position = Vector2(100, 310)
 
+[node name="AnimatedSprite2D" parent="Player" unique_id=2104586973]
+scale = Vector2(0.18, 0.18)
+
 [node name="Parallax2D6" type="Parallax2D" parent="." unique_id=1770239544]
 scroll_offset = Vector2(0, -15)
 repeat_size = Vector2(640, 0)
@@ -292,10 +300,10 @@ texture = ExtResource("11_xm6as")
 position = Vector2(100, 300)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1221185496]
-position = Vector2(3750, 177)
+position = Vector2(3701, 179)
 
 [node name="Laika" parent="." unique_id=1172830912 instance=ExtResource("5")]
-position = Vector2(1767, 290)
+position = Vector2(1767, 310)
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=1923528987]
 position = Vector2(1617, 337)
@@ -346,11 +354,11 @@ examine_text = "Амулет из птичьих костей, подвешен�
 interaction_text = "Осмотреть [Е]"
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1689144402]
-position = Vector2(3741, 353)
+position = Vector2(3692, 355)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=3492487]
-position = Vector2(-1, -177)
+position = Vector2(-33, -174)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=1192004762]
@@ -359,11 +367,13 @@ position = Vector2(0, 359)
 [node name="HUD" parent="." unique_id=630465264 instance=ExtResource("3")]
 
 [node name="ДомикSprite1" type="Sprite2D" parent="." unique_id=551851956]
-position = Vector2(3606, 172)
+z_index = 10
+position = Vector2(3399, 179)
 texture = ExtResource("26_t1kjq")
 
 [node name="ЗаборSprite1" type="Sprite2D" parent="." unique_id=1831889069]
-position = Vector2(3678, 186)
+z_index = 10
+position = Vector2(3494, 186)
 texture = ExtResource("25_7cvm8")
 
 [node name="Parallax2D4" type="Parallax2D" parent="." unique_id=1213957769]
@@ -371,39 +381,55 @@ scroll_scale = Vector2(1.1, 1)
 scroll_offset = Vector2(0, -10)
 
 [node name="СухДерево3Sprite1" type="Sprite2D" parent="Parallax2D4" unique_id=695268672]
+z_index = 10
 position = Vector2(1427, 163.00002)
 scale = Vector2(1.0328125, 1.1)
 texture = ExtResource("12_rrqqt")
 
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Parallax2D4/СухДерево3Sprite1" unique_id=603522966]
+occluder = SubResource("OccluderPolygon2D_rrqqt")
+
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="Parallax2D4/СухДерево3Sprite1" unique_id=1414866735]
+visible = false
+occluder = SubResource("OccluderPolygon2D_ssgfx")
+
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Parallax2D4/СухДерево3Sprite1" unique_id=540825776]
+visible = false
 occluder = SubResource("OccluderPolygon2D_xm6as")
 
 [node name="ПенекПереднийSprite1" type="Sprite2D" parent="Parallax2D4" unique_id=1527371405]
+z_index = 10
 position = Vector2(263, 187.5)
 scale = Vector2(0.95625, 0.94166666)
 texture = ExtResource("13_ssgfx")
 
 [node name="ПенекПереднийSprite2" type="Sprite2D" parent="Parallax2D4" unique_id=2111799605]
+z_index = 10
 position = Vector2(1221, 181)
 texture = ExtResource("13_ssgfx")
 
 [node name="КустикиПередниеSprite1" type="Sprite2D" parent="Parallax2D4" unique_id=329361940]
+z_index = 10
 position = Vector2(880, 182)
 texture = ExtResource("18_muwxq")
 
 [node name="КустикиПередниеSprite2" type="Sprite2D" parent="Parallax2D4" unique_id=1805416136]
+z_index = 10
 position = Vector2(1136, 183)
 texture = ExtResource("18_muwxq")
 
 [node name="КустикиПередниеSprite3" type="Sprite2D" parent="Parallax2D4" unique_id=1527280203]
+z_index = 10
 position = Vector2(1689, 184)
 texture = ExtResource("18_muwxq")
 
 [node name="КустикиПередниеSprite4" type="Sprite2D" parent="Parallax2D4" unique_id=182341856]
+z_index = 10
 position = Vector2(2160, 183)
 texture = ExtResource("18_muwxq")
 
 [node name="КустикиПередниеSprite5" type="Sprite2D" parent="Parallax2D4" unique_id=1245863481]
+z_index = 10
 position = Vector2(525, 183)
 texture = ExtResource("18_muwxq")
 
@@ -414,11 +440,12 @@ repeat_size = Vector2(640, 0)
 repeat_times = 5
 
 [node name="ПередняяДорогаSprite1" type="Sprite2D" parent="Parallax2D7" unique_id=402159916]
+z_index = 10
 position = Vector2(320, 180)
 texture = ExtResource("14_an2w0")
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=1586953926]
-position = Vector2(0, 319)
+position = Vector2(0, 307)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=289698009]
 shape = SubResource("WorldBoundaryShape2D_floor")
