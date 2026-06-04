@@ -40,10 +40,13 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	await get_tree().process_frame
-	SubtitleManager.show_subtitle(
-		"Ты не должен быть здесь.",
-		SubtitleManager.Pos.MID_LEFT
-	)
+	if _back_trigger_count > 0:
+		DialogueManager.show_text("", _get_loop_text(_back_trigger_count))
+	else:
+		SubtitleManager.show_subtitle(
+			"Ты не должен быть здесь.",
+			SubtitleManager.Pos.MID_LEFT
+		)
 
 	_add_back_zone()
 
@@ -65,8 +68,6 @@ func _on_back_zone(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
 	_back_trigger_count += 1
-	DialogueManager.show_text("", _get_loop_text(_back_trigger_count))
-	await DialogueManager.dialogue_finished
 	GameManager.change_room("door_exit")
 
 func _get_loop_text(count: int) -> String:

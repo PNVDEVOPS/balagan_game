@@ -23,24 +23,24 @@ script = ExtResource("1_clos")
 
 [node name="Background" type="TextureRect" parent="." unique_id=253234205]
 offset_right = 640.0
-offset_bottom = 215.0
+offset_bottom = 268.0
 texture = ExtResource("manor_wall")
 stretch_mode = 1
 
 [node name="FloorVisual" type="TextureRect" parent="." unique_id=253234206]
-offset_top = 215.0
+offset_top = 268.0
 offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
 
 [node name="Player" parent="." unique_id=1035253466 instance=ExtResource("2_player")]
-position = Vector2(80, 240)
+position = Vector2(80, 276)
 
 [node name="HUD" parent="." unique_id=1235727159 instance=ExtResource("3_hud")]
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=330029863]
-position = Vector2(0, 258)
+position = Vector2(0, 278)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1431270061]
 shape = SubResource("FloorShape")
@@ -60,7 +60,7 @@ position = Vector2(0, -176)
 shape = SubResource("RightWallShape")
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1335134438]
-position = Vector2(80, 240)
+position = Vector2(80, 276)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1731915596]
 position = Vector2(640, 180)
@@ -76,16 +76,16 @@ collision_layer = 0
 shape = SubResource("FwdShape")
 
 [node name="KapkansExaminable" parent="." unique_id=14846692 instance=ExtResource("4_exam")]
-position = Vector2(200, 255)
+position = Vector2(200, 271)
 examine_text = "Ржавые капканы. Один сломан — пружина лопнула. Давно."
 interaction_text = "Осмотреть"
 
 [node name="ChestExaminable" parent="." unique_id=1466904414 instance=ExtResource("4_exam")]
-position = Vector2(350, 255)
+position = Vector2(350, 271)
 examine_text = "Деревянный ларец. Внутри — записка."
 interaction_text = "Осмотреть"
 
 [node name="ShelvesExamine" parent="." unique_id=2126327350 instance=ExtResource("4_exam")]
-position = Vector2(480, 255)
+position = Vector2(480, 271)
 examine_text = ""
 interaction_text = "Осмотреть полку"
