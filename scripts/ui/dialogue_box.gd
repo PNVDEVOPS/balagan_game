@@ -67,10 +67,10 @@ func _on_dialogue_line(speaker: String, text: String) -> void:
 	is_typing = true
 	_fit_height()
 
-# Подгоняет высоту окна под содержимое (мин 70, макс 110 пикселей)
+# Подгоняет высоту окна под содержимое. Максимум — 2 строки текста.
 func _fit_height() -> void:
 	await get_tree().process_frame
-	var h := clampf(container.get_minimum_size().y, 70.0, 110.0)
+	var h := clampf(container.get_minimum_size().y, 70.0, 84.0)
 	container.offset_top = -h - 3.0
 
 func _set_avatar(speaker: String) -> void:
