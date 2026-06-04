@@ -44,9 +44,11 @@ collide_with_areas = true
 
 [node name="InteractionPrompt" type="Node2D" parent="." unique_id=861038982]
 visible = false
+modulate = Color(1.7, 1.7, 1.7, 1)
 position = Vector2(0, -80)
 
 [node name="Icon" type="Sprite2D" parent="InteractionPrompt"]
+modulate = Color(1, 1, 1, 1)
 texture = ExtResource("5")
 scale = Vector2(0.13, 0.13)
 
