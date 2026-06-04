@@ -79,13 +79,13 @@ func _process(delta: float) -> void:
 	_pulse_time += delta
 
 	# Пульсирующая скорость (биение сердца ~1.1 Гц)
-	var pulse := 0.5 + 0.5 * abs(sin(_pulse_time * PI * 1.1))
+	var pulse: float = 0.5 + 0.5 * absf(sin(_pulse_time * PI * 1.1))
 	_darkness_x              -= DARKNESS_SPEED * delta * pulse
 	_darkness.position.x      = _darkness_x
 	_darkness_edge.position.x = _darkness_x - 220.0
 
 	# Пульсация непрозрачности
-	var alpha_pulse := 0.88 + 0.09 * abs(sin(_pulse_time * PI * 1.5))
+	var alpha_pulse: float = 0.88 + 0.09 * absf(sin(_pulse_time * PI * 1.5))
 	_darkness.color      = Color(0.0, 0.0, 0.02, alpha_pulse)
 	_darkness_edge.color = Color(0.0, 0.0, 0.02, 0.28 + 0.18 * abs(sin(_pulse_time * PI * 1.5)))
 

@@ -57,6 +57,13 @@ func _on_murder_site_examined() -> void:
 
 func _trigger_amulet_reveal() -> void:
 	_serge_tutorial_done = true
+	# Отпускаем буст чтобы игрок не завис после диалога
+	var player := get_node_or_null("Player")
+	if player:
+		player.is_interacting = false
+		var fl = player.get_node_or_null("Flashlight")
+		if fl:
+			fl.deactivate_boost()
 	if not _ghost_shown:
 		_ghost_shown = true
 		_flash_ghost_once()
