@@ -5,16 +5,18 @@ const DARKNESS_START_X := 1700.0
 const ROOM_WIDTH       := 1600.0
 const SHAKE_PROXIMITY  := 380.0
 const ZOOM_MAX         := 1.18
+const BOOST_REQUIRED   := 3.0   # секунд удержания для рассеивания
 
-var _darkness:      Polygon2D
-var _darkness_edge: Polygon2D
-var _darkness_x:    float = DARKNESS_START_X
-var _active:        bool  = false
-var _defeated:      bool  = false
-var _penalty_done:  bool  = false
-var _shake_time:    float = 0.0
-var _pulse_time:    float = 0.0
-var _base_zoom:     Vector2 = Vector2(1.0, 1.0)
+var _darkness:        Polygon2D
+var _darkness_edge:   Polygon2D
+var _darkness_x:      float = DARKNESS_START_X
+var _active:          bool  = false
+var _defeated:        bool  = false
+var _penalty_done:    bool  = false
+var _shake_time:      float = 0.0
+var _pulse_time:      float = 0.0
+var _base_zoom:       Vector2 = Vector2(1.0, 1.0)
+var _boost_hold_time: float = 0.0
 
 func _ready() -> void:
 	var player := get_node_or_null("Player")
@@ -95,8 +97,16 @@ func _process(delta: float) -> void:
 
 	var flashlight = player.get_node_or_null("Flashlight")
 	if flashlight and flashlight.is_boost_active:
-		_dispel_darkness(player)
+		_boost_hold_time += delta
+		# Тьма медленно отступает пока держишь буст
+		_darkness_x              += 20.0 * delta
+		_darkness.position.x      = _darkness_x
+		_darkness_edge.position.x = _darkness_x - 220.0
+		if _boost_hold_time >= BOOST_REQUIRED:
+			_dispel_darkness(player)
 		return
+	else:
+		_boost_hold_time = 0.0  # отпустил — прогресс сбрасывается
 
 	var dist: float = _darkness_x - player.global_position.x
 	var cam: Camera2D = player.get_node_or_null("Camera2D")

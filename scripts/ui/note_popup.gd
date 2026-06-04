@@ -124,21 +124,21 @@ func _apply_style(cfg: Dictionary) -> void:
 	_hint.modulate    = dim
 
 func _show_line() -> void:
-	if _index >= _lines.size():
+	if _lines.is_empty():
 		_close()
 		return
-	var line: Dictionary = _lines[_index]
-	_speaker.text   = line.get("speaker", "")
+	_speaker.text    = _lines[0].get("speaker", "")
 	_speaker.visible = not _speaker.text.is_empty()
-	_text.text      = line.get("text", "")
-	_hint.text = "[E] закрыть" if _index >= _lines.size() - 1 else "[E] далее"
+	var parts: PackedStringArray = []
+	for line: Dictionary in _lines:
+		var t: String = line.get("text", "")
+		if not t.is_empty():
+			parts.append(t)
+	_text.text = "\n\n".join(parts)
+	_hint.text = "[E] закрыть"
 
 func _advance() -> void:
-	_index += 1
-	if _index >= _lines.size():
-		_close()
-	else:
-		_show_line()
+	_close()
 
 func _close() -> void:
 	_is_open = false
