@@ -27,6 +27,8 @@ const CONFIGS: Dictionary = {
 var _lines: Array = []
 var _index: int = 0
 var _is_open: bool = false
+var is_open: bool:
+	get: return _is_open
 
 var _overlay:  ColorRect
 var _panel:    PanelContainer

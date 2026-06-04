@@ -86,7 +86,7 @@ func _check_interaction() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	# Dialogue advancement always works, even while frozen
 	if DialogueManager.is_active:
-		if event.is_action_pressed("advance_dialogue"):
+		if event.is_action_pressed("advance_dialogue") and not NotePopup.is_open:
 			DialogueManager.advance()
 		return
 
