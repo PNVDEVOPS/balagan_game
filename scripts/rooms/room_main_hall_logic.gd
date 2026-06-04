@@ -60,11 +60,17 @@ func _setup_puzzle() -> void:
 
 	var riddle := get_node_or_null("RiddleKamyolk")
 	if riddle:
-		riddle.examined.connect(func(): DialogueManager.start_dialogue("notes/riddle_kamyolk"))
+		riddle.examined.connect(func():
+			GameManager.mark_note_found("riddle_kamyolk")
+			DialogueManager.start_dialogue("notes/riddle_kamyolk")
+		)
 
 	var poem := get_node_or_null("RitualPoem")
 	if poem:
-		poem.examined.connect(func(): DialogueManager.start_dialogue("notes/poem_ritual"))
+		poem.examined.connect(func():
+			GameManager.mark_note_found("poem_ritual")
+			DialogueManager.start_dialogue("notes/poem_ritual")
+		)
 
 	for note_data: Array in [
 			["NoteEnv5", "notes/note_env_5", "note_env_5"]]:
