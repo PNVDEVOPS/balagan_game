@@ -104,7 +104,7 @@ func _process(delta: float) -> void:
 	# Зум нагнетания
 	if cam:
 		var t := clampf(1.0 - dist / ROOM_WIDTH, 0.0, 1.0)
-		var target_zoom := lerp(1.0, ZOOM_MAX, t)
+		var target_zoom: float = lerpf(1.0, ZOOM_MAX, t)
 		cam.zoom = cam.zoom.lerp(Vector2(target_zoom, target_zoom), delta * 2.5)
 
 	# Шейк камеры (нарастает по мере приближения)
