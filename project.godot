@@ -85,6 +85,10 @@ crank={
 ]
 }
 
+[gui]
+
+theme/custom="res://assets/ui/default_theme.tres"
+
 [rendering]
 
 2d/snap/snap_2d_transforms_to_pixel=true

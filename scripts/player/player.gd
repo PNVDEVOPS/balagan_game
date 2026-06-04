@@ -71,7 +71,8 @@ func _check_interaction() -> void:
 		var collider := ray.get_collider()
 		if collider and collider.has_method("get_interaction_type"):
 			nearest_interactable = collider
-			# Иконка-глаз с [E] над головой — появляется при приближении
+			# Иконка-глаз с [E] висит над самим объектом
+			prompt.global_position = collider.global_position + Vector2(0, -28)
 			prompt.visible = true
 			return
 	nearest_interactable = null
