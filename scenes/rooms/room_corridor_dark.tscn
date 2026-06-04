@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://room_corridor_dark1"]
+
+[ext_resource type="Script" path="res://scripts/rooms/room_corridor_dark_logic.gd" id="1_dark"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+
+[sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
+
+[sub_resource type="RectangleShape2D" id="LeftWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="RightWallShape"]
+size = Vector2(40, 373)
+
+[sub_resource type="RectangleShape2D" id="ExitShape"]
+size = Vector2(60, 140)
+
+[node name="RoomCorridorDark" type="Node2D"]
+script = ExtResource("1_dark")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1600.0
+offset_bottom = 252.0
+texture = ExtResource("manor_wall")
+stretch_mode = 1
+
+[node name="FloorVisual" type="TextureRect" parent="."]
+offset_top = 252.0
+offset_right = 1600.0
+offset_bottom = 360.0
+texture = ExtResource("manor_floor")
+stretch_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(80, 260)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 262)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("FloorShape")
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-20, 350)
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2(0, -176)
+shape = SubResource("LeftWallShape")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(1600, 350)
+
+[node name="RightWallShape" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(0, -176)
+shape = SubResource("RightWallShape")
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(80, 260)
+
+[node name="RoomRight" type="Marker2D" parent="."]
+position = Vector2(1600, 180)
+
+[node name="RoomBottom" type="Marker2D" parent="."]
+position = Vector2(0, 360)
+
+[node name="ExitZone" type="Area2D" parent="."]
+position = Vector2(1560, 235)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone"]
+shape = SubResource("ExitShape")
