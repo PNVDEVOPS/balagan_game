@@ -5,20 +5,30 @@ const DARKNESS_START_X := 1700.0
 const ROOM_WIDTH       := 1600.0
 const SHAKE_PROXIMITY  := 380.0
 const ZOOM_MAX         := 1.18
-const BOOST_REQUIRED   := 3.0   # секунд удержания для рассеивания
+const BOOST_REQUIRED   := 3.0
+const EDGE_WIDTH       := 450.0  # широкий мягкий градиент
+
+# Счётчик посещений dark_c2 — сохраняется между загрузками комнат
+static var _dark_c2_visit_count: int = 0
 
 var _darkness:        Polygon2D
 var _darkness_edge:   Polygon2D
-var _darkness_x:      float = DARKNESS_START_X
-var _active:          bool  = false
-var _defeated:        bool  = false
-var _penalty_done:    bool  = false
-var _shake_time:      float = 0.0
-var _pulse_time:      float = 0.0
+var _darkness_x:      float   = DARKNESS_START_X
+var _active:          bool    = false
+var _defeated:        bool    = false
+var _penalty_done:    bool    = false
+var _shake_time:      float   = 0.0
+var _pulse_time:      float   = 0.0
 var _base_zoom:       Vector2 = Vector2(1.0, 1.0)
-var _boost_hold_time: float = 0.0
+var _boost_hold_time: float   = 0.0
+var _scripted_mode:   bool    = false  # dark_c2 первый визит
 
 func _ready() -> void:
+	var is_dark_c2: bool = (GameManager.current_room == "dark_c2")
+	_scripted_mode = is_dark_c2 and _dark_c2_visit_count == 0
+	if is_dark_c2:
+		_dark_c2_visit_count += 1
+
 	var player := get_node_or_null("Player")
 	if player:
 		var cam: Camera2D = player.get_node_or_null("Camera2D")
@@ -40,28 +50,41 @@ func _setup_intro() -> void:
 	await get_tree().create_timer(0.4).timeout
 	var player := get_node_or_null("Player")
 	var flashlight = player.get_node_or_null("Flashlight") if player else null
-	if flashlight and flashlight.has_method("scripted_flicker"):
-		flashlight.scripted_flicker(0.8)
-	await get_tree().create_timer(0.6).timeout
-	SubtitleManager.show_subtitle("Воздух сгустился. Что-то надвигается...", SubtitleManager.Pos.MID_LEFT)
-	await get_tree().create_timer(2.0).timeout
+
+	if _scripted_mode:
+		# Фонарик мигает и гаснет — персонаж комментирует в диалоге
+		if flashlight and flashlight.has_method("scripted_flicker"):
+			flashlight.scripted_flicker(0.8)
+		await get_tree().create_timer(0.3).timeout
+		DialogueManager.show_text("", "Что... Фонарь гаснет?! Только не сейчас!")
+		await DialogueManager.dialogue_finished
+		SubtitleManager.show_subtitle("Беги!", SubtitleManager.Pos.TOP_CENTER)
+		if flashlight and flashlight.has_method("scripted_off"):
+			flashlight.scripted_off()
+	else:
+		if flashlight and flashlight.has_method("scripted_flicker"):
+			flashlight.scripted_flicker(0.8)
+		await get_tree().create_timer(0.6).timeout
+		SubtitleManager.show_subtitle("Воздух сгустился. Что-то надвигается...", SubtitleManager.Pos.MID_LEFT)
+		await get_tree().create_timer(2.0).timeout
+
 	_active = true
 
 func _build_darkness() -> void:
-	# Мягкий передний край (градиент)
+	# Широкий мягкий передний край
 	_darkness_edge = Polygon2D.new()
 	_darkness_edge.polygon = PackedVector2Array([
-		Vector2(0,   -60),
-		Vector2(220, -60),
-		Vector2(220,  430),
-		Vector2(0,    430),
+		Vector2(0,          -60),
+		Vector2(EDGE_WIDTH, -60),
+		Vector2(EDGE_WIDTH,  430),
+		Vector2(0,           430),
 	])
-	_darkness_edge.color   = Color(0.0, 0.0, 0.02, 0.38)
+	_darkness_edge.color   = Color(0.0, 0.0, 0.02, 0.22)
 	_darkness_edge.z_index = 49
-	_darkness_edge.position.x = _darkness_x - 220.0
+	_darkness_edge.position.x = _darkness_x - EDGE_WIDTH
 	add_child(_darkness_edge)
 
-	# Основное тело тьмы
+	# Основное тело
 	_darkness = Polygon2D.new()
 	_darkness.polygon = PackedVector2Array([
 		Vector2(0,    -60),
@@ -80,51 +103,67 @@ func _process(delta: float) -> void:
 
 	_pulse_time += delta
 
-	# Пульсирующая скорость (биение сердца ~1.1 Гц)
-	var pulse: float = 0.5 + 0.5 * absf(sin(_pulse_time * PI * 1.1))
-	_darkness_x              -= DARKNESS_SPEED * delta * pulse
-	_darkness.position.x      = _darkness_x
-	_darkness_edge.position.x = _darkness_x - 220.0
-
-	# Пульсация непрозрачности
-	var alpha_pulse: float = 0.88 + 0.09 * absf(sin(_pulse_time * PI * 1.5))
-	_darkness.color      = Color(0.0, 0.0, 0.02, alpha_pulse)
-	_darkness_edge.color = Color(0.0, 0.0, 0.02, 0.28 + 0.18 * abs(sin(_pulse_time * PI * 1.5)))
-
 	var player := get_node_or_null("Player")
 	if not player:
 		return
 
+	if _scripted_mode:
+		# Тьма быстрее, камера хаотична — убегай
+		_darkness_x              -= DARKNESS_SPEED * 1.6 * delta
+		_darkness.position.x      = _darkness_x
+		_darkness_edge.position.x = _darkness_x - EDGE_WIDTH
+
+		_shake_time += delta * 30.0
+		var cam: Camera2D = player.get_node_or_null("Camera2D")
+		if cam:
+			cam.offset = Vector2(
+				sin(_shake_time * 1.7) * 12.0 + randf_range(-3.0, 3.0),
+				sin(_shake_time * 2.3) *  9.0 + randf_range(-2.0, 2.0)
+			)
+
+		var dist: float = _darkness_x - player.global_position.x
+		if dist <= 0.0:
+			_trigger_penalty(player)
+		return
+
+	# Обычный режим: пульс, буст, зум, шейк
+	var pulse: float = 0.5 + 0.5 * absf(sin(_pulse_time * PI * 1.1))
+
 	var flashlight = player.get_node_or_null("Flashlight")
 	if flashlight and flashlight.is_boost_active:
 		_boost_hold_time += delta
-		# Тьма медленно отступает пока держишь буст
 		_darkness_x              += 20.0 * delta
 		_darkness.position.x      = _darkness_x
-		_darkness_edge.position.x = _darkness_x - 220.0
+		_darkness_edge.position.x = _darkness_x - EDGE_WIDTH
 		if _boost_hold_time >= BOOST_REQUIRED:
 			_dispel_darkness(player)
 		return
 	else:
-		_boost_hold_time = 0.0  # отпустил — прогресс сбрасывается
+		_boost_hold_time = 0.0
+
+	_darkness_x              -= DARKNESS_SPEED * delta * pulse
+	_darkness.position.x      = _darkness_x
+	_darkness_edge.position.x = _darkness_x - EDGE_WIDTH
+
+	var alpha_pulse: float = 0.88 + 0.09 * absf(sin(_pulse_time * PI * 1.5))
+	_darkness.color      = Color(0.0, 0.0, 0.02, alpha_pulse)
+	_darkness_edge.color = Color(0.0, 0.0, 0.02, 0.15 + 0.08 * absf(sin(_pulse_time * PI * 1.5)))
 
 	var dist: float = _darkness_x - player.global_position.x
 	var cam: Camera2D = player.get_node_or_null("Camera2D")
 
-	# Зум нагнетания
 	if cam:
 		var t := clampf(1.0 - dist / ROOM_WIDTH, 0.0, 1.0)
 		var target_zoom: float = lerpf(1.0, ZOOM_MAX, t)
 		cam.zoom = cam.zoom.lerp(Vector2(target_zoom, target_zoom), delta * 2.5)
 
-	# Шейк камеры (нарастает по мере приближения)
 	if dist < SHAKE_PROXIMITY:
 		_shake_time += delta * 22.0
-		var intensity := 1.0 - dist / SHAKE_PROXIMITY
+		var intensity: float = 1.0 - dist / SHAKE_PROXIMITY
 		if cam:
 			cam.offset = Vector2(
-				sin(_shake_time)        * lerp(0.0, 11.0, intensity),
-				sin(_shake_time * 0.7)  * lerp(0.0,  8.0, intensity)
+				sin(_shake_time)       * lerpf(0.0, 11.0, intensity),
+				sin(_shake_time * 0.7) * lerpf(0.0,  8.0, intensity)
 			)
 
 	if dist <= 0.0:
@@ -136,18 +175,27 @@ func _dispel_darkness(player: Node) -> void:
 	_reset_camera(player)
 	var tween := create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(_darkness,      "position:x", DARKNESS_START_X,        1.2)
-	tween.tween_property(_darkness_edge, "position:x", DARKNESS_START_X - 220.0, 1.2)
+	tween.tween_property(_darkness,      "position:x", DARKNESS_START_X, 1.2)
+	tween.tween_property(_darkness_edge, "position:x", DARKNESS_START_X, 1.0)
+	tween.tween_property(_darkness_edge, "modulate:a", 0.0,              0.8)
 
 func _trigger_penalty(player: Node) -> void:
 	_penalty_done = true
 	_active       = false
 	_reset_camera(player)
+	_restore_flashlight(player)
 	var two_back := _room_two_back()
 	if two_back.is_empty():
 		GameManager.change_room("door_back")
 	else:
 		GameManager.change_room_direct(two_back, "door_back")
+
+func _restore_flashlight(player_body: Node) -> void:
+	if not _scripted_mode:
+		return
+	var fl = player_body.get_node_or_null("Flashlight") if player_body else null
+	if fl and fl.has_method("scripted_on"):
+		fl.scripted_on()
 
 func _room_two_back() -> String:
 	var r1 := GameManager.get_door_target(GameManager.current_room, "door_back")
@@ -181,5 +229,7 @@ func _add_back_zone() -> void:
 	)
 
 func _on_exit_zone(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		GameManager.change_room("door_forward")
+	if not body.is_in_group("player"):
+		return
+	_restore_flashlight(body)
+	GameManager.change_room("door_forward")

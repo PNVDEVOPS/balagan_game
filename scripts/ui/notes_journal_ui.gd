@@ -42,6 +42,14 @@ func _build_ui() -> void:
 	_panel.offset_left = 4.0
 	_panel.offset_top  = 30.0
 	_panel.custom_minimum_size = Vector2(290, 0)
+	var panel_bg := StyleBoxFlat.new()
+	panel_bg.bg_color            = Color(0.08, 0.06, 0.04, 0.95)
+	panel_bg.border_width_left   = 1
+	panel_bg.border_width_right  = 1
+	panel_bg.border_width_top    = 1
+	panel_bg.border_width_bottom = 1
+	panel_bg.border_color        = Color(0.28, 0.20, 0.12, 0.9)
+	_panel.add_theme_stylebox_override("panel", panel_bg)
 	add_child(_panel)
 
 	var margin := MarginContainer.new()
