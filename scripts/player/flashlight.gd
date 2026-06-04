@@ -19,6 +19,14 @@ const QTE_TIMEOUT := 4.0
 const BOOST_ENERGY_MULTIPLIER := 3.5
 const BOOST_SCALE_MULTIPLIER := 2.2
 
+# Лампа: радиальный тёплый свет, мерцающий как огонь
+const LAMP_TEX    := "res://assets/sprites/light_gradient.png"
+const LAMP_COLOR  := Color(1.0, 0.66, 0.36)
+const LAMP_SCALE  := 3.0
+const LAMP_ENERGY := 1.7
+
+enum LightKind { FLASHLIGHT, LAMP, DARK }
+
 # charge = уровень накачки 0..MAX. 0 — обычный свет, MAX — пиковая мощность.
 var charge: float = 0.0
 var is_scripted_off: bool = false
@@ -26,6 +34,8 @@ var is_qte_active: bool = false
 var is_boost_active: bool = false   # пиковая мощность (с гистерезисом)
 var qte_timer: float = 0.0
 
+var _kind: LightKind = LightKind.FLASHLIGHT
+var _fire_phase: float = 0.0
 var _base_energy: float = 2.8
 var _base_scale: float = 2.0
 var _base_x: float = 0.0
@@ -35,9 +45,35 @@ func _ready() -> void:
 	_generate_cone_texture()
 	texture_scale = _base_scale
 	energy = _base_energy
-	if not Inventory.has_item("flashlight"):
-		is_scripted_off = true
-		energy = 0.0
+	_resolve_kind()
+	_apply_kind()
+
+# Какой свет сейчас: фонарь / лампа / темнота
+func _resolve_kind() -> void:
+	if Inventory.has_item("oil_lamp"):
+		_kind = LightKind.LAMP
+	elif not Inventory.has_item("flashlight"):
+		_kind = LightKind.DARK
+	elif GameManager.lamp_needed:
+		_kind = LightKind.DARK   # после dark_c2 обычный фонарь не работает, пока нет лампы
+	else:
+		_kind = LightKind.FLASHLIGHT
+
+func _apply_kind() -> void:
+	match _kind:
+		LightKind.LAMP:
+			if ResourceLoader.exists(LAMP_TEX):
+				texture = load(LAMP_TEX)
+			color         = LAMP_COLOR
+			texture_scale = LAMP_SCALE
+			position.x    = 0.0
+			scale.x       = 1.0
+			energy        = LAMP_ENERGY
+		LightKind.DARK:
+			energy = 0.0
+		_:
+			color  = Color(1.0, 0.957, 0.839)
+			energy = _base_energy
 
 func _generate_cone_texture() -> void:
 	# 128x128 image — cone pointing RIGHT from center
@@ -76,12 +112,24 @@ func _generate_cone_texture() -> void:
 	texture = ImageTexture.create_from_image(image)
 
 func set_facing(facing_right: bool) -> void:
+	if _kind == LightKind.LAMP:
+		scale.x = 1.0      # лампа светит вокруг, не флипаем
+		position.x = 0.0
+		return
 	scale.x = 1.0 if facing_right else -1.0
 	position.x = _base_x if facing_right else -_base_x
 
 func _process(delta: float) -> void:
 	if is_scripted_off:
 		energy = 0.0
+		return
+
+	if _kind == LightKind.DARK:
+		energy = 0.0
+		return
+
+	if _kind == LightKind.LAMP:
+		_process_lamp(delta)
 		return
 
 	if is_qte_active:
@@ -92,6 +140,12 @@ func _process(delta: float) -> void:
 	charge = maxf(charge - PUMP_DECAY * delta, 0.0)
 	_update_peak_state()
 	_update_visuals()
+
+# Лампа: яркость «дышит» как живой огонь
+func _process_lamp(delta: float) -> void:
+	_fire_phase += delta
+	var flick := 0.85 + 0.12 * sin(_fire_phase * 8.0) + randf_range(-0.05, 0.05)
+	energy = LAMP_ENERGY * clampf(flick, 0.6, 1.15)
 
 func _process_qte(delta: float) -> void:
 	qte_timer -= delta

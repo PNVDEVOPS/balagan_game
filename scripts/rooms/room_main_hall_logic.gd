@@ -104,19 +104,12 @@ func _on_kamylok_examined() -> void:
 		_place_ritual_artifact()
 		return
 	if kamylok_state == KamylokState.COLD:
-		if not GameManager.kamylok_lit:
-			if Inventory.has_item("oil_lamp"):
-				await _light_with_lamp()
-			else:
-				DialogueManager.show_text("", "Темно и холодно, угли мёртвые. Нужен настоящий огонь.")
-			return
-		# Камелёк зажжён лампой — под пламенем завал
 		if not GameManager.puzzle_unblock_solved:
-			DialogueManager.show_text("", "В золе под пламенем что-то завалено. Надо разобрать.")
+			DialogueManager.show_text("", "В золе под завалом что-то есть. Надо разобрать.")
 			await DialogueManager.dialogue_finished
 			_open_puzzle()
 			return
-		DialogueManager.show_text("", "Камелёк горит ровно. Тепло наконец.")
+		DialogueManager.show_text("", "Камелёк ждёт.")
 		return
 	if kamylok_state == KamylokState.BURNING:
 		DialogueManager.show_text("", "Огонь горит ровно. Тепло наконец.")
@@ -145,29 +138,35 @@ func _on_puzzle_solved(_moves: int) -> void:
 	if player and player.has_method("unfreeze"):
 		player.unfreeze()
 	GameManager.puzzle_unblock_solved = true
-	# Лампа отслужила своё — гаснет и исчезает
-	Inventory.remove_item("oil_lamp")
 	var amulet_node := get_node_or_null("AmuletPickable")
 	if amulet_node:
 		amulet_node.queue_free()
+	# 1) подбор артефакта (харысхал)
 	DialogueManager.show_text("", "Под золой — что-то блестит. Само ложится в ладонь.")
 	await DialogueManager.dialogue_finished
-	# Харысхал подбирается автоматически
-	await _on_amulet_picked_up()
+	GameManager.collect_artifact("amulet")
+	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в огне все эти годы.")
+	await DialogueManager.dialogue_finished
+	# 2) огонь зажигается
+	await _ignite_kamyolk()
+	# 3) появляется Кыдаана + конец демо
+	await _demo_amulet_sequence()
 
 func _fire_lit() -> void:
 	DialogueManager.show_text("", "Огонь занимается медленно, потом ярко — камелёк снова живёт.")
 	await DialogueManager.dialogue_finished
 	await get_tree().create_timer(2.0).timeout
 
-# Розжиг камелька масляной лампой — освещает зал
-func _light_with_lamp() -> void:
+# Камелёк вспыхивает после подбора харысхала — освещает зал, лампа больше не нужна
+func _ignite_kamyolk() -> void:
 	GameManager.kamylok_lit = true
-	DialogueManager.show_text("", "Подношу лампу к углям. Они занимаются — пламя растёт, тепло и свет расходятся по залу.")
+	if Inventory.has_item("oil_lamp"):
+		Inventory.remove_item("oil_lamp")
+	DialogueManager.show_text("", "Камелёк вспыхивает сам — пламя встаёт высоко, тепло и свет заполняют зал.")
 	var mod := get_tree().current_scene.get_node_or_null("RoomModulate")
 	if mod:
 		var tween := create_tween()
-		tween.tween_property(mod, "color", Color(1, 1, 1), 1.5)
+		tween.tween_property(mod, "color", Color(1, 1, 1), 1.2)
 	await DialogueManager.dialogue_finished
 
 # При входе в уже освещённый зал — сразу полный свет
