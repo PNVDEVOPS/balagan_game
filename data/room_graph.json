@@ -18,15 +18,23 @@
     },
     "entry_c2": {
       "scene": "res://scenes/rooms/room_corridor.tscn",
-      "doors": { "door_forward": "closet", "door_back": "entry_c1" }
+      "doors": { "door_forward": "dark_c1", "door_back": "entry_c1" }
+    },
+    "dark_c1": {
+      "scene": "res://scenes/rooms/room_corridor_dark.tscn",
+      "doors": { "door_forward": "closet", "door_back": "entry_c2" }
     },
     "entry_c3": {
       "scene": "res://scenes/rooms/room_corridor.tscn",
-      "doors": { "door_forward": "entry_c4", "door_back": "closet" }
+      "doors": { "door_forward": "dark_c2", "door_back": "closet" }
+    },
+    "dark_c2": {
+      "scene": "res://scenes/rooms/room_corridor_dark.tscn",
+      "doors": { "door_forward": "entry_c4", "door_back": "entry_c3" }
     },
     "entry_c4": {
       "scene": "res://scenes/rooms/room_corridor.tscn",
-      "doors": { "door_forward": "main_hall", "door_back": "entry_c3" }
+      "doors": { "door_forward": "main_hall", "door_back": "dark_c2" }
     },
     "closet": {
       "scene": "res://scenes/rooms/room_closet.tscn",
