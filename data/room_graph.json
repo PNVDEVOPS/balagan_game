@@ -38,7 +38,7 @@
     },
     "closet": {
       "scene": "res://scenes/rooms/room_closet.tscn",
-      "doors": { "door_forward": "entry_c3", "door_exit": "closet" }
+      "doors": { "door_forward": "entry_c3", "door_back": "dark_c1", "door_exit": "closet" }
     },
     "entry2": {
       "scene": "res://scenes/rooms/room_entry.tscn",

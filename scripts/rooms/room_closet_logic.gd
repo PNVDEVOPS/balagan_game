@@ -67,6 +67,10 @@ func _add_back_zone() -> void:
 func _on_back_zone(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
+	# Во время квеста лампы чулан пропускает назад (за лампой в Entry); иначе — петля
+	if GameManager.lamp_needed and not Inventory.has_item("oil_lamp"):
+		GameManager.change_room("door_back")
+		return
 	_back_trigger_count += 1
 	GameManager.change_room("door_exit")
 

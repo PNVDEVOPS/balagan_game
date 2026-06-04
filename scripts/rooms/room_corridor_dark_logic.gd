@@ -29,8 +29,15 @@ var _base_zoom:       Vector2 = Vector2.ONE
 var _boost_hold_time: float   = 0.0
 
 func _ready() -> void:
-	if GameManager.current_room == "dark_c2":
-		_mode = "lamp_pass" if Inventory.has_item("oil_lamp") else "lamp_retreat"
+	var is_c2 := GameManager.current_room == "dark_c2"
+	if Inventory.has_item("oil_lamp"):
+		_mode = "lamp_pass"                          # лампа держит тьму
+	elif GameManager.spawn_door_id == "door_back":
+		_mode = "free_pass"                          # идём назад — тьма не мешает
+	elif is_c2:
+		_mode = "lamp_retreat"                       # Кыдаана гонит назад
+	else:
+		_mode = "dispel"                             # dark_c1: рассеять накачкой
 
 	var player := get_node_or_null("Player")
 	if player:
@@ -45,15 +52,27 @@ func _ready() -> void:
 		exit_zone.body_entered.connect(_on_exit_zone)
 	_add_back_zone()
 
+	# dark_c2 при входе вперёд начинается с середины помещения
+	if is_c2 and GameManager.spawn_door_id != "door_back":
+		_center_player_deferred()
+
 	match _mode:
 		"lamp_pass":
 			_setup_lamp_pass()
+		"free_pass":
+			pass                                     # просто проходим
 		"lamp_retreat":
 			_build_darkness()
 			_setup_retreat_intro()
 		_:
 			_build_darkness()
 			_setup_dispel_intro()
+
+func _center_player_deferred() -> void:
+	await get_tree().create_timer(0.15).timeout
+	var p := get_node_or_null("Player")
+	if p:
+		p.global_position.x = ROOM_WIDTH * 0.5
 
 # ── общая тьма: тело тянется вправо, мягкий край слева ──────────────────
 func _build_darkness() -> void:
@@ -139,8 +158,8 @@ func _process_retreat(delta: float, player: Node) -> void:
 	if dist <= 0.0:
 		_penalty_done = true
 		_active = false
-		# Закрытый чулан не пускает назад — тьма отшвыривает к самому входу
-		GameManager.change_room_direct("entry", "door_forward")
+		# Тьма отбрасывает в комнату, откуда пришёл
+		GameManager.change_room("door_back")
 
 func _process_dispel(delta: float, player: Node) -> void:
 	_pulse_time += delta
@@ -230,12 +249,7 @@ func _add_back_zone() -> void:
 	area.add_child(shape)
 	add_child(area)
 	area.body_entered.connect(func(body: Node2D):
-		if not body.is_in_group("player"):
-			return
-		if _mode == "lamp_retreat":
-			# чулан не пускает назад — уходим сразу ко входу за лампой
-			GameManager.change_room_direct("entry", "door_forward")
-		else:
+		if body.is_in_group("player"):
 			GameManager.change_room("door_back")
 	)
 
