@@ -5,7 +5,7 @@ const NOTE_ORDER: Array[String] = [
 	"note_kydaana_4", "note_kydaana_5",
 	"note_mother_1", "note_mother_2", "note_mother_3", "note_mother_4",
 	"note_father_1", "note_father_2", "note_father_3", "note_father_4",
-	"note_env_4", "note_env_5", "note_env_hunting",
+	"note_env_4", "note_env_5",
 	"artifact_amulet", "artifact_doll", "artifact_earring",
 	"riddle_kamyolk", "riddle_cradle", "riddle_mirror",
 	"poem_ritual",

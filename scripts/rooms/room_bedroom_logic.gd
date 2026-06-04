@@ -131,6 +131,7 @@ func _trigger_flashback() -> void:
 		tween.tween_property(bg, "color", Color(0.24, 0.17, 0.1), 1.0)
 		await tween.finished
 	await get_tree().create_timer(2.0).timeout
+	GameManager.mark_note_found("artifact_doll")
 	DialogueManager.start_dialogue("notes/artifact_doll")
 	await DialogueManager.dialogue_finished
 	if bg:

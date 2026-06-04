@@ -209,6 +209,7 @@ func _trigger_flashback() -> void:
 		tw.tween_property(bg, "color", Color(0.24, 0.17, 0.1), 1.0)
 		await tw.finished
 	await get_tree().create_timer(2.0).timeout
+	GameManager.mark_note_found("artifact_earring")
 	DialogueManager.start_dialogue("notes/artifact_earring")
 	await DialogueManager.dialogue_finished
 	if bg:

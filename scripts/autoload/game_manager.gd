@@ -3,7 +3,7 @@ extends Node
 signal room_changed(room_id: String)
 signal artifact_collected(artifact_id: String)
 
-const TOTAL_NOTES: int = 18
+const TOTAL_NOTES: int = 22
 # Темнота комнат: измени это число (0.0 = полная темнота, 1.0 = нет затемнения)
 const ROOM_DARKNESS: float = 0.58
 
