@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b2cbnatgxu6w8" path="res://scenes/ui/pause_menu.tscn" id="5"]
 [ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="6"]
 [ext_resource type="Shader" path="res://assets/shaders/film_grain.gdshader" id="7"]
+[ext_resource type="PackedScene" uid="uid://notes_journal_ui1" path="res://scenes/ui/notes_journal_ui.tscn" id="8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
 shader = ExtResource("6")
@@ -22,6 +23,8 @@ layer = 5
 script = ExtResource("1")
 
 [node name="InventoryUI" parent="." unique_id=1349982912 instance=ExtResource("2")]
+
+[node name="NotesJournalUI" parent="." instance=ExtResource("8")]
 
 [node name="DialogueBox" parent="." unique_id=1461123966 instance=ExtResource("3")]
 
