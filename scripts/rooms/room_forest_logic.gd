@@ -5,6 +5,7 @@ var _chapter_started: bool = false
 var _silhouette_triggered: bool = false
 var _balagan_triggered: bool = false
 var _ghost_shown: bool = false
+var _serge_tutorial_done: bool = false
 
 func _ready() -> void:
 	var player := get_node_or_null("Player")
@@ -34,12 +35,24 @@ func _ready() -> void:
 		murder.examined.connect(_on_murder_site_examined)
 
 func _on_murder_site_examined() -> void:
-	if not _ghost_shown:
-		_ghost_shown = true
-		_flash_ghost_once()
-	DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.")
-	await DialogueManager.dialogue_finished
-	DialogueManager.show_text("", "Такое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")
+	var player := get_node_or_null("Player")
+	var flashlight = player.get_node_or_null("Flashlight") if player else null
+	var boosting: bool = flashlight != null and flashlight.is_boost_active
+
+	if not boosting and not _serge_tutorial_done:
+		DialogueManager.show_text("", "На сэргэ что-то висит. Не могу рассмотреть — слишком темно. Надо посветить поярче.")
+		await DialogueManager.dialogue_finished
+		SubtitleManager.show_subtitle("[F] — усилить свет", SubtitleManager.Pos.BOTTOM_CENTER)
+		return
+
+	if not _serge_tutorial_done:
+		_serge_tutorial_done = true
+		if not _ghost_shown:
+			_ghost_shown = true
+			_flash_ghost_once()
+		DialogueManager.show_text("", "Птичьи кости, нанизанные на истлевшую нить. Давно. Кора дерева вросла в узел — значит, висит годами.")
+		await DialogueManager.dialogue_finished
+		DialogueManager.show_text("", "Такое оставляют не как подношение. Как замок. Чтобы что-то не ушло с этого места.")
 
 func _flash_ghost_once() -> void:
 	var ghost := get_node_or_null("GhostFigure")
