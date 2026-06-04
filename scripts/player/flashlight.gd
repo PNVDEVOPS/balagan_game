@@ -92,6 +92,7 @@ func _process(delta: float) -> void:
 		charge = maxf(charge - BOOST_DRAIN_RATE * delta, 0.0)
 		if charge <= 0.0:
 			is_boost_active = false
+			charge = MAX_CHARGE
 	elif not is_cranking:
 		charge = maxf(charge - DRAIN_RATE * delta, 0.0)
 
@@ -141,6 +142,7 @@ func activate_boost() -> void:
 
 func deactivate_boost() -> void:
 	is_boost_active = false
+	charge = MAX_CHARGE
 
 # Backward-compatible aliases (player.gd calls these)
 func crank() -> void:
