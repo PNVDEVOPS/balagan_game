@@ -24,6 +24,8 @@ func _apply_panel_style() -> void:
 	inventory_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 
 func _unhandled_input(event: InputEvent) -> void:
+	if DialogueManager.is_active:
+		return
 	if event.is_action_pressed("inventory"):
 		toggle()
 
