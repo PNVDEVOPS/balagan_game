@@ -76,6 +76,32 @@ func change_room(door_id: String) -> void:
 	is_transitioning = false
 	room_changed.emit(target_room)
 
+func change_room_direct(room_id: String, spawn_door: String = "door_back") -> void:
+	if is_transitioning:
+		return
+	var scene_path := get_room_scene(room_id)
+	if scene_path.is_empty():
+		return
+
+	is_transitioning = true
+	spawn_door_id = spawn_door
+
+	_ensure_fade()
+	await _screen_fade.fade_out(0.5)
+
+	current_room = room_id
+	transition_count += 1
+	get_tree().change_scene_to_file(scene_path)
+
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_place_player_at_door()
+	_ensure_fade()
+	await _screen_fade.fade_in(0.5)
+
+	is_transitioning = false
+	room_changed.emit(room_id)
+
 func start_finale(result: String) -> void:
 	ritual_result = result
 	SaveManager.autosave()
