@@ -6,28 +6,28 @@ signal qte_success()
 signal qte_failure()
 
 const MAX_CHARGE := 100.0
-const DRAIN_RATE := 0.0
-const CRANK_AMOUNT := 8.0
+const PUMP_PER_PRESS := 34.0    # +за каждое нажатие F (≈3 нажатия до пика)
+const PUMP_DECAY := 55.0        # спад мощности в секунду без нажатий
+const PEAK_CHARGE := 80.0       # с этого уровня включается пик (boost)
+const PEAK_RELEASE := 45.0      # ниже этого — пик гаснет (гистерезис, чтобы не дёргалось)
+
 const QTE_DRAIN_RATE := 15.0
 const QTE_CHARGE_PER_PRESS := 6.0
 const QTE_THRESHOLD := 80.0
 const QTE_TIMEOUT := 4.0
-const LOW_CHARGE := 30.0
-const FLICKER_CHANCE := 0.3
-const BOOST_DRAIN_RATE := 7.0
+
 const BOOST_ENERGY_MULTIPLIER := 3.5
 const BOOST_SCALE_MULTIPLIER := 2.2
 
-var charge: float = MAX_CHARGE
-var is_cranking: bool = false
+# charge = уровень накачки 0..MAX. 0 — обычный свет, MAX — пиковая мощность.
+var charge: float = 0.0
 var is_scripted_off: bool = false
 var is_qte_active: bool = false
-var is_boost_active: bool = false
+var is_boost_active: bool = false   # пиковая мощность (с гистерезисом)
 var qte_timer: float = 0.0
 
 var _base_energy: float = 2.8
 var _base_scale: float = 2.0
-var _flicker_timer: float = 0.0
 var _base_x: float = 0.0
 
 func _ready() -> void:
@@ -88,30 +88,19 @@ func _process(delta: float) -> void:
 		_process_qte(delta)
 		return
 
-	if is_boost_active:
-		charge = maxf(charge - BOOST_DRAIN_RATE * delta, 0.0)
-		if charge <= 0.0:
-			is_boost_active = false
-			charge = MAX_CHARGE
-	elif not is_cranking:
-		charge = maxf(charge - DRAIN_RATE * delta, 0.0)
-
-	_update_visuals(delta)
-
-	if charge <= 0.0:
-		charge_depleted.emit()
+	# Накачка спадает со временем — без нажатий свет возвращается к обычному.
+	charge = maxf(charge - PUMP_DECAY * delta, 0.0)
+	_update_peak_state()
+	_update_visuals()
 
 func _process_qte(delta: float) -> void:
 	qte_timer -= delta
 	charge = maxf(charge - QTE_DRAIN_RATE * delta, 0.0)
-	_update_visuals(delta)
+	_update_visuals()
 
 	if charge >= QTE_THRESHOLD:
 		is_qte_active = false
 		charge = MAX_CHARGE
-		energy = _base_energy * 3.0
-		var tween := create_tween()
-		tween.tween_property(self, "energy", _base_energy, 0.5)
 		qte_success.emit()
 		return
 
@@ -119,37 +108,36 @@ func _process_qte(delta: float) -> void:
 		is_qte_active = false
 		qte_failure.emit()
 
-func _update_visuals(delta: float) -> void:
-	var charge_ratio := charge / MAX_CHARGE
-	if is_boost_active and charge > 0.0:
-		energy = _base_energy * BOOST_ENERGY_MULTIPLIER
-		texture_scale = _base_scale * BOOST_SCALE_MULTIPLIER
-	else:
-		energy = _base_energy * charge_ratio
-		texture_scale = _base_scale * (0.65 + 0.35 * charge_ratio)
-		if charge < LOW_CHARGE:
-			_flicker_timer -= delta
-			if _flicker_timer <= 0.0:
-				_flicker_timer = randf_range(0.1, 0.4)
-				if randf() < FLICKER_CHANCE:
-					energy *= randf_range(0.2, 0.8)
+# Гистерезис: пик включается на PEAK_CHARGE, держится до падения ниже PEAK_RELEASE.
+# Так мелкие провалы между нажатиями не дёргают свет вкл/выкл.
+func _update_peak_state() -> void:
+	if charge >= PEAK_CHARGE:
+		is_boost_active = true
+	elif charge < PEAK_RELEASE:
+		is_boost_active = false
 
-func activate_boost() -> void:
+func _update_visuals() -> void:
+	var ratio := charge / MAX_CHARGE
+	energy        = _base_energy * (1.0 + ratio * (BOOST_ENERGY_MULTIPLIER - 1.0))
+	texture_scale = _base_scale  * (1.0 + ratio * (BOOST_SCALE_MULTIPLIER - 1.0))
+
+# Одно нажатие F — толчок мощности вверх.
+func pump() -> void:
 	if is_scripted_off or is_qte_active:
 		return
-	is_boost_active = true
-	is_cranking = false
+	charge = minf(charge + PUMP_PER_PRESS, MAX_CHARGE)
+	_update_peak_state()
 
 func deactivate_boost() -> void:
+	charge = 0.0
 	is_boost_active = false
-	charge = MAX_CHARGE
 
-# Backward-compatible aliases (player.gd calls these)
+# Backward-compatible aliases (player.gd / room logic call these)
 func crank() -> void:
-	activate_boost()
+	pump()
 
 func stop_crank() -> void:
-	deactivate_boost()
+	pass
 
 func qte_press() -> void:
 	if is_qte_active:

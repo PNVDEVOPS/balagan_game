@@ -101,23 +101,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		if nearest_interactable:
 			nearest_interactable.interact(self)
-	elif event.is_action_pressed("crank"):
-		_start_crank()
-	elif event.is_action_released("crank"):
-		_stop_crank()
+	elif event.is_action_pressed("crank") and not event.is_echo():
+		# Спам F накачивает фонарь. Echo (зажатие) игнорируем — нужны реальные нажатия.
+		# Не блокирует ходьбу — можно качать на бегу.
+		flashlight_ctrl.pump()
 	elif event.is_action_pressed("hide") and nearest_interactable:
 		if nearest_interactable.has_method("hide_player"):
 			nearest_interactable.hide_player(self)
-
-func _start_crank() -> void:
-	if flashlight_ctrl.is_scripted_off or flashlight_ctrl.is_qte_active:
-		return
-	is_interacting = true
-	flashlight_ctrl.crank()
-
-func _stop_crank() -> void:
-	is_interacting = false
-	flashlight_ctrl.stop_crank()
 
 func freeze() -> void:
 	is_frozen = true
