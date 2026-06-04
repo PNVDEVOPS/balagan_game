@@ -110,14 +110,15 @@ func _rebuild_grid() -> void:
 
 func _add_entry(num: int, note_id: String) -> void:
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(60, 50)
+	btn.custom_minimum_size = Vector2(66, 50)
 	btn.flat = true
 	btn.clip_contents = true
 	btn.focus_mode = Control.FOCUS_NONE
 
 	var tex := TextureRect.new()
 	tex.texture = _note_texture(note_id)
-	tex.stretch_mode = TextureRect.STRETCH_SCALE
+	# Вся текстура записки целиком, с сохранением пропорций (не обрезок)
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	tex.layout_mode = 1
 	tex.set_anchors_preset(Control.PRESET_FULL_RECT)
 	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE

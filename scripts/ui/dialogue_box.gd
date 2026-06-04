@@ -25,9 +25,15 @@ var typewriter_speed: float = 0.05
 var is_typing: bool = false
 var _type_timer: float = 0.0
 
+# Шрифт Кыданы — отдельный почерк для её реплик
+const KYDAANA_FONT_PATH := "res://assets/fonts/PlaypenSans-Regular.ttf"
+var _kydaana_font: Font = null
+
 func _ready() -> void:
 	_apply_9slice(avatar_panel, 4.0, 4.0, 4.0, 4.0)
 	_apply_9slice(text_panel,  10.0, 10.0, 8.0, 8.0)
+	if ResourceLoader.exists(KYDAANA_FONT_PATH):
+		_kydaana_font = load(KYDAANA_FONT_PATH) as Font
 	container.visible = false
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_line.connect(_on_dialogue_line)
@@ -60,6 +66,7 @@ func _on_dialogue_line(speaker: String, text: String) -> void:
 	speaker_label.text = speaker
 	speaker_label.visible = not speaker.is_empty()
 	_set_avatar(speaker)
+	_apply_speaker_font(speaker)
 	full_text = text
 	text_label.text = ""
 	char_index = 0
@@ -72,6 +79,17 @@ func _fit_height() -> void:
 	await get_tree().process_frame
 	var h := clampf(container.get_minimum_size().y, 70.0, 84.0)
 	container.offset_top = -h - 3.0
+
+# Реплики Кыданы — почерком Playpen Sans, остальные — шрифт по умолчанию
+func _apply_speaker_font(speaker: String) -> void:
+	var key := speaker.to_lower().strip_edges()
+	var is_kydaana: bool = key == "кыдаана" or key == "kydaana"
+	if is_kydaana and _kydaana_font:
+		text_label.add_theme_font_override("normal_font", _kydaana_font)
+		speaker_label.add_theme_font_override("font", _kydaana_font)
+	else:
+		text_label.remove_theme_font_override("normal_font")
+		speaker_label.remove_theme_font_override("font")
 
 func _set_avatar(speaker: String) -> void:
 	var key  := speaker.to_lower().strip_edges()

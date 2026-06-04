@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b0cxt5ddksktd" path="res://scripts/player/flashlight.gd" id="2"]
 [ext_resource type="SpriteFrames" uid="uid://cpxhtqityj1ot" path="res://assets/sprites/player_frames.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://icc5eudbpxcm" path="res://assets/sprites/interaction_prompt.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/ui/examine_icon.png" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(16, 64)
@@ -42,10 +42,23 @@ target_position = Vector2(50, 0)
 collision_mask = 2
 collide_with_areas = true
 
-[node name="InteractionPrompt" type="Sprite2D" parent="." unique_id=861038982]
+[node name="InteractionPrompt" type="Node2D" parent="." unique_id=861038982]
 visible = false
-position = Vector2(0, -72)
+position = Vector2(0, -80)
+
+[node name="Icon" type="Sprite2D" parent="InteractionPrompt"]
 texture = ExtResource("5")
+scale = Vector2(0.13, 0.13)
+
+[node name="Key" type="Label" parent="InteractionPrompt"]
+offset_left = -14.0
+offset_top = 9.0
+offset_right = 14.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "[E]"
+horizontal_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=145728509]
 position = Vector2(0, -5)

@@ -8,22 +8,17 @@ var is_interacting := false
 var is_hiding := false
 var is_frozen := false
 var nearest_interactable: Node2D = null
-var _hud: Node = null
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var ray: RayCast2D = $InteractionRay
 @onready var flashlight_ctrl = $Flashlight
 @onready var camera: Camera2D = $Camera2D
-@onready var prompt: Sprite2D = $InteractionPrompt
+@onready var prompt: Node2D = $InteractionPrompt
 
 func _ready() -> void:
 	ray.collide_with_areas = true
 	prompt.visible = false
 	flashlight_ctrl.set_facing(true)
-	call_deferred("_find_hud")
-
-func _find_hud() -> void:
-	_hud = get_tree().current_scene.get_node_or_null("HUD")
 
 func _physics_process(delta: float) -> void:
 	var blocked := is_hiding or is_interacting or is_frozen or DialogueManager.is_active
@@ -76,12 +71,11 @@ func _check_interaction() -> void:
 		var collider := ray.get_collider()
 		if collider and collider.has_method("get_interaction_type"):
 			nearest_interactable = collider
-			if _hud and not collider.interaction_text.is_empty():
-				_hud.show_hint(collider.interaction_text)
+			# Иконка-глаз с [E] над головой — появляется при приближении
+			prompt.visible = true
 			return
 	nearest_interactable = null
-	if _hud:
-		_hud.hide_hint()
+	prompt.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Dialogue advancement always works, even while frozen
