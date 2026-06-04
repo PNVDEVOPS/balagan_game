@@ -1,17 +1,20 @@
 extends Node2D
 
-const DARKNESS_SPEED   := 28.0
+const DARKNESS_SPEED   := 45.0
 const DARKNESS_START_X := 1700.0
-const START_DELAY      := 2.5
 const ROOM_WIDTH       := 1600.0
-const SHAKE_PROXIMITY  := 250.0
+const SHAKE_PROXIMITY  := 380.0
+const ZOOM_MAX         := 1.18
 
-var _darkness: Polygon2D
-var _darkness_x: float = DARKNESS_START_X
-var _active: bool = false
-var _defeated: bool = false
-var _penalty_done: bool = false
-var _shake_time: float = 0.0
+var _darkness:      Polygon2D
+var _darkness_edge: Polygon2D
+var _darkness_x:    float = DARKNESS_START_X
+var _active:        bool  = false
+var _defeated:      bool  = false
+var _penalty_done:  bool  = false
+var _shake_time:    float = 0.0
+var _pulse_time:    float = 0.0
+var _base_zoom:     Vector2 = Vector2(1.0, 1.0)
 
 func _ready() -> void:
 	var player := get_node_or_null("Player")
@@ -20,6 +23,7 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left  = 0
 			cam.limit_right = int(ROOM_WIDTH)
+			_base_zoom      = cam.zoom
 
 	_build_darkness()
 
@@ -28,16 +32,40 @@ func _ready() -> void:
 		exit_zone.body_entered.connect(_on_exit_zone)
 
 	_add_back_zone()
+	_setup_intro()
 
-	get_tree().create_timer(START_DELAY).timeout.connect(func(): _active = true)
+func _setup_intro() -> void:
+	await get_tree().create_timer(0.4).timeout
+	var player := get_node_or_null("Player")
+	var flashlight = player.get_node_or_null("Flashlight") if player else null
+	if flashlight and flashlight.has_method("scripted_flicker"):
+		flashlight.scripted_flicker(0.8)
+	await get_tree().create_timer(0.6).timeout
+	SubtitleManager.show_subtitle("Воздух сгустился. Что-то надвигается...", SubtitleManager.Pos.MID_LEFT)
+	await get_tree().create_timer(2.0).timeout
+	_active = true
 
 func _build_darkness() -> void:
+	# Мягкий передний край (градиент)
+	_darkness_edge = Polygon2D.new()
+	_darkness_edge.polygon = PackedVector2Array([
+		Vector2(0,   -60),
+		Vector2(220, -60),
+		Vector2(220,  430),
+		Vector2(0,    430),
+	])
+	_darkness_edge.color   = Color(0.0, 0.0, 0.02, 0.38)
+	_darkness_edge.z_index = 49
+	_darkness_edge.position.x = _darkness_x - 220.0
+	add_child(_darkness_edge)
+
+	# Основное тело тьмы
 	_darkness = Polygon2D.new()
 	_darkness.polygon = PackedVector2Array([
 		Vector2(0,    -60),
 		Vector2(2000, -60),
-		Vector2(2000,  420),
-		Vector2(0,     420),
+		Vector2(2000,  430),
+		Vector2(0,     430),
 	])
 	_darkness.color   = Color(0.0, 0.0, 0.02, 0.97)
 	_darkness.z_index = 50
@@ -48,8 +76,18 @@ func _process(delta: float) -> void:
 	if not _active or _defeated or _penalty_done:
 		return
 
-	_darkness_x         -= DARKNESS_SPEED * delta
-	_darkness.position.x = _darkness_x
+	_pulse_time += delta
+
+	# Пульсирующая скорость (биение сердца ~1.1 Гц)
+	var pulse := 0.5 + 0.5 * abs(sin(_pulse_time * PI * 1.1))
+	_darkness_x              -= DARKNESS_SPEED * delta * pulse
+	_darkness.position.x      = _darkness_x
+	_darkness_edge.position.x = _darkness_x - 220.0
+
+	# Пульсация непрозрачности
+	var alpha_pulse := 0.88 + 0.09 * abs(sin(_pulse_time * PI * 1.5))
+	_darkness.color      = Color(0.0, 0.0, 0.02, alpha_pulse)
+	_darkness_edge.color = Color(0.0, 0.0, 0.02, 0.28 + 0.18 * abs(sin(_pulse_time * PI * 1.5)))
 
 	var player := get_node_or_null("Player")
 	if not player:
@@ -61,13 +99,22 @@ func _process(delta: float) -> void:
 		return
 
 	var dist: float = _darkness_x - player.global_position.x
+	var cam: Camera2D = player.get_node_or_null("Camera2D")
+
+	# Зум нагнетания
+	if cam:
+		var t := clampf(1.0 - dist / ROOM_WIDTH, 0.0, 1.0)
+		var target_zoom := lerp(1.0, ZOOM_MAX, t)
+		cam.zoom = cam.zoom.lerp(Vector2(target_zoom, target_zoom), delta * 2.5)
+
+	# Шейк камеры (нарастает по мере приближения)
 	if dist < SHAKE_PROXIMITY:
-		_shake_time += delta * 18.0
-		var cam: Camera2D = player.get_node_or_null("Camera2D")
+		_shake_time += delta * 22.0
+		var intensity := 1.0 - dist / SHAKE_PROXIMITY
 		if cam:
 			cam.offset = Vector2(
-				sin(_shake_time)        * lerp(0.0, 4.0, 1.0 - dist / SHAKE_PROXIMITY),
-				sin(_shake_time * 0.7)  * lerp(0.0, 3.0, 1.0 - dist / SHAKE_PROXIMITY)
+				sin(_shake_time)        * lerp(0.0, 11.0, intensity),
+				sin(_shake_time * 0.7)  * lerp(0.0,  8.0, intensity)
 			)
 
 	if dist <= 0.0:
@@ -78,7 +125,9 @@ func _dispel_darkness(player: Node) -> void:
 	_active   = false
 	_reset_camera(player)
 	var tween := create_tween()
-	tween.tween_property(_darkness, "position:x", DARKNESS_START_X, 1.2)
+	tween.set_parallel(true)
+	tween.tween_property(_darkness,      "position:x", DARKNESS_START_X,        1.2)
+	tween.tween_property(_darkness_edge, "position:x", DARKNESS_START_X - 220.0, 1.2)
 
 func _trigger_penalty(player: Node) -> void:
 	_penalty_done = true
@@ -100,7 +149,9 @@ func _reset_camera(player: Node) -> void:
 	var cam: Camera2D = player.get_node_or_null("Camera2D")
 	if cam:
 		var tween := create_tween()
-		tween.tween_property(cam, "offset", Vector2.ZERO, 0.3)
+		tween.set_parallel(true)
+		tween.tween_property(cam, "offset", Vector2.ZERO, 0.5)
+		tween.tween_property(cam, "zoom",   _base_zoom,   0.5)
 
 func _add_back_zone() -> void:
 	var area  := Area2D.new()
