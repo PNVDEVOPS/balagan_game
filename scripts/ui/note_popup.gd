@@ -68,7 +68,7 @@ func _build_ui() -> void:
 	_overlay.add_child(center)
 
 	_panel = PanelContainer.new()
-	_panel.custom_minimum_size = Vector2(230, 100)
+	_panel.custom_minimum_size = Vector2(400, 180)
 	center.add_child(_panel)
 
 	var margin := MarginContainer.new()
@@ -89,7 +89,7 @@ func _build_ui() -> void:
 	vbox.add_child(_speaker)
 
 	_text = RichTextLabel.new()
-	_text.custom_minimum_size = Vector2(178, 40)
+	_text.custom_minimum_size = Vector2(340, 100)
 	_text.fit_content = true
 	_text.scroll_active = false
 	_text.layout_mode = 2
