@@ -11,6 +11,10 @@ const NOTE_ORDER: Array[String] = [
 	"poem_ritual",
 ]
 
+const TEX_MOTHER  := preload("res://assets/ui/notes/note_mother.png")
+const TEX_FATHER  := preload("res://assets/ui/notes/note_father.png")
+const TEX_KYDAANA := preload("res://assets/ui/notes/note_kydaana.png")
+
 var _journal_btn: Button
 var _panel:       PanelContainer
 var _grid:        GridContainer
@@ -30,7 +34,7 @@ func _build_ui() -> void:
 	_journal_btn.focus_mode = Control.FOCUS_NONE
 	_journal_btn.flat = true
 	_journal_btn.expand_icon = true
-	_journal_btn.icon = load("res://assets/ui/notes/note_kydaana.png") as Texture2D
+	_journal_btn.icon = TEX_KYDAANA
 	_journal_btn.pressed.connect(toggle)
 	add_child(_journal_btn)
 
@@ -104,7 +108,7 @@ func _add_entry(num: int, note_id: String) -> void:
 	btn.focus_mode = Control.FOCUS_NONE
 
 	var tex := TextureRect.new()
-	tex.texture = load(_texture_path(note_id)) as Texture2D
+	tex.texture = _note_texture(note_id)
 	tex.stretch_mode = TextureRect.STRETCH_SCALE
 	tex.layout_mode = 1
 	tex.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -129,14 +133,14 @@ func _add_entry(num: int, note_id: String) -> void:
 	)
 	_grid.add_child(btn)
 
-func _texture_path(note_id: String) -> String:
+func _note_texture(note_id: String) -> Texture2D:
 	if note_id.begins_with("note_mother_"):
-		return "res://assets/ui/notes/note_mother.png"
+		return TEX_MOTHER
 	if note_id.begins_with("note_father_") \
 			or note_id == "note_env_4" \
 			or note_id == "note_env_hunting":
-		return "res://assets/ui/notes/note_father.png"
-	return "res://assets/ui/notes/note_kydaana.png"
+		return TEX_FATHER
+	return TEX_KYDAANA
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _panel.visible and event.is_action_pressed("ui_cancel"):
