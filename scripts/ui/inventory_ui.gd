@@ -4,6 +4,12 @@ const SLOT_COUNT := 6
 
 const ITEM_COMMENTS: Dictionary = {
 	"flashlight": "Фонарик. Аккумулятор заряжен — пока выручает.",
+	"oil_lamp": "Масляная лампа. Настоящий огонь — там, где фонарь бессилен.",
+}
+
+const ITEM_NAMES: Dictionary = {
+	"flashlight": "Фонарик",
+	"oil_lamp": "Лампа",
 }
 
 @onready var inventory_panel: PanelContainer = $InventoryPanel
@@ -61,7 +67,7 @@ func _refresh() -> void:
 	for i in _slots.size():
 		var slot: Button = _slots[i]
 		if i < Inventory.items.size():
-			slot.text = Inventory.items[i]
+			slot.text = ITEM_NAMES.get(Inventory.items[i], Inventory.items[i])
 			slot.modulate = Color.WHITE
 			slot.disabled = false
 		else:

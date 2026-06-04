@@ -104,3 +104,16 @@ interaction_text = "Осмотреть записку"
 position = Vector2(698, 131)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("manor_window")
+
+[node name="OilLampSprite" type="Polygon2D" parent="." unique_id=1900002]
+position = Vector2(920, 256)
+color = Color(0.82, 0.62, 0.27, 1)
+polygon = PackedVector2Array(-8, 14, -5, -4, 5, -4, 8, 14)
+
+[node name="OilLampGlass" type="Polygon2D" parent="OilLampSprite" unique_id=1900004]
+color = Color(0.95, 0.82, 0.45, 1)
+polygon = PackedVector2Array(-4, -4, -2, -12, 2, -12, 4, -4)
+
+[node name="OilLampExaminable" parent="." unique_id=1900003 instance=ExtResource("4_exam")]
+position = Vector2(920, 271)
+interaction_text = "Осмотреть лампу"

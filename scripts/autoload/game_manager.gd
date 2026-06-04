@@ -18,6 +18,9 @@ var loop_state: int = 0
 var escape_attempts: int = 0
 var ritual_result: String = ""
 var puzzle_unblock_solved: bool = false
+# Квест масляной лампы (тьма dark_c2 → лампа → камелёк)
+var lamp_needed: bool = false   # игрока уже отшвырнуло тьмой, нужен свет
+var kamylok_lit: bool = false   # камелёк зажжён лампой, зал освещён
 
 var _room_graph_original: Dictionary = {}
 var _screen_fade: Node = null

@@ -18,6 +18,7 @@ func _ready() -> void:
 	_apply_loop_visuals()
 	_setup_puzzle()
 	_add_back_zone()
+	call_deferred("_refresh_lighting")
 
 	if _all_artifacts_collected():
 		await get_tree().process_frame
@@ -103,17 +104,20 @@ func _on_kamylok_examined() -> void:
 		_place_ritual_artifact()
 		return
 	if kamylok_state == KamylokState.COLD:
+		if not GameManager.kamylok_lit:
+			if Inventory.has_item("oil_lamp"):
+				await _light_with_lamp()
+			else:
+				DialogueManager.show_text("", "Темно и холодно, угли мёртвые. Нужен настоящий огонь.")
+			return
+		# Камелёк зажжён лампой — под пламенем завал
 		if not GameManager.puzzle_unblock_solved:
-			DialogueManager.show_text("", "Под золой — что-то есть. Дрова завалили вход.")
+			DialogueManager.show_text("", "В золе под пламенем что-то завалено. Надо разобрать.")
 			await DialogueManager.dialogue_finished
 			_open_puzzle()
 			return
-		else:
-			DialogueManager.show_text("", "Угли холодные. Можно разжечь.")
-			await DialogueManager.dialogue_finished
-			kamylok_state = KamylokState.BURNING
-			await _fire_lit()
-			return
+		DialogueManager.show_text("", "Камелёк горит ровно. Тепло наконец.")
+		return
 	if kamylok_state == KamylokState.BURNING:
 		DialogueManager.show_text("", "Огонь горит ровно. Тепло наконец.")
 		return
@@ -141,18 +145,40 @@ func _on_puzzle_solved(_moves: int) -> void:
 	if player and player.has_method("unfreeze"):
 		player.unfreeze()
 	GameManager.puzzle_unblock_solved = true
-	DialogueManager.show_text("", "Под золой — что-то блестит.")
-	await DialogueManager.dialogue_finished
+	# Лампа отслужила своё — гаснет и исчезает
+	Inventory.remove_item("oil_lamp")
 	var amulet_node := get_node_or_null("AmuletPickable")
 	if amulet_node:
-		amulet_node.visible = true
-		amulet_node.set_deferred("monitoring", true)
-		amulet_node.set_deferred("monitorable", true)
+		amulet_node.queue_free()
+	DialogueManager.show_text("", "Под золой — что-то блестит. Само ложится в ладонь.")
+	await DialogueManager.dialogue_finished
+	# Харысхал подбирается автоматически
+	await _on_amulet_picked_up()
 
 func _fire_lit() -> void:
 	DialogueManager.show_text("", "Огонь занимается медленно, потом ярко — камелёк снова живёт.")
 	await DialogueManager.dialogue_finished
 	await get_tree().create_timer(2.0).timeout
+
+# Розжиг камелька масляной лампой — освещает зал
+func _light_with_lamp() -> void:
+	GameManager.kamylok_lit = true
+	DialogueManager.show_text("", "Подношу лампу к углям. Они занимаются — пламя растёт, тепло и свет расходятся по залу.")
+	var mod := get_tree().current_scene.get_node_or_null("RoomModulate")
+	if mod:
+		var tween := create_tween()
+		tween.tween_property(mod, "color", Color(1, 1, 1), 1.5)
+	await DialogueManager.dialogue_finished
+
+# При входе в уже освещённый зал — сразу полный свет
+func _refresh_lighting() -> void:
+	if not GameManager.kamylok_lit:
+		return
+	# Ждём, пока переход создаст RoomModulate и затемнит зал, потом осветляем
+	await get_tree().create_timer(0.2).timeout
+	var mod := get_tree().current_scene.get_node_or_null("RoomModulate")
+	if mod:
+		(mod as CanvasModulate).color = Color(1, 1, 1)
 
 func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")

@@ -24,6 +24,8 @@ func _on_new_game_pressed() -> void:
 	GameManager.escape_attempts = 0
 	GameManager.ritual_result = ""
 	GameManager.puzzle_unblock_solved = false
+	GameManager.lamp_needed = false
+	GameManager.kamylok_lit = false
 	Inventory.items.clear()
 	Inventory.selected_item = ""
 	GameManager.transition_count = 0
