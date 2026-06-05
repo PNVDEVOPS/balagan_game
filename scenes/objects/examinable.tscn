@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://2uqwlc1065aa"]
 
 [ext_resource type="Script" uid="uid://clme70pe7aery" path="res://scripts/objects/examinable.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/examine_icon.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_examine"]
 size = Vector2(32, 48)
@@ -18,3 +19,24 @@ offset_left = -16.0
 offset_top = -48.0
 offset_right = 16.0
 color = Color(0.5, 0.5, 0.7, 1)
+
+[node name="ExamineIcon" type="Node2D" parent="."]
+z_index = 50
+modulate = Color(1.7, 1.7, 1.7, 0.2)
+position = Vector2(0, -72)
+
+[node name="Icon" type="Sprite2D" parent="ExamineIcon"]
+texture_filter = 1
+texture = ExtResource("2")
+scale = Vector2(0.18, 0.18)
+
+[node name="Key" type="Label" parent="ExamineIcon"]
+visible = false
+offset_left = -14.0
+offset_top = 10.0
+offset_right = 14.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "[E]"
+horizontal_alignment = 1

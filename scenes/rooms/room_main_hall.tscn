@@ -47,6 +47,16 @@ position = Vector2(-20, 350)
 position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_left")
 
+[node name="Window1" type="Sprite2D" parent="." unique_id=1810000001]
+position = Vector2(320, 131)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")
+
+[node name="Window2" type="Sprite2D" parent="." unique_id=1810000002]
+position = Vector2(1100, 131)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")
+
 [node name="Player" parent="." unique_id=1035253463 instance=ExtResource("1")]
 position = Vector2(80, 260)
 
@@ -106,13 +116,3 @@ visible = false
 position = Vector2(1100, 255)
 examine_text = "На стене — нацарапано. «УХОДИ». Буквы неровные, будто в спешке."
 interaction_text = "Осмотреть надпись"
-
-[node name="Window1" type="Sprite2D" parent="." unique_id=1810000001]
-position = Vector2(320, 131)
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("manor_window")
-
-[node name="Window2" type="Sprite2D" parent="." unique_id=1810000002]
-position = Vector2(1100, 131)
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("manor_window")

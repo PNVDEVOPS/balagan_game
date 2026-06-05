@@ -48,6 +48,12 @@ func _ready() -> void:
 	_resolve_kind()
 	_apply_kind()
 
+# Пересчитать режим света после изменения инвентаря (подбор фонаря/лампы)
+# в той же комнате — без этого свет остаётся в старом режиме до смены комнаты.
+func refresh_kind() -> void:
+	_resolve_kind()
+	_apply_kind()
+
 # Какой свет сейчас: фонарь / лампа / темнота
 func _resolve_kind() -> void:
 	if Inventory.has_item("oil_lamp"):

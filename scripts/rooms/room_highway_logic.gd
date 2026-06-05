@@ -46,6 +46,7 @@ func _give_flashlight() -> void:
 	ItemPopup.show_item("Фонарь", "Аккумулятор заряжен — пока выручает.", flashlight_tex)
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
+		player.flashlight_ctrl.refresh_kind()   # инвентарь изменился — пересчитать режим (был DARK)
 		player.flashlight_ctrl.scripted_on()
 	DialogueManager.show_text("", "Помню, мужики на заправке говорили, что тут деревня где-то в паре километров. Придётся прогуляться. Главное — фонарь не высадить, пока дойду")
 

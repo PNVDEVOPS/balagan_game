@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
 
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
@@ -87,5 +87,4 @@ interaction_text = "Осмотреть"
 
 [node name="ShelvesExamine" parent="." unique_id=2126327350 instance=ExtResource("4_exam")]
 position = Vector2(480, 271)
-examine_text = ""
 interaction_text = "Осмотреть полку"

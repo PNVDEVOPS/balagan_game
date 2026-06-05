@@ -10,15 +10,28 @@ const DARKNESS_SPEED  := 45.0
 const START_X_RIGHT   := 1700.0
 const ROOM_WIDTH      := 1600.0
 const SHAKE_PROXIMITY  := 380.0
-const ZOOM_MAX        := 1.18
+const ZOOM_MAX        := 1.12
 const BOOST_REQUIRED  := 3.0
-const EDGE_WIDTH      := 450.0
+const EDGE_WIDTH      := 200.0   # ширина зоны осыпания у фронта — меньше = короче языки, виднее чёрное основание
 const RETREAT_SPEED   := 60.0    # тьма гонит игрока назад (dark_c2 без лампы)
+
+# Визуал стены тьмы — шейдер на ColorRect (рваный осыпающийся фронт справа->налево).
+const DARK_SHADER     := "res://assets/shaders/wall_of_darkness.gdshader"
+const DARK_BODY_WIDTH := 2400.0  # сплошное тело тьмы вправо от фронта
+const DARK_HEIGHT     := 490.0   # от -60 до 430 по Y
+const DARK_TOP        := -60.0
+
+# Усиление виньетки и плёночного шума по мере приближения тьмы (как зум/шейк).
+const OVERLAY_PROXIMITY := 600.0 # дистанция, на которой эффект начинает нарастать
+const VIGNETTE_BASE   := 0.38    # дефолт из hud.tscn
+const VIGNETTE_MAX    := 0.90    # мягче — чтобы не сливалось с чёрной стеной
+# Шум у тьмы НЕ нарастает (перекрывал саму тьму) — зерно держим постоянным.
 
 var _mode: String = "dispel"     # "dispel" | "lamp_pass" | "lamp_retreat"
 
-var _darkness:        Polygon2D
-var _darkness_edge:   Polygon2D
+var _darkness:        ColorRect
+var _vignette_mat:    ShaderMaterial
+var _grain_mat:       ShaderMaterial
 var _darkness_x:      float   = START_X_RIGHT
 var _active:          bool    = false
 var _defeated:        bool    = false
@@ -51,6 +64,7 @@ func _ready() -> void:
 	if exit_zone:
 		exit_zone.body_entered.connect(_on_exit_zone)
 	_add_back_zone()
+	_cache_overlays()
 
 	# dark_c2 при входе вперёд начинается с середины помещения
 	if is_c2 and GameManager.spawn_door_id != "door_back":
@@ -74,30 +88,56 @@ func _center_player_deferred() -> void:
 	if p:
 		p.global_position.x = ROOM_WIDTH * 0.5
 
-# ── общая тьма: тело тянется вправо, мягкий край слева ──────────────────
+# ── общая тьма: один ColorRect с шейдером, рваный фронт слева ───────────
+# Тело тянется вправо от фронта, шейдер сам осыпает левый край.
 func _build_darkness() -> void:
-	_darkness_edge = Polygon2D.new()
-	_darkness_edge.polygon = PackedVector2Array([
-		Vector2(0, -60), Vector2(EDGE_WIDTH, -60),
-		Vector2(EDGE_WIDTH, 430), Vector2(0, 430),
-	])
-	_darkness_edge.color   = Color(0.0, 0.0, 0.02, 0.22)
-	_darkness_edge.z_index = 49
-	add_child(_darkness_edge)
+	var total_w := EDGE_WIDTH + DARK_BODY_WIDTH
 
-	_darkness = Polygon2D.new()
-	_darkness.polygon = PackedVector2Array([
-		Vector2(0, -60), Vector2(2400, -60),
-		Vector2(2400, 430), Vector2(0, 430),
-	])
-	_darkness.color   = Color(0.0, 0.0, 0.02, 0.97)
-	_darkness.z_index = 50
+	_darkness = ColorRect.new()
+	_darkness.size         = Vector2(total_w, DARK_HEIGHT)
+	_darkness.position     = Vector2(0, DARK_TOP)
+	_darkness.color        = Color(1, 1, 1, 1)   # итоговый цвет полностью задаёт шейдер
+	_darkness.z_index      = 50
+	_darkness.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var mat := ShaderMaterial.new()
+	mat.shader = load(DARK_SHADER)
+	mat.set_shader_parameter("rect_size", Vector2(total_w, DARK_HEIGHT))
+	mat.set_shader_parameter("front_pos", EDGE_WIDTH / total_w)  # фронт по UV = игровой _darkness_x
+	_darkness.material = mat
+
 	add_child(_darkness)
 	_sync_positions()
 
 func _sync_positions() -> void:
-	_darkness.position.x      = _darkness_x
-	_darkness_edge.position.x = _darkness_x - EDGE_WIDTH
+	# Левый край ColorRect = фронт минус зона осыпания; шейдерный фронт ложится на _darkness_x.
+	if _darkness:
+		_darkness.position.x = _darkness_x - EDGE_WIDTH
+
+# ── оверлеи HUD: виньетка + плёночный шум усиливаются у фронта ──────────
+func _cache_overlays() -> void:
+	var hud := get_node_or_null("HUD")
+	if not hud:
+		return
+	var v := hud.get_node_or_null("Vignette")
+	var g := hud.get_node_or_null("Grain")
+	# Дублируем материал, чтобы менять силу только в этой комнате (не трогая общий ресурс).
+	if v and v.material is ShaderMaterial:
+		_vignette_mat = v.material.duplicate()
+		v.material = _vignette_mat
+	if g and g.material is ShaderMaterial:
+		_grain_mat = g.material.duplicate()
+		g.material = _grain_mat
+
+# t по дистанции до фронта: 0 далеко, 1 вплотную. Тянем только виньетку, шум не трогаем.
+func _drive_overlays(dist: float) -> void:
+	var t := clampf(1.0 - dist / OVERLAY_PROXIMITY, 0.0, 1.0)
+	if _vignette_mat:
+		_vignette_mat.set_shader_parameter("strength", lerpf(VIGNETTE_BASE, VIGNETTE_MAX, t))
+
+func _reset_overlays() -> void:
+	if _vignette_mat:
+		_vignette_mat.set_shader_parameter("strength", VIGNETTE_BASE)
 
 # ── dark_c1: рассеять накачкой фонаря ──────────────────────────────────
 func _setup_dispel_intro() -> void:
@@ -155,6 +195,7 @@ func _process_retreat(delta: float, player: Node) -> void:
 	if cam:
 		cam.offset = Vector2(sin(_shake_time * 1.3) * 5.0, sin(_shake_time * 1.9) * 3.5)
 	var dist: float = _darkness_x - player.global_position.x
+	_drive_overlays(dist)
 	if dist <= 0.0:
 		_penalty_done = true
 		_active = false
@@ -178,12 +219,10 @@ func _process_dispel(delta: float, player: Node) -> void:
 
 	_darkness_x -= DARKNESS_SPEED * delta * pulse
 	_sync_positions()
-
-	var alpha_pulse: float = 0.88 + 0.09 * absf(sin(_pulse_time * PI * 1.5))
-	_darkness.color      = Color(0.0, 0.0, 0.02, alpha_pulse)
-	_darkness_edge.color = Color(0.0, 0.0, 0.02, 0.15 + 0.08 * absf(sin(_pulse_time * PI * 1.5)))
+	# Пульсация/мерцание тьмы теперь в шейдере (TIME), вручную цвет не трогаем.
 
 	var dist: float = _darkness_x - player.global_position.x
+	_drive_overlays(dist)
 	var cam: Camera2D = player.get_node_or_null("Camera2D")
 	if cam:
 		var t := clampf(1.0 - dist / ROOM_WIDTH, 0.0, 1.0)
@@ -206,11 +245,11 @@ func _dispel_darkness(player: Node) -> void:
 	_defeated = true
 	_active   = false
 	_reset_camera(player)
+	_reset_overlays()
 	var tween := create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(_darkness,      "position:x", START_X_RIGHT,             1.2)
-	tween.tween_property(_darkness_edge, "position:x", START_X_RIGHT - EDGE_WIDTH, 1.0)
-	tween.tween_property(_darkness_edge, "modulate:a", 0.0,                        0.8)
+	tween.tween_property(_darkness, "position:x", START_X_RIGHT, 1.2)
+	tween.tween_property(_darkness, "modulate:a", 0.0,           0.9)
 
 func _trigger_penalty(player: Node) -> void:
 	_penalty_done = true

@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/window_double.png" id="manor_window"]
+[ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" uid="uid://cumptnkm4bgc3" path="res://assets/sprites/manor/window_double.png" id="manor_window"]
 
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
@@ -37,6 +37,11 @@ offset_right = 1280.0
 offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
+
+[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900001]
+position = Vector2(698, 131)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")
 
 [node name="Player" parent="." unique_id=1035253464 instance=ExtResource("2_player")]
 position = Vector2(80, 276)
@@ -99,11 +104,6 @@ interaction_text = "Посмотреть в окно"
 [node name="NoteEntry1" parent="." unique_id=2105272202 instance=ExtResource("4_exam")]
 position = Vector2(500, 271)
 interaction_text = "Осмотреть записку"
-
-[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900001]
-position = Vector2(698, 131)
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("manor_window")
 
 [node name="OilLampSprite" type="Polygon2D" parent="." unique_id=1900002]
 position = Vector2(920, 256)

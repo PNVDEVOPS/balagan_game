@@ -39,6 +39,16 @@ offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
 
+[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900002]
+position = Vector2(332, 131)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")
+
+[node name="WindowSprite2" type="Sprite2D" parent="." unique_id=1900003]
+position = Vector2(1000, 131)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("manor_window")
+
 [node name="Player" parent="." unique_id=1035253465 instance=ExtResource("2_player")]
 position = Vector2(80, 260)
 
@@ -99,13 +109,3 @@ shape = SubResource("LaikaTriggerShape")
 [node name="Laika" parent="." unique_id=157373864 instance=ExtResource("4_laika")]
 position = Vector2(1073, 260)
 auto_appear = false
-
-[node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900002]
-position = Vector2(332, 131)
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("manor_window")
-
-[node name="WindowSprite2" type="Sprite2D" parent="." unique_id=1900003]
-position = Vector2(1000, 131)
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("manor_window")

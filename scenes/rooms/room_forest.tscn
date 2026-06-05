@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://vag2pntljdpv" path="res://assets/sprites/forest/дерево 1 (clone)_sprite_1.png" id="14_vugsk"]
 [ext_resource type="Texture2D" uid="uid://y7syahnd7p3f" path="res://assets/sprites/ghost_figure.webp" id="15_xm6as"]
 [ext_resource type="Texture2D" uid="uid://dhx6eof43qc8c" path="res://assets/sprites/forest/кустики передние_sprite_1.png" id="18_muwxq"]
+[ext_resource type="Texture2D" path="res://assets/sprites/forest/капкан.png" id="20_trap"]
 [ext_resource type="Texture2D" uid="uid://c06vuepnvy31" path="res://assets/sprites/forest/забор_sprite_1.png" id="25_7cvm8"]
 [ext_resource type="Texture2D" uid="uid://xjiwwrowlw5n" path="res://assets/sprites/forest/домик_sprite_1.png" id="26_t1kjq"]
 
@@ -281,6 +282,19 @@ offset = Vector2(0, 20)
 
 [node name="Parallax2D8" type="Parallax2D" parent="." unique_id=1400718819]
 
+[node name="Snare" parent="." unique_id=442104949 instance=ExtResource("4")]
+position = Vector2(490, 298)
+examine_text = "Силок. Конский волос и кусок проволоки — старая охотничья петля."
+interaction_text = "Осмотреть [Е]"
+
+[node name="Visual" parent="Snare" index="1"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="Snare" index="3"]
+texture_filter = 1
+position = Vector2(0, -45)
+texture = ExtResource("20_trap")
+
 [node name="Player" parent="." unique_id=41208932 instance=ExtResource("2")]
 position = Vector2(100, 310)
 
@@ -322,11 +336,6 @@ examine_text = "Ветка. Свежий слом. Кто-то прошёл зд
 visible = false
 position = Vector2(1650, 315)
 examine_text = "Старое кострище. Угли давно потухли. Камни сложены в круг."
-
-[node name="Snare" parent="." unique_id=442104949 instance=ExtResource("4")]
-position = Vector2(490, 298)
-examine_text = "Силок. Конский волос и кусок проволоки — старая охотничья петля."
-interaction_text = "Осмотреть [Е]"
 
 [node name="SilhouetteTrigger" type="Area2D" parent="." unique_id=1923528988]
 position = Vector2(2500, 342)
@@ -463,3 +472,5 @@ position = Vector2(3906, 348)
 [node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392012]
 position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_right_wall")
+
+[editable path="Snare"]

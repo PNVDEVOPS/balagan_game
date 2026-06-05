@@ -71,9 +71,13 @@ func _check_interaction() -> void:
 		var collider := ray.get_collider()
 		if collider and collider.has_method("get_interaction_type"):
 			nearest_interactable = collider
-			# Иконка-глаз с [E] висит повыше над самим объектом
-			prompt.global_position = collider.global_position + Vector2(0, -52)
-			prompt.visible = true
+			# У Examinable свой собственный глаз (висит всегда, ярчает вблизи) —
+			# общий промпт показываем только для дверей/тайников/предметов.
+			if collider.get_interaction_type() == Interactable.Type.EXAMINABLE:
+				prompt.visible = false
+			else:
+				prompt.global_position = collider.global_position + Vector2(0, -72)
+				prompt.visible = true
 			return
 	nearest_interactable = null
 	prompt.visible = false

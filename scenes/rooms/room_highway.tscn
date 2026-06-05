@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://4o5aeeloe45g" path="res://assets/sprites/highway/дорога_sprite_1.png" id="13_gibm0"]
 [ext_resource type="Texture2D" uid="uid://igigu33gg6du" path="res://assets/sprites/highway/палка полоска_sprite_1.png" id="14_p1ncp"]
 [ext_resource type="Texture2D" uid="uid://ch504lki6gqhu" path="res://assets/sprites/highway/слой снега перед_sprite_1.png" id="15_f1bu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/highway/указатель.png" id="20_sign"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jcdky"]
 particle_flag_disable_z = true
@@ -208,6 +209,19 @@ scale = Vector2(1, 0.8364584)
 texture = ExtResource("12_lqx0j")
 flip_h = true
 
+[node name="SnowSign" parent="." unique_id=1658671472 instance=ExtResource("4")]
+position = Vector2(1361.4, 309)
+examine_text = "Указатель занесло снегом. Цифры не разобрать."
+interaction_text = "Осмотреть знак"
+
+[node name="Visual" parent="SnowSign" index="1"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="SnowSign" index="3"]
+texture_filter = 1
+position = Vector2(0, -55.5)
+texture = ExtResource("20_sign")
+
 [node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
 position = Vector2(314, 289)
 
@@ -323,11 +337,6 @@ z_index = 2
 position = Vector2(214, 316)
 interaction_text = "Осмотреть машину"
 
-[node name="SnowSign" parent="." unique_id=1658671472 instance=ExtResource("4")]
-position = Vector2(1361.4, 309)
-examine_text = "Указатель занесло снегом. Цифры не разобрать."
-interaction_text = "Осмотреть знак"
-
 [node name="NarrativeTrigger" type="Area2D" parent="." unique_id=671234501]
 position = Vector2(1800, 350)
 collision_layer = 0
@@ -346,3 +355,5 @@ shape = SubResource("RectangleShape2D_trigger")
 position = Vector2(0, 360)
 
 [node name="HUD" parent="." unique_id=1809725468 instance=ExtResource("3")]
+
+[editable path="SnowSign"]
