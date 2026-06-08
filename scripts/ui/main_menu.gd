@@ -2,7 +2,7 @@ extends Control
 
 const MENU_MUSIC := "res://assets/audio/menu_theme.mp3"
 const MUSIC_VOLUME_DB := -12.0     # ← ГРОМКОСТЬ музыки меню (тише = более отрицательное число)
-const MUSIC_FADE_IN   := 2      # плавное появление при входе в меню, сек
+const MUSIC_FADE_IN   := 0.5      # плавное появление при входе в меню, сек
 const MUSIC_FADE_OUT  := 0.9      # плавное затухание при выходе из меню, сек
 const MUSIC_SILENT_DB := -60.0    # уровень «тишины» для фейдов
 
@@ -16,7 +16,11 @@ func _ready() -> void:
 	$Buttons/SettingsBtn.pressed.connect(_on_settings_pressed)
 	$Buttons/QuitBtn.pressed.connect(_on_quit_pressed)
 	$Buttons/NewGameBtn.grab_focus()
-	_start_menu_music()
+	# После концовки — меню без музыки (флаг одноразовый).
+	if GameManager.suppress_menu_music:
+		GameManager.suppress_menu_music = false
+	else:
+		_start_menu_music()
 
 # Зацикленная музыка меню с плавным появлением. Узел — ребёнок меню.
 func _start_menu_music() -> void:

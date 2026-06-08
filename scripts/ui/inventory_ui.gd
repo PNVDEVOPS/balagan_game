@@ -108,5 +108,7 @@ func _on_slot_pressed(index: int) -> void:
 	if index >= Inventory.items.size():
 		return
 	var item_id := Inventory.items[index]
+	# Выбираем предмет (нужно для ритуала 3 даров у камелька) + показываем комментарий.
+	Inventory.select_item(item_id)
 	var comment: String = ITEM_COMMENTS.get(item_id, "...")
 	DialogueManager.show_text("", comment)

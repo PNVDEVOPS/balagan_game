@@ -9,9 +9,10 @@ const GRAVITY := 600.0
 const LAMP_IDLE_DIR := "res://assets/sprites/player_lamp/idle/"
 const LAMP_WALK_DIR := "res://assets/sprites/player_lamp/walk/"
 
-# Шаги по снегу — звучат только в уличных комнатах (Forest/Highway).
+# Шаги: снег на улице (Forest/Highway), дерево в усадьбе (все прочие комнаты).
 const SNOW_ROOMS := ["forest", "highway"]
 const SNOW_STEPS := ["res://assets/audio/SnowStepone.mp3", "res://assets/audio/SnowStepTwo.mp3"]
+const WOOD_STEPS := ["res://assets/audio/Wood1.mp3", "res://assets/audio/Wood2.mp3"]
 const STEP_DISTANCE := 46.0     # пройденный путь между шагами (меньше = чаще)
 const STEP_VOLUME_DB := -3.0    # ← ГРОМКОСТЬ шагов
 
@@ -31,8 +32,9 @@ var _base_frames: SpriteFrames = null            # обычные кадры (б
 static var _lamp_frames: SpriteFrames = null     # кадры с лампой (строятся 1 раз за сессию)
 
 var _snow_streams: Array = []                    # звуки шагов по снегу
+var _wood_streams: Array = []                    # звуки шагов по дереву (усадьба)
 var _step_accum: float = 0.0                     # накопленный путь до следующего шага
-var _step_idx: int = 0                           # чередование SnowStepOne/Two
+var _step_idx: int = 0                           # чередование шагов
 
 func _ready() -> void:
 	ray.collide_with_areas = true
@@ -43,6 +45,9 @@ func _ready() -> void:
 	for path in SNOW_STEPS:
 		if ResourceLoader.exists(path):
 			_snow_streams.append(load(path))
+	for path in WOOD_STEPS:
+		if ResourceLoader.exists(path):
+			_wood_streams.append(load(path))
 
 # Подбирает набор кадров тела под инвентарь: с лампой — кадры «с лампой», иначе база.
 # Никаких предметов в руке отдельным спрайтом больше нет.
@@ -112,17 +117,19 @@ func _physics_process(delta: float) -> void:
 
 # Шаги по снегу: по мере пройденного пути в уличных комнатах чередуем два звука.
 func _handle_footsteps(delta: float) -> void:
-	if _snow_streams.is_empty() or not SNOW_ROOMS.has(GameManager.current_room):
-		return
 	if is_frozen or is_hiding or DialogueManager.is_active or not is_on_floor():
 		return
 	if absf(velocity.x) < 1.0:
 		return
+	# Снег на улице, дерево в усадьбе.
+	var streams: Array = _snow_streams if SNOW_ROOMS.has(GameManager.current_room) else _wood_streams
+	if streams.is_empty():
+		return
 	_step_accum += absf(velocity.x) * delta
 	if _step_accum >= STEP_DISTANCE:
 		_step_accum = 0.0
-		AudioManager.play_sfx(_snow_streams[_step_idx], STEP_VOLUME_DB)
-		_step_idx = (_step_idx + 1) % _snow_streams.size()
+		AudioManager.play_sfx(streams[_step_idx % streams.size()], STEP_VOLUME_DB)
+		_step_idx += 1
 
 func _handle_movement() -> void:
 	var direction := Input.get_axis("move_left", "move_right")

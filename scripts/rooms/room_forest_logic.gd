@@ -11,9 +11,9 @@ var _serge_tutorial_done: bool = false
 var _waiting_for_boost: bool = false
 
 func _ready() -> void:
-	# Уличный эмбиент продолжается с Highway (play_ambient не перезапустит тот же трек)
+	# Уличный эмбиент продолжается с Highway (play_ambient не перезапустит тот же трек) — 50% громкости
 	if ResourceLoader.exists(AMBIENT_OUT):
-		AudioManager.play_ambient(load(AMBIENT_OUT))
+		AudioManager.play_ambient(load(AMBIENT_OUT), 1.0, -12.0)
 
 	var player := get_node_or_null("Player")
 	if player:

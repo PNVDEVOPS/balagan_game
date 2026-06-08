@@ -19,7 +19,7 @@ func _ready() -> void:
 		table.examined.connect(func():
 			DialogueManager.show_text("", "Тарелки на двоих. Еда остыла, но не заветрела — ушли недавно. Или не ушли.\n\nЧашка у края стола перевёрнута. Чай разлился и высох.\n\nНа краю — тетрадь. Чужой почерк.")
 			await DialogueManager.dialogue_finished
-			for key: String in ["note_mother_1", "note_mother_2", "note_mother_3"]:
+			for key: String in ["note_mother_1", "note_mother_3"]:
 				GameManager.mark_note_found(key)
 				DialogueManager.start_dialogue("notes/" + key)
 				await DialogueManager.dialogue_finished

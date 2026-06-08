@@ -153,6 +153,10 @@ interaction_text = "Прочитать стихи"
 position = Vector2(691.95325, 255)
 interaction_text = "Прочитать загадку"
 
+[node name="NoteMother4" parent="." unique_id=2016490380 instance=ExtResource("5")]
+position = Vector2(439, 262)
+interaction_text = "Осмотреть записку"
+
 [node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
 position = Vector2(806.95325, 255)
 interaction_text = "Осмотреть камелёк"

@@ -32,7 +32,8 @@ func _ready() -> void:
 			GameManager.pending_flashlight_dead = false
 			DialogueManager.show_text("", "Фонарик сдох. Здесь он бесполезен — нужен живой огонь.")
 			await DialogueManager.dialogue_finished
-			SubtitleManager.show_subtitle("В прихожей была старая масляная лампа. Надо вернуться за ней.", SubtitleManager.Pos.BOTTOM_CENTER)
+			DialogueManager.show_text("", "В прихожей была старая масляная лампа. Надо вернуться за ней.")
+			await DialogueManager.dialogue_finished
 		else:
 			SubtitleManager.show_subtitle("Подойди ближе...", SubtitleManager.Pos.TOP_CENTER)
 
@@ -99,6 +100,9 @@ func _setup_note(note: Node, room_id: String) -> void:
 	var note_key := ""
 	match room_id:
 		"corridor2": note_key = "note_father_4"
+		"entry_c3":
+			note_key = "note_mother_2"
+			note.interaction_text = "Осмотреть листок"
 		"entry_c4":
 			note_key = "artifact_amulet"
 			note.interaction_text = "Осмотреть записку на тумбе"

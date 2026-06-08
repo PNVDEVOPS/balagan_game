@@ -23,6 +23,8 @@ var lamp_needed: bool = false   # игрока уже отшвырнуло ть�
 var kamylok_lit: bool = false   # камелёк зажжён лампой, зал освещён
 # Игрок только что выбежал из dark_c2 влево — в коридоре entry_c3 показать «Фонарик сдох…»
 var pending_flashlight_dead: bool = false
+# После концовки главное меню открывается без музыки (тон не сбивается).
+var suppress_menu_music: bool = false
 
 var _room_graph_original: Dictionary = {}
 var _screen_fade: Node = null

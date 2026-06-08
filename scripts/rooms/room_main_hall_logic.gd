@@ -14,6 +14,8 @@ const ARTIFACT_NAMES: Dictionary = {
 	"earring": "серёжку"
 }
 const HARYSHAL_TEX := "res://assets/ui/haryshal.png"
+const QUEST_MUSIC := "res://assets/audio/Quest.mp3"        # тема главного зала
+const SADNESS_MUSIC := "res://assets/audio/SadnessSorrow.mp3"  # при появлении Кыдааны
 # Визуалы камелька: спрайт «4» — затухший (поленья), спрайт «3» — горящий.
 const HEARTH_COLD_NODE := "4"
 const HEARTH_LIT_NODE  := "3"
@@ -24,6 +26,10 @@ func _ready() -> void:
 	_set_hearth_lit(GameManager.kamylok_lit)   # сначала затухший, после — горящий
 	_add_back_zone()
 	call_deferred("_refresh_lighting")
+
+	# Тема главного зала (поверх эмбиента усадьбы). Гаснет при выходе из зала.
+	if ResourceLoader.exists(QUEST_MUSIC):
+		AudioManager.play_music(load(QUEST_MUSIC), 1.5)
 
 	if _all_artifacts_collected():
 		await get_tree().process_frame
@@ -37,6 +43,7 @@ func _ready() -> void:
 			if not GameManager.artifacts_collected.has("amulet"):
 				SubtitleManager.show_subtitle("Что-то не отпускает меня.", SubtitleManager.Pos.MID_LEFT)
 				return
+			AudioManager.stop_music(1.0)   # тема зала смолкает за порогом
 			GameManager.change_room("door_right")
 		)
 
@@ -79,7 +86,8 @@ func _setup_puzzle() -> void:
 		)
 
 	for note_data: Array in [
-			["NoteEnv5", "notes/note_env_5", "note_env_5"]]:
+			["NoteEnv5", "notes/note_env_5", "note_env_5"],
+			["NoteMother4", "notes/note_mother_4", "note_mother_4"]]:
 		var note := get_node_or_null(note_data[0])
 		var key: String = note_data[1]
 		var note_id: String = note_data[2]
@@ -209,6 +217,10 @@ func _demo_amulet_sequence() -> void:
 	var player := get_tree().get_first_node_in_group("player")
 	if player and player.has_method("freeze"):
 		player.freeze()
+
+	# Скорбная тема при появлении Кыдааны (перекрывает тему зала)
+	if ResourceLoader.exists(SADNESS_MUSIC):
+		AudioManager.play_music(load(SADNESS_MUSIC), 1.5)
 
 	# Атмосфера как в тёмных комнатах: зум, плёночный шум, виньетка
 	_kydaana_atmosphere(player)
@@ -344,6 +356,10 @@ func _show_demo_end_card() -> void:
 	await tw_text.finished
 
 	await get_tree().create_timer(4.0).timeout
+	# Глушим игровую музыку/эмбиент и просим меню открыться без музыки.
+	AudioManager.stop_music(0.6)
+	AudioManager.stop_ambient(0.6)
+	GameManager.suppress_menu_music = true
 	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 func _place_ritual_artifact() -> void:
@@ -399,6 +415,7 @@ func _on_back_zone(body: Node2D) -> void:
 	_back_trigger_count += 1
 	DialogueManager.show_text("", _get_loop_text(_back_trigger_count))
 	await DialogueManager.dialogue_finished
+	AudioManager.stop_music(1.0)
 	GameManager.change_room("door_exit")
 
 func _get_loop_text(count: int) -> String:

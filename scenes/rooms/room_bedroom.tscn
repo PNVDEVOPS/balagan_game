@@ -13,6 +13,9 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_floor"]
 
+[sub_resource type="RectangleShape2D" id="FwdShape"]
+size = Vector2(60, 140)
+
 [node name="RoomBedroom" type="Node2D"]
 script = ExtResource("5")
 
@@ -105,9 +108,6 @@ examine_text = ""
 [node name="WindowExamine" parent="." instance=ExtResource("7")]
 position = Vector2(300, 560)
 examine_text = "За окном — метель. Деревья согнулись под снегом. Как мы выберемся отсюда?"
-
-[sub_resource type="RectangleShape2D" id="FwdShape"]
-size = Vector2(60, 140)
 
 [node name="ForwardZone" type="Area2D" parent="."]
 position = Vector2(1775, 640)

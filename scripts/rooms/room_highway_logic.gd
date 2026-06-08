@@ -10,9 +10,9 @@ func _ready() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 
-	# Уличный эмбиент (Highway/Forest)
+	# Уличный эмбиент (Highway/Forest) — на 50% громкости (-12 dB ≈ половина амплитуды)
 	if ResourceLoader.exists(AMBIENT_OUT):
-		AudioManager.play_ambient(load(AMBIENT_OUT))
+		AudioManager.play_ambient(load(AMBIENT_OUT), 1.0, -12.0)
 
 	var zone := get_node_or_null("TriggerZone")
 	if zone:

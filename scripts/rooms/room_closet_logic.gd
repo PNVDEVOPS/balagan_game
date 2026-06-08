@@ -1,6 +1,11 @@
 extends Node2D
 
 static var _back_trigger_count: int = 0
+static var _intro_shown: bool = false   # «Тут холодно» + голос Кыдааны — один раз за сессию
+
+const CLOSET_MUSIC := "res://assets/audio/Zagadochny.mp3"  # загадочная тема чулана
+const WOOD_CREAK := "res://assets/audio/Wood2.mp3"         # один скрип дерева при входе
+const WISP_SFX := "res://assets/audio/Wisp.mp3"            # голос Кыдааны (субтитр)
 
 func _ready() -> void:
 	var player := get_node_or_null("Player")
@@ -9,6 +14,12 @@ func _ready() -> void:
 		if cam:
 			cam.limit_left = 0
 			cam.limit_right = 640
+
+	# Тема чулана поверх эмбиента усадьбы + одиночный скрип дерева при входе
+	if ResourceLoader.exists(CLOSET_MUSIC):
+		AudioManager.play_music(load(CLOSET_MUSIC), 1.5)
+	if ResourceLoader.exists(WOOD_CREAK):
+		AudioManager.play_sfx(load(WOOD_CREAK), -4.0)
 
 	var forward_zone := get_node_or_null("ForwardZone")
 	if forward_zone:
@@ -42,7 +53,11 @@ func _ready() -> void:
 	await get_tree().process_frame
 	if _back_trigger_count > 0:
 		DialogueManager.show_text("", _get_loop_text(_back_trigger_count))
-	else:
+	elif not _intro_shown:
+		# Только при самом первом входе — не повторяем при возврате в чулан.
+		_intro_shown = true
+		if ResourceLoader.exists(WISP_SFX):
+			AudioManager.play_sfx(load(WISP_SFX), -6.0)
 		SubtitleManager.show_subtitle(
 			"Тут холодно",
 			SubtitleManager.Pos.MID_LEFT
@@ -69,6 +84,7 @@ func _on_back_zone(body: Node2D) -> void:
 		return
 	# Во время квеста лампы чулан ведёт СРАЗУ в прихожую за лампой —
 	# минуя dark_c1 и коридор entry_c1 (короткий обратный путь). Иначе — петля.
+	# Тема «Загадочный» НЕ глушится — продолжает играть в следующих комнатах.
 	if GameManager.lamp_needed and not Inventory.has_item("oil_lamp"):
 		GameManager.change_room_direct("entry", "door_back")
 		return

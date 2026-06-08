@@ -27,13 +27,17 @@ func _ready() -> void:
 			GameManager.mark_note_found("note_kydaana_1")
 		)
 
-	# Масляная лампа: до тьмы — просто осмотр, после — её можно забрать
+	# Масляная лампа: до тьмы — просто осмотр, после — её можно забрать.
+	# Если лампа уже в руках/израсходована — убираем с полки и спрайт, и осмотр (глаз/[E]).
 	var lamp := get_node_or_null("OilLampExaminable")
-	if lamp:
-		lamp.examined.connect(_on_oil_lamp_examined)
 	var lamp_sprite := get_node_or_null("OilLampSprite")
-	if lamp_sprite and (Inventory.has_item("oil_lamp") or GameManager.kamylok_lit):
-		lamp_sprite.visible = false  # уже забрана или израсходована
+	if Inventory.has_item("oil_lamp") or GameManager.kamylok_lit:
+		if lamp_sprite:
+			lamp_sprite.visible = false
+		if lamp:
+			lamp.queue_free()
+	elif lamp:
+		lamp.examined.connect(_on_oil_lamp_examined)
 
 	if GameManager.escape_attempts == 1:
 		await get_tree().process_frame
@@ -43,7 +47,7 @@ func _ready() -> void:
 		_estate_intro_shown = true
 		await get_tree().process_frame
 		await get_tree().process_frame
-		SubtitleManager.show_subtitle("Веет пустотой и холодом, мне тут не нравится", SubtitleManager.Pos.TOP_LEFT)
+		DialogueManager.show_text("", "Веет пустотой и холодом, мне тут не нравится.")
 
 func _on_oil_lamp_examined() -> void:
 	if Inventory.has_item("oil_lamp") or GameManager.kamylok_lit:
@@ -52,9 +56,13 @@ func _on_oil_lamp_examined() -> void:
 	if GameManager.lamp_needed:
 		# Тьма уже показала, что без света не пройти — забираем лампу
 		Inventory.add_item("oil_lamp")
+		# Прячем лампу с полки: и спрайт, и осмотр (глаз/[E])
 		var lamp_sprite := get_node_or_null("OilLampSprite")
 		if lamp_sprite:
 			lamp_sprite.visible = false
+		var lamp_exam := get_node_or_null("OilLampExaminable")
+		if lamp_exam:
+			lamp_exam.queue_free()
 		# Сразу меняем спрайт игрока на «с лампой» и зажигаем тёплый свет лампы
 		var player := get_node_or_null("Player")
 		if player and player.has_method("refresh_appearance"):
@@ -70,6 +78,9 @@ func _on_oil_lamp_examined() -> void:
 			"Масляная лампа",
 			"Старая, но целая.",
 			lamp_tex)
+		# Реплика-комментарий после попапа: свет лампы сдерживает тьму
+		await get_tree().create_timer(2.5).timeout
+		DialogueManager.show_text("", "Лампа не даёт тьме наступать.")
 	else:
 		DialogueManager.show_text("", "Старинная лампа. Как хорошо, что у меня есть фонарик — эта штука не пригодится.")
 

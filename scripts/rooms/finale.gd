@@ -97,6 +97,9 @@ func _start_bad_ending() -> void:
 	GameManager.loop_state = 0
 	GameManager.ritual_result = ""
 
+	AudioManager.stop_music(0.6)
+	AudioManager.stop_ambient(0.6)
+	GameManager.suppress_menu_music = true
 	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 func _post_credits(bg: ColorRect) -> void:

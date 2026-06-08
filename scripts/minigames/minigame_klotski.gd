@@ -66,6 +66,10 @@ var _drag_start_col: int
 var _drag_start_row: int
 var _is_dragging: bool = false
 var _anim_offsets: Dictionary = {}
+# Границы свободного скольжения (в пикселях, относительно старта) — чтобы при
+# перетаскивании фигура не «проезжала» сквозь соседей/стены.
+var _drag_lo: float = 0.0
+var _drag_hi: float = 0.0
 
 var _grid_ctrl: Control
 var _moves_label: Label
@@ -299,17 +303,37 @@ func _update_drag(pos: Vector2) -> void:
 	var delta := pos - _drag_start_mouse
 	if _drag_axis == "" and (absf(delta.x) > 5.0 or absf(delta.y) > 5.0):
 		_drag_axis = "h" if absf(delta.x) >= absf(delta.y) else "v"
+		_compute_drag_bounds()
 	if _drag_axis == "":
 		return
-	_anim_offsets[_drag_piece] = Vector2(delta.x, 0.0) if _drag_axis == "h" else Vector2(0.0, delta.y)
+	# Зажимаем смещение в пределах свободного хода — фигура не лезет сквозь соседей.
+	if _drag_axis == "h":
+		_anim_offsets[_drag_piece] = Vector2(clampf(delta.x, _drag_lo, _drag_hi), 0.0)
+	else:
+		_anim_offsets[_drag_piece] = Vector2(0.0, clampf(delta.y, _drag_lo, _drag_hi))
 	_grid_ctrl.queue_redraw()
+
+# Считает диапазон свободного скольжения фигуры по текущей оси (в пикселях от старта).
+func _compute_drag_bounds() -> void:
+	var p: Piece = _pieces[_drag_piece]
+	if _drag_axis == "h":
+		var lo := _max_slide_h(_drag_piece, 0)
+		var hi := _max_slide_h(_drag_piece, GRID_COLS - p.w)
+		_drag_lo = float((lo - _drag_start_col) * CELL_SIZE)
+		_drag_hi = float((hi - _drag_start_col) * CELL_SIZE)
+	else:
+		var lo := _max_slide_v(_drag_piece, 0)
+		var hi := _max_slide_v(_drag_piece, GRID_ROWS - p.h)
+		_drag_lo = float((lo - _drag_start_row) * CELL_SIZE)
+		_drag_hi = float((hi - _drag_start_row) * CELL_SIZE)
 
 func _end_drag(pos: Vector2) -> void:
 	if not _is_dragging or _drag_piece < 0:
 		_is_dragging = false
 		return
 	_is_dragging = false
-	_anim_offsets.erase(_drag_piece)
+	# Текущее визуальное смещение (откуда пальцем отпустили) — с него и поедет твин.
+	var release_off: Vector2 = _anim_offsets.get(_drag_piece, Vector2.ZERO)
 
 	var p: Piece = _pieces[_drag_piece]
 	var delta := pos - _drag_start_mouse
@@ -327,9 +351,9 @@ func _end_drag(pos: Vector2) -> void:
 		_moves += 1
 		if _moves_label:
 			_moves_label.text = "Ходы: %d" % _moves
-		_animate_to(_drag_piece, _drag_start_col, _drag_start_row, target_col, target_row)
-	else:
-		_grid_ctrl.queue_redraw()
+	# Всегда плавно доводим до клетки от места отпускания (даже если ход нулевой) —
+	# без скачка обратно в исходную клетку.
+	_animate_to(_drag_piece, _drag_start_col, _drag_start_row, target_col, target_row, release_off)
 
 	_drag_piece = -1
 	_drag_axis  = ""
@@ -401,14 +425,16 @@ func _check_win() -> void:
 
 # ---- Анимация ----
 
-func _animate_to(idx: int, from_col: int, from_row: int, to_col: int, to_row: int) -> void:
+func _animate_to(idx: int, from_col: int, from_row: int, to_col: int, to_row: int, release_off: Vector2 = Vector2.ZERO) -> void:
 	var p: Piece = _pieces[idx]
 	p.col = to_col
 	p.row = to_row
+	# Старт твина = реальное место отпускания относительно НОВОЙ клетки:
+	# (from-to)*CELL приводит базу from к базе to, release_off — «довес» от пальца.
 	var start_off := Vector2(
 		float((from_col - to_col) * CELL_SIZE),
 		float((from_row - to_row) * CELL_SIZE)
-	)
+	) + release_off
 	_anim_offsets[idx] = start_off
 	_can_interact = false
 	if _tween:

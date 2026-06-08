@@ -51,7 +51,7 @@ func _drop_loop(p: AudioStreamPlayer) -> void:
 	if p.finished.is_connected(p.play):
 		p.finished.disconnect(p.play)
 
-func play_ambient(stream: AudioStream, fade_in: float = 1.0) -> void:
+func play_ambient(stream: AudioStream, fade_in: float = 1.0, volume_db: float = AMBIENT_VOLUME_DB) -> void:
 	if stream == null:
 		return
 	# Уже играет этот же эмбиент (например highway→forest) — не перезапускаем.
@@ -69,7 +69,7 @@ func play_ambient(stream: AudioStream, fade_in: float = 1.0) -> void:
 	ambient_player.play()
 	_ensure_loop(ambient_player)
 	var tween_in := create_tween()
-	tween_in.tween_property(ambient_player, "volume_db", AMBIENT_VOLUME_DB, fade_in)
+	tween_in.tween_property(ambient_player, "volume_db", volume_db, fade_in)
 
 func stop_ambient(fade_out: float = 1.0) -> void:
 	if not ambient_player.playing:

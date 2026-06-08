@@ -39,8 +39,7 @@ func _ready() -> void:
 	for note_data: Array in [
 			["NoteMother1", "notes/note_father_1", "note_father_1"],
 			["NoteMother2", "notes/note_father_2", "note_father_2"],
-			["NoteMother3", "notes/note_father_3", "note_father_3"],
-			["NoteMother4", "notes/note_mother_4", "note_mother_4"]]:
+			["NoteMother3", "notes/note_father_3", "note_father_3"]]:
 		var note := get_node_or_null(note_data[0])
 		var key: String = note_data[1]
 		var note_id: String = note_data[2]
@@ -49,6 +48,10 @@ func _ready() -> void:
 				DialogueManager.start_dialogue(key)
 				GameManager.mark_note_found(note_id)
 			)
+	# note_mother_4 переехала в main_hall — убираем узел из спальни.
+	var moved := get_node_or_null("NoteMother4")
+	if moved:
+		moved.queue_free()
 
 	var forward_zone := get_node_or_null("ForwardZone")
 	if forward_zone:

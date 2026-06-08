@@ -1,10 +1,14 @@
-[gd_scene format=3 uid="uid://room_corridor_dark1"]
+[gd_scene format=3 uid="uid://b0jci62tao7lf"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_corridor_dark_logic.gd" id="1_dark"]
+[ext_resource type="Script" uid="uid://b7lmm0e6goi48" path="res://scripts/rooms/room_corridor_dark_logic.gd" id="1_dark"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" uid="uid://wr7cghss88c7" path="res://assets/sprites/rooms/corridor/1.png" id="dec1"]
+[ext_resource type="Texture2D" uid="uid://dfaifqv8kn85f" path="res://assets/sprites/rooms/corridor/5.png" id="dec5"]
+[ext_resource type="Texture2D" uid="uid://c2lmo2tmwerf4" path="res://assets/sprites/rooms/corridor/8.png" id="dec8"]
+[ext_resource type="Texture2D" uid="uid://by5di0armwcot" path="res://assets/sprites/rooms/corridor/9.png" id="dec9"]
+[ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
 
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
@@ -17,59 +21,80 @@ size = Vector2(40, 373)
 [sub_resource type="RectangleShape2D" id="ExitShape"]
 size = Vector2(60, 140)
 
-[node name="RoomCorridorDark" type="Node2D"]
+[node name="RoomCorridorDark" type="Node2D" unique_id=1070346924]
 script = ExtResource("1_dark")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=927488762]
 offset_right = 1600.0
 offset_bottom = 252.0
 texture = ExtResource("manor_wall")
 stretch_mode = 1
 
-[node name="FloorVisual" type="TextureRect" parent="."]
+[node name="FloorVisual" type="TextureRect" parent="." unique_id=1584822676]
 offset_top = 252.0
 offset_right = 1600.0
 offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
+[node name="Decor1" type="Sprite2D" parent="." unique_id=1486218185]
+position = Vector2(240, 162)
+texture = ExtResource("dec5")
+
+[node name="Decor2" type="Sprite2D" parent="." unique_id=368312545]
+position = Vector2(538, 155)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("dec8")
+
+[node name="Decor3" type="Sprite2D" parent="." unique_id=1861422036]
+position = Vector2(892, 169)
+texture = ExtResource("dec9")
+
+[node name="Decor4" type="Sprite2D" parent="." unique_id=1996001916]
+position = Vector2(1120, 150)
+texture = ExtResource("dec1")
+
+[node name="Decor5" type="Sprite2D" parent="." unique_id=636683475]
+position = Vector2(1430, 162)
+texture = ExtResource("dec5")
+
+[node name="Player" parent="." unique_id=620649950 instance=ExtResource("2_player")]
 position = Vector2(80, 260)
 
-[node name="HUD" parent="." instance=ExtResource("3_hud")]
+[node name="HUD" parent="." unique_id=736963784 instance=ExtResource("3_hud")]
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=125292991]
 position = Vector2(0, 262)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1176854433]
 shape = SubResource("FloorShape")
 
-[node name="LeftWall" type="StaticBody2D" parent="."]
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1300249901]
 position = Vector2(-20, 350)
 
-[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall"]
+[node name="LeftWallShape" type="CollisionShape2D" parent="LeftWall" unique_id=5061279]
 position = Vector2(0, -176)
 shape = SubResource("LeftWallShape")
 
-[node name="RightWall" type="StaticBody2D" parent="."]
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=955194389]
 position = Vector2(1600, 350)
 
-[node name="RightWallShape" type="CollisionShape2D" parent="RightWall"]
+[node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=698100481]
 position = Vector2(0, -176)
 shape = SubResource("RightWallShape")
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1013583196]
 position = Vector2(80, 260)
 
-[node name="RoomRight" type="Marker2D" parent="."]
+[node name="RoomRight" type="Marker2D" parent="." unique_id=1912312269]
 position = Vector2(1600, 180)
 
-[node name="RoomBottom" type="Marker2D" parent="."]
+[node name="RoomBottom" type="Marker2D" parent="." unique_id=1964597352]
 position = Vector2(0, 360)
 
-[node name="ExitZone" type="Area2D" parent="."]
+[node name="ExitZone" type="Area2D" parent="." unique_id=1300003042]
 position = Vector2(1560, 235)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=1434741045]
 shape = SubResource("ExitShape")

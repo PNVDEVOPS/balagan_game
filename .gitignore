@@ -7,3 +7,6 @@ movie.avi
 .history/
 graphify-out/
 .claude/settings.local.json
+
+# Build output (exported .exe/.pck — large, regenerable)
+build/

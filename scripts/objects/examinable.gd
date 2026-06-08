@@ -7,7 +7,7 @@ signal examined()
 # Иконка-глаз: всегда висит полупрозрачной, при приближении игрока — непрозрачной.
 const ICON_NEAR_DIST := 30.0     # ближе этого (почти вплотную) — alpha 1.0
 const ICON_FAR_DIST  := 90.0     # дальше этого — тусклый ICON_FAR_ALPHA
-const ICON_FAR_ALPHA := 0.2      # прозрачность в покое
+const ICON_FAR_ALPHA := 0.1      # прозрачность в покое
 
 @onready var _icon: Node2D = get_node_or_null("ExamineIcon")
 @onready var _icon_key: Label = get_node_or_null("ExamineIcon/Key")

@@ -51,6 +51,7 @@ var _boost_hold_time: float   = 0.0
 var _entrance_x:      float   = 0.0     # x точки входа (записывается после расстановки)
 var _intro_armed:     bool    = false   # игрок расставлен, ждём «несколько шагов» (dispel)
 var _intro_started:   bool    = false   # интро-реплика уже запущена
+static var _retreat_wisp_played: bool = false   # голос Кыдааны (Уходи) — один раз за сессию
 
 func _ready() -> void:
 	var is_c2 := GameManager.current_room == "dark_c2"
@@ -175,6 +176,12 @@ func _start_retreat_intro() -> void:
 		await flashlight.scripted_flicker(0.7)
 	if flashlight and flashlight.has_method("scripted_off"):
 		flashlight.scripted_off()
+	# Голос Кыдааны — один раз за сессию (не повторяем при возврате в комнату).
+	if not _retreat_wisp_played:
+		_retreat_wisp_played = true
+		var wisp := "res://assets/audio/Wisp.mp3"
+		if ResourceLoader.exists(wisp):
+			AudioManager.play_sfx(load(wisp), -6.0)
 	DialogueManager.show_text("Кыдаана", "Уходи.")
 	await DialogueManager.dialogue_finished
 	GameManager.lamp_needed = true
