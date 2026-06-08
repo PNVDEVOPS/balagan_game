@@ -4,6 +4,19 @@
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
+[ext_resource type="Texture2D" uid="uid://by6jwdfqx0u5t" path="res://assets/sprites/rooms/storage/1.png" id="7_qhk0j"]
+[ext_resource type="Texture2D" uid="uid://d0chnqw2q1lef" path="res://assets/sprites/rooms/storage/2.png" id="8_4f8nu"]
+[ext_resource type="Texture2D" uid="uid://na60ailoi4ns" path="res://assets/sprites/rooms/storage/3.png" id="9_3qr73"]
+[ext_resource type="Texture2D" uid="uid://0us44lddacx8" path="res://assets/sprites/rooms/storage/4.png" id="10_4qnec"]
+[ext_resource type="Texture2D" uid="uid://c27jp5ske32oe" path="res://assets/sprites/rooms/storage/6.png" id="11_hwduc"]
+[ext_resource type="Texture2D" uid="uid://jkiatcbcoxb8" path="res://assets/sprites/rooms/storage/7.png" id="12_36oqu"]
+[ext_resource type="Texture2D" uid="uid://yyiifrxa3thx" path="res://assets/sprites/rooms/storage/8.png" id="13_jaefg"]
+[ext_resource type="Texture2D" uid="uid://bnstjaa2eq8r6" path="res://assets/sprites/rooms/storage/9.png" id="14_wrw2g"]
+[ext_resource type="Texture2D" uid="uid://c04dss81hl3qc" path="res://assets/sprites/rooms/storage/10.png" id="15_jfkqy"]
+[ext_resource type="Texture2D" uid="uid://cx4xi6yym8dxf" path="res://assets/sprites/rooms/storage/11.png" id="16_88ov7"]
+[ext_resource type="Texture2D" uid="uid://bk7fn5uxh7gfc" path="res://assets/sprites/rooms/storage/12.png" id="17_na15e"]
+[ext_resource type="Texture2D" uid="uid://cw35chqh60214" path="res://assets/sprites/rooms/storage/13.png" id="18_3j7ew"]
+[ext_resource type="Texture2D" uid="uid://dw1xiw3ria4t5" path="res://assets/sprites/rooms/storage/14.png" id="19_4f8nu"]
 [ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
 [ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
 
@@ -33,6 +46,71 @@ offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
+
+[node name="1" type="Sprite2D" parent="." unique_id=1653009738]
+position = Vector2(197, 156)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("7_qhk0j")
+
+[node name="2" type="Sprite2D" parent="." unique_id=397487887]
+position = Vector2(102, 158.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("8_4f8nu")
+
+[node name="3" type="Sprite2D" parent="." unique_id=1040596526]
+position = Vector2(336, 121.00001)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("9_3qr73")
+
+[node name="4" type="Sprite2D" parent="." unique_id=994495757]
+position = Vector2(77.000015, 101.00001)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("10_4qnec")
+
+[node name="6" type="Sprite2D" parent="." unique_id=337124745]
+position = Vector2(330.00003, 186.00002)
+rotation = 1.5707964
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("11_hwduc")
+
+[node name="7" type="Sprite2D" parent="." unique_id=1214758040]
+position = Vector2(586, 60)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("12_36oqu")
+
+[node name="8" type="Sprite2D" parent="." unique_id=772999456]
+position = Vector2(145, 219)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("13_jaefg")
+
+[node name="9" type="Sprite2D" parent="." unique_id=984019759]
+position = Vector2(420, 144.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("14_wrw2g")
+
+[node name="10" type="Sprite2D" parent="." unique_id=1382693095]
+position = Vector2(466, 151.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("15_jfkqy")
+
+[node name="11" type="Sprite2D" parent="." unique_id=1620343718]
+position = Vector2(546.00006, 198)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("16_88ov7")
+
+[node name="12" type="Sprite2D" parent="." unique_id=817289222]
+position = Vector2(246, 211)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("17_na15e")
+
+[node name="13" type="Sprite2D" parent="." unique_id=1764878780]
+position = Vector2(418.00003, 242.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("18_3j7ew")
+
+[node name="14" type="Sprite2D" parent="." unique_id=1311987295]
+position = Vector2(216, 107)
+texture = ExtResource("19_4f8nu")
 
 [node name="Player" parent="." unique_id=1035253466 instance=ExtResource("2_player")]
 position = Vector2(80, 276)
@@ -81,10 +159,10 @@ examine_text = "Ржавые капканы. Один сломан — пруж�
 interaction_text = "Осмотреть"
 
 [node name="ChestExaminable" parent="." unique_id=1466904414 instance=ExtResource("4_exam")]
-position = Vector2(350, 271)
+position = Vector2(424, 271)
 examine_text = "Деревянный ларец. Внутри — записка."
 interaction_text = "Осмотреть"
 
 [node name="ShelvesExamine" parent="." unique_id=2126327350 instance=ExtResource("4_exam")]
-position = Vector2(480, 271)
+position = Vector2(548, 271)
 interaction_text = "Осмотреть полку"

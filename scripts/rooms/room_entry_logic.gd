@@ -1,6 +1,8 @@
 extends Node2D
 
 static var _back_trigger_count: int = 0
+# Реплика на самом первом входе в усадьбу — показывается один раз за сессию
+static var _estate_intro_shown: bool = false
 
 func _ready() -> void:
 	var player := get_node_or_null("Player")
@@ -37,6 +39,11 @@ func _ready() -> void:
 		await get_tree().process_frame
 		await get_tree().process_frame
 		SubtitleManager.show_subtitle("Что здесь происходит?", SubtitleManager.Pos.TOP_LEFT)
+	elif not _estate_intro_shown:
+		_estate_intro_shown = true
+		await get_tree().process_frame
+		await get_tree().process_frame
+		SubtitleManager.show_subtitle("Веет пустотой и холодом, мне тут не нравится", SubtitleManager.Pos.TOP_LEFT)
 
 func _on_oil_lamp_examined() -> void:
 	if Inventory.has_item("oil_lamp") or GameManager.kamylok_lit:
@@ -48,18 +55,30 @@ func _on_oil_lamp_examined() -> void:
 		var lamp_sprite := get_node_or_null("OilLampSprite")
 		if lamp_sprite:
 			lamp_sprite.visible = false
+		# Сразу меняем спрайт игрока на «с лампой» и зажигаем тёплый свет лампы
+		var player := get_node_or_null("Player")
+		if player and player.has_method("refresh_appearance"):
+			player.refresh_appearance()
+		if player and player.flashlight_ctrl:
+			player.flashlight_ctrl.scripted_on()
+			player.flashlight_ctrl.refresh_kind()   # инвентарь изменился → свет = лампа сразу
+		var lamp_tex: Texture2D = null
+		var lamp_icon := "res://assets/sprites/items/lamp_hand.png"
+		if ResourceLoader.exists(lamp_icon):
+			lamp_tex = load(lamp_icon)
 		ItemPopup.show_item(
 			"Масляная лампа",
-			"Старая, но целая. Если найти, чем зажечь, — даст настоящий свет.",
-			null)
+			"Старая, но целая.",
+			lamp_tex)
 	else:
-		DialogueManager.show_text("", "Довольно старинная лампа. Как хорошо, что у меня есть фонарь — эта штука не пригодится.")
+		DialogueManager.show_text("", "Старинная лампа. Как хорошо, что у меня есть фонарик — эта штука не пригодится.")
 
 func _on_exit_door(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
+	# Выход влево из усадьбы заблокирован — что-то держит внутри
 	GameManager.escape_attempts += 1
-	GameManager.change_room("door_exit")
+	SubtitleManager.show_subtitle("Что-то не пускает меня обратно.", SubtitleManager.Pos.TOP_CENTER)
 
 func _on_forward_zone(body: Node2D) -> void:
 	if body.is_in_group("player"):

@@ -45,7 +45,12 @@ func show_subtitle(text: String, pos: Pos) -> void:
 	var vp: Vector2 = get_viewport().get_visible_rect().size
 	var anchor: Vector2 = ANCHORS[pos]
 	_label.text = text
-	_label.position = anchor * vp - _label.size * 0.5
+	var target_pos: Vector2 = anchor * vp - _label.size * 0.5
+	# Не даём боксу уехать за край экрана (левые/правые якоря раньше обрезали текст).
+	const MARGIN := 8.0
+	target_pos.x = clampf(target_pos.x, MARGIN, maxf(MARGIN, vp.x - _label.size.x - MARGIN))
+	target_pos.y = clampf(target_pos.y, MARGIN, maxf(MARGIN, vp.y - _label.size.y - MARGIN))
+	_label.position = target_pos
 	_label.modulate.a = 0.0
 	var hang: float = clampf(text.length() * 0.06, 3.0, 5.0)
 	var tw := create_tween()

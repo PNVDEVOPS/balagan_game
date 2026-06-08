@@ -27,7 +27,14 @@ func _ready() -> void:
 	if room_id == "entry_c3":
 		await get_tree().process_frame
 		await get_tree().process_frame
-		SubtitleManager.show_subtitle("Уходи.", SubtitleManager.Pos.TOP_CENTER)
+		if GameManager.pending_flashlight_dead:
+			# Игрока только что вытолкнуло из dark_c2 влево — теперь о сдохшем фонаре
+			GameManager.pending_flashlight_dead = false
+			DialogueManager.show_text("", "Фонарик сдох. Здесь он бесполезен — нужен живой огонь.")
+			await DialogueManager.dialogue_finished
+			SubtitleManager.show_subtitle("В прихожей была старая масляная лампа. Надо вернуться за ней.", SubtitleManager.Pos.BOTTOM_CENTER)
+		else:
+			SubtitleManager.show_subtitle("Подойди ближе...", SubtitleManager.Pos.TOP_CENTER)
 
 	var window := get_node_or_null("WindowExamine")
 	if window:
@@ -41,8 +48,6 @@ func _ready() -> void:
 		var laika_trigger := get_node_or_null("LaikaTrigger")
 		if laika_trigger:
 			laika_trigger.body_entered.connect(_on_laika_trigger)
-
-	_show_revisit_reaction(room_id)
 
 func _add_back_zone() -> void:
 	var area := Area2D.new()
@@ -62,28 +67,17 @@ func _on_back_zone(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		GameManager.change_room("door_back")
 
-func _show_revisit_reaction(room_id: String) -> void:
-	var count: int = _visit_counts.get(room_id, 1)
-	if count == 2:
-		await get_tree().process_frame
-		await get_tree().process_frame
-		DialogueManager.show_text("", "Опять этот коридор.")
-	elif count >= 3:
-		await get_tree().process_frame
-		await get_tree().process_frame
-		DialogueManager.show_text("", "Снова и снова. Стены одинаковые.")
-
 func _setup_window(window: Node, room_id: String) -> void:
 	match room_id:
 		"entry_c1":
-			window.examine_text = "Двор занесло по пояс. Забор — едва угадывается. Где-то там загон, дровяник, тропинка к реке. Сейчас всё одно — белое."
+			window.examine_text = "Двор занесло по пояс. Забор — едва угадывается. Сейчас всё одно — белое."
 			window.examined.connect(func():
 				if not _window_examined:
 					_window_examined = true
 					window.examine_text = "Смотрю и жду, что появится хоть кто-то. Но снег ровный — ни следа, ни огня."
 			)
 		"entry_c2":
-			window.examine_text = "Метель стихает. Небо чуть светлее у горизонта — не рассвет, просто луна за облаком."
+			window.examine_text = "Небо чуть светлее у горизонта — не рассвет, просто луна за облаком."
 			window.examined.connect(func():
 				if not _window_examined:
 					_window_examined = true
@@ -94,10 +88,10 @@ func _setup_window(window: Node, room_id: String) -> void:
 			window.examined.connect(func():
 				if not _window_examined:
 					_window_examined = true
-					window.examine_text = "Там что-то есть. Или было. Я отошёл от окна."
+					window.examine_text = "Там что-то есть. Или было."
 			)
 		"entry_c4":
-			window.examine_text = "Дорога почти исчезла под снегом. Следы мои уже замело — будто я не приходил. Обратного пути нет."
+			window.examine_text = "Дорога почти исчезла под снегом. Следы мои уже замело — будто я не приходил."
 		_:
 			window.examine_text = "Темно за окном."
 
@@ -128,8 +122,11 @@ func _on_laika_trigger(body: Node2D) -> void:
 	if not laika:
 		return
 	laika.appear()
-	DialogueManager.show_text("", "Опять эта лайка… Возможно, она ведёт меня куда-то?")
+	DialogueManager.show_text("", "Опять эта лайка… Она ведёт меня куда-то?")
 	await DialogueManager.dialogue_finished
+	# Двигаем собаку через tween позиции — отключаем её _physics_process,
+	# иначе laika.gd каждый кадр перебивает анимацию на idle (кадры сидя).
+	laika.set_physics_process(false)
 	var anim: AnimatedSprite2D = laika.get_node_or_null("AnimatedSprite2D")
 	if anim:
 		anim.flip_h = false

@@ -11,9 +11,8 @@ const NOTE_ORDER: Array[String] = [
 	"poem_ritual",
 ]
 
-const TEX_MOTHER  := preload("res://assets/ui/notes/note_mother.png")
-const TEX_FATHER  := preload("res://assets/ui/notes/note_father.png")
-const TEX_KYDAANA := preload("res://assets/ui/notes/note_kydaana.png")
+# Единая иконка-письмо для кнопки журнала и для ячеек записок
+const TEX_LETTER := preload("res://assets/ui/inv_letter.png")
 
 var _journal_btn: Button
 var _panel:       PanelContainer
@@ -34,7 +33,7 @@ func _build_ui() -> void:
 	_journal_btn.focus_mode = Control.FOCUS_NONE
 	_journal_btn.flat = true
 	_journal_btn.expand_icon = true
-	_journal_btn.icon = TEX_KYDAANA
+	_journal_btn.icon = TEX_LETTER
 	_journal_btn.pressed.connect(toggle)
 	add_child(_journal_btn)
 
@@ -110,14 +109,14 @@ func _rebuild_grid() -> void:
 
 func _add_entry(num: int, note_id: String) -> void:
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(66, 50)
+	btn.custom_minimum_size = Vector2(50, 50)   # квадратная ячейка 1:1
 	btn.flat = true
 	btn.clip_contents = true
 	btn.focus_mode = Control.FOCUS_NONE
 
 	var tex := TextureRect.new()
-	tex.texture = _note_texture(note_id)
-	# Вся текстура записки целиком, с сохранением пропорций (не обрезок)
+	tex.texture = TEX_LETTER
+	# Иконка-письмо целиком, с сохранением пропорций (не обрезок)
 	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	tex.layout_mode = 1
 	tex.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -141,15 +140,6 @@ func _add_entry(num: int, note_id: String) -> void:
 		DialogueManager.start_dialogue("notes/" + note_id)
 	)
 	_grid.add_child(btn)
-
-func _note_texture(note_id: String) -> Texture2D:
-	if note_id.begins_with("note_mother_"):
-		return TEX_MOTHER
-	if note_id.begins_with("note_father_") \
-			or note_id == "note_env_4" \
-			or note_id == "note_env_hunting":
-		return TEX_FATHER
-	return TEX_KYDAANA
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _panel.visible and event.is_action_pressed("ui_cancel"):

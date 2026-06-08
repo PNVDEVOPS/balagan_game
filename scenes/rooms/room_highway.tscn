@@ -3,20 +3,20 @@
 [ext_resource type="Script" uid="uid://dkcpmcxmfttrj" path="res://scripts/rooms/room_highway_logic.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cdcf5js16lvhv" path="res://scenes/objects/highway_parallax_background.tscn" id="2_6ugx5"]
-[ext_resource type="Texture2D" uid="uid://dhyf0rbtkywfk" path="res://assets/sprites/highway/звезды_sprite_1.png" id="2_k6y7o"]
+[ext_resource type="Texture2D" uid="uid://c8nppksaur705" path="res://assets/sprites/highway/звезды_sprite_1.png" id="2_k6y7o"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://7r7kbdk6bpym" path="res://assets/sprites/forest/лес 1_sprite_1.png" id="4_lqx0j"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://4wpw0nnl14yr" path="res://assets/sprites/forest/лес 2 (clone)_sprite_1.png" id="5_gibm0"]
-[ext_resource type="Texture2D" uid="uid://sixe8vd8dkhj" path="res://assets/sprites/highway/10_sprite_1.png" id="6_p1ncp"]
-[ext_resource type="Texture2D" uid="uid://wwb4l18xe0ot" path="res://assets/sprites/highway/Layer 1 (imported) (clone)_sprite_1.png" id="7_1sh08"]
-[ext_resource type="Texture2D" uid="uid://cdt64iemhktua" path="res://assets/sprites/highway/14_sprite_1.png" id="7_f1bu2"]
-[ext_resource type="Texture2D" uid="uid://d36ssefsmv3q7" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="12_lqx0j"]
-[ext_resource type="Texture2D" uid="uid://4o5aeeloe45g" path="res://assets/sprites/highway/дорога_sprite_1.png" id="13_gibm0"]
-[ext_resource type="Texture2D" uid="uid://igigu33gg6du" path="res://assets/sprites/highway/палка полоска_sprite_1.png" id="14_p1ncp"]
-[ext_resource type="Texture2D" uid="uid://ch504lki6gqhu" path="res://assets/sprites/highway/слой снега перед_sprite_1.png" id="15_f1bu2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/highway/указатель.png" id="20_sign"]
+[ext_resource type="Texture2D" uid="uid://jiybce1qxf55" path="res://assets/sprites/highway/10_sprite_1.png" id="6_p1ncp"]
+[ext_resource type="Texture2D" uid="uid://dnaxqnc3jvnc0" path="res://assets/sprites/highway/Layer 1 (imported) (clone)_sprite_1.png" id="7_1sh08"]
+[ext_resource type="Texture2D" uid="uid://djqwvjp67auax" path="res://assets/sprites/highway/14_sprite_1.png" id="7_f1bu2"]
+[ext_resource type="Texture2D" uid="uid://cxs3h2t77wiw0" path="res://assets/sprites/highway/слой снега_sprite_1.png" id="12_lqx0j"]
+[ext_resource type="Texture2D" uid="uid://n43eahkukbte" path="res://assets/sprites/highway/дорога_sprite_1.png" id="13_gibm0"]
+[ext_resource type="Texture2D" uid="uid://cq181puswl0uy" path="res://assets/sprites/highway/палка полоска_sprite_1.png" id="14_p1ncp"]
+[ext_resource type="Texture2D" uid="uid://c4e0vouwgycm0" path="res://assets/sprites/highway/слой снега перед_sprite_1.png" id="15_f1bu2"]
+[ext_resource type="Texture2D" uid="uid://c5rwks6k24u2u" path="res://assets/sprites/highway/указатель.png" id="20_sign"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jcdky"]
 particle_flag_disable_z = true
@@ -214,19 +214,13 @@ position = Vector2(1361.4, 309)
 examine_text = "Указатель занесло снегом. Цифры не разобрать."
 interaction_text = "Осмотреть знак"
 
-[node name="Visual" parent="SnowSign" index="1"]
-visible = false
-
-[node name="Sprite" type="Sprite2D" parent="SnowSign" index="3"]
+[node name="Sprite" type="Sprite2D" parent="SnowSign" unique_id=672509615]
 texture_filter = 1
-position = Vector2(0, -55.5)
+position = Vector2(-0.4000244, -67)
 texture = ExtResource("20_sign")
 
 [node name="Player" parent="." unique_id=1794797605 instance=ExtResource("2")]
 position = Vector2(314, 289)
-
-[node name="AnimatedSprite2D" parent="Player" unique_id=2104586973]
-scale = Vector2(0.18, 0.18)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=47794619]
 position = Vector2(1400, -20)

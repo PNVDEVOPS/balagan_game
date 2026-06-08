@@ -2,3 +2,8 @@
 *.import
 export_presets.cfg
 movie.avi
+
+# Editor / tooling noise (regenerable, machine-local)
+.history/
+graphify-out/
+.claude/settings.local.json

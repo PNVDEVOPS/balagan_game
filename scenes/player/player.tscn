@@ -5,6 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cpxhtqityj1ot" path="res://assets/sprites/player_frames.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://doxo38y8ksffg" path="res://assets/sprites/light_gradient.png" id="4"]
 [ext_resource type="Texture2D" path="res://assets/ui/examine_icon.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/flashlight_hand.png" id="6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(16, 64)
@@ -24,8 +25,15 @@ sprite_frames = ExtResource("3")
 animation = &"idle"
 autoplay = "idle"
 
+[node name="HeldItem" type="Sprite2D" parent="." unique_id=1345512893]
+visible = false
+position = Vector2(13, -36)
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("6")
+z_index = 1
+
 [node name="Flashlight" type="PointLight2D" parent="." unique_id=1345512892]
-position = Vector2(10, -42)
+position = Vector2(22, -40)
 color = Color(1, 0.957, 0.839, 1)
 energy = 1.5
 range_z_max = 9

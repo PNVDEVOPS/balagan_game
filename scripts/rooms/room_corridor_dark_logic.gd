@@ -6,14 +6,22 @@ extends Node2D
 #       без лампы → Кыдаана гонит назад, фонарь гаснет («нужен свет»);
 #       с лампой  → тьма расступается, проход свободен вперёд.
 
-const DARKNESS_SPEED  := 45.0
+const DARKNESS_SPEED  := 72.0    # быстрее наползает (было 45)
 const START_X_RIGHT   := 1700.0
 const ROOM_WIDTH      := 1600.0
 const SHAKE_PROXIMITY  := 380.0
 const ZOOM_MAX        := 1.12
-const BOOST_REQUIRED  := 3.0
+const BOOST_REQUIRED  := 2.4     # чуть быстрее рассеивается под напором света
 const EDGE_WIDTH      := 200.0   # ширина зоны осыпания у фронта — меньше = короче языки, виднее чёрное основание
-const RETREAT_SPEED   := 60.0    # тьма гонит игрока назад (dark_c2 без лампы)
+const RETREAT_SPEED   := 80.0    # тьма гонит игрока назад (dark_c2 без лампы)
+# Сопротивление свету: тьма не плавно отходит, а толкается рывками против фонаря.
+const RESIST_RECEDE   := 60.0    # средний откат фронта под буст-светом
+const RESIST_PUSH     := 95.0    # сила рывка тьмы вперёд (в пике толчка)
+# «Несколько шагов от входа» — на этой дистанции от точки входа звучит реплика
+# и тьма оживает (dark_c1). Тьма при этом стоит справа с самого начала.
+const STEPS_DIST      := 200.0
+# dark_c2: фронт тьмы стоит почти у конца комнаты; оживает, когда игрок прошёл середину.
+const DARK_C2_FRONT   := ROOM_WIDTH - 160.0
 
 # Визуал стены тьмы — шейдер на ColorRect (рваный осыпающийся фронт справа->налево).
 const DARK_SHADER     := "res://assets/shaders/wall_of_darkness.gdshader"
@@ -40,13 +48,16 @@ var _shake_time:      float   = 0.0
 var _pulse_time:      float   = 0.0
 var _base_zoom:       Vector2 = Vector2.ONE
 var _boost_hold_time: float   = 0.0
+var _entrance_x:      float   = 0.0     # x точки входа (записывается после расстановки)
+var _intro_armed:     bool    = false   # игрок расставлен, ждём «несколько шагов» (dispel)
+var _intro_started:   bool    = false   # интро-реплика уже запущена
 
 func _ready() -> void:
 	var is_c2 := GameManager.current_room == "dark_c2"
-	if Inventory.has_item("oil_lamp"):
+	if GameManager.spawn_door_id == "door_back":
+		_mode = "free_pass"                          # вошёл справа (возврат) — тихо, без реплик
+	elif Inventory.has_item("oil_lamp"):
 		_mode = "lamp_pass"                          # лампа держит тьму
-	elif GameManager.spawn_door_id == "door_back":
-		_mode = "free_pass"                          # идём назад — тьма не мешает
 	elif is_c2:
 		_mode = "lamp_retreat"                       # Кыдаана гонит назад
 	else:
@@ -66,27 +77,21 @@ func _ready() -> void:
 	_add_back_zone()
 	_cache_overlays()
 
-	# dark_c2 при входе вперёд начинается с середины помещения
-	if is_c2 and GameManager.spawn_door_id != "door_back":
-		_center_player_deferred()
-
+	# dark_c1: тьма далеко справа (START_X_RIGHT), наползает после реплики «через шаги».
+	# dark_c2: тьма стоит почти у конца комнаты и оживает, когда игрок прошёл середину.
 	match _mode:
 		"lamp_pass":
 			_setup_lamp_pass()
 		"free_pass":
-			pass                                     # просто проходим
+			pass                                     # просто проходим, тихо
 		"lamp_retreat":
 			_build_darkness()
-			_setup_retreat_intro()
+			_darkness_x = DARK_C2_FRONT              # тьма уже выступает у конца комнаты
+			_sync_positions()
+			_arm_intro()
 		_:
 			_build_darkness()
-			_setup_dispel_intro()
-
-func _center_player_deferred() -> void:
-	await get_tree().create_timer(0.15).timeout
-	var p := get_node_or_null("Player")
-	if p:
-		p.global_position.x = ROOM_WIDTH * 0.5
+			_arm_intro()
 
 # ── общая тьма: один ColorRect с шейдером, рваный фронт слева ───────────
 # Тело тянется вправо от фронта, шейдер сам осыпает левый край.
@@ -139,21 +144,30 @@ func _reset_overlays() -> void:
 	if _vignette_mat:
 		_vignette_mat.set_shader_parameter("strength", VIGNETTE_BASE)
 
-# ── dark_c1: рассеять накачкой фонаря ──────────────────────────────────
-func _setup_dispel_intro() -> void:
-	await get_tree().create_timer(0.6).timeout
+# Ждём, пока игрока расставят на точку входа и закончится fade, затем «взводим»
+# триггер. Реплика звучит в _process: dark_c1 — по шагам, dark_c2 — за серединой.
+func _arm_intro() -> void:
+	await get_tree().create_timer(0.35).timeout
+	var player := get_node_or_null("Player")
+	if player:
+		_entrance_x = player.global_position.x
+	_intro_armed = true
+
+func _start_dispel_intro() -> void:
 	var player := get_node_or_null("Player")
 	var flashlight = player.get_node_or_null("Flashlight") if player else null
 	if flashlight and flashlight.has_method("scripted_flicker"):
 		flashlight.scripted_flicker(0.8)
-	await get_tree().create_timer(0.6).timeout
-	DialogueManager.show_text("", "Воздух сгустился. Что-то надвигается.")
+	await get_tree().create_timer(0.3).timeout
+	DialogueManager.show_text("", "Что-то приближается.")
 	await DialogueManager.dialogue_finished
-	_active = true
+	_active = true                                   # тьма оживает и наползает
 
 # ── dark_c2 без лампы: Кыдаана гонит назад, фонарь гаснет ───────────────
-func _setup_retreat_intro() -> void:
-	await get_tree().create_timer(0.5).timeout
+# Тьма стоит у конца комнаты; когда игрок проходит середину — Кыдаана и погоня.
+# «Фонарик сдох» уезжает на выход (показывается в entry_c3).
+func _start_retreat_intro() -> void:
+	_intro_started = true
 	var player := get_node_or_null("Player")
 	var flashlight = player.get_node_or_null("Flashlight") if player else null
 	# Дожидаемся мигания (оно само включает фонарь в конце), потом гасим насовсем
@@ -161,15 +175,10 @@ func _setup_retreat_intro() -> void:
 		await flashlight.scripted_flicker(0.7)
 	if flashlight and flashlight.has_method("scripted_off"):
 		flashlight.scripted_off()
-
-	if not GameManager.lamp_needed:
-		DialogueManager.show_text("Кыдаана", "Уходи.")
-		await DialogueManager.dialogue_finished
-		GameManager.lamp_needed = true
-	else:
-		DialogueManager.show_text("", "Фонарик не работает. Дальше не пройти — мне нужен свет.")
-		await DialogueManager.dialogue_finished
-	_active = true
+	DialogueManager.show_text("Кыдаана", "Уходи.")
+	await DialogueManager.dialogue_finished
+	GameManager.lamp_needed = true
+	_active = true                                   # тьма гонит игрока назад
 
 # ── dark_c2 с лампой: тьма расступается, иди вперёд ─────────────────────
 func _setup_lamp_pass() -> void:
@@ -177,10 +186,23 @@ func _setup_lamp_pass() -> void:
 	SubtitleManager.show_subtitle("Лампа держит тьму на расстоянии.", SubtitleManager.Pos.BOTTOM_CENTER)
 
 func _process(delta: float) -> void:
-	if not _active or _defeated or _penalty_done:
+	if _defeated or _penalty_done:
 		return
 	var player := get_node_or_null("Player")
 	if not player:
+		return
+	# Тьма ещё не активна. dark_c1 ждёт «несколько шагов» от входа; dark_c2 ждёт,
+	# пока игрок пройдёт середину — тогда тьма у конца комнаты оживает и гонит назад.
+	if not _active:
+		if _intro_armed and not _intro_started:
+			if _mode == "dispel" \
+					and absf(player.global_position.x - _entrance_x) >= STEPS_DIST:
+				_intro_started = true
+				_start_dispel_intro()
+			elif _mode == "lamp_retreat" \
+					and player.global_position.x >= ROOM_WIDTH * 0.5:
+				_intro_started = true
+				_start_retreat_intro()
 		return
 	if _mode == "lamp_retreat":
 		_process_retreat(delta, player)
@@ -199,8 +221,10 @@ func _process_retreat(delta: float, player: Node) -> void:
 	if dist <= 0.0:
 		_penalty_done = true
 		_active = false
-		# Тьма отбрасывает в комнату, откуда пришёл
-		GameManager.change_room("door_back")
+		# Тьма настигла — снова в начало ЭТОЙ же комнаты (не отбрасывает назад).
+		# Сообщение про фонарь — только при сознательном выходе влево (back-зона).
+		GameManager.lamp_needed = true
+		GameManager.change_room_direct(GameManager.current_room, "door_forward")
 
 func _process_dispel(delta: float, player: Node) -> void:
 	_pulse_time += delta
@@ -209,8 +233,14 @@ func _process_dispel(delta: float, player: Node) -> void:
 	var flashlight = player.get_node_or_null("Flashlight")
 	if flashlight and flashlight.is_boost_active:
 		_boost_hold_time += delta
-		_darkness_x += 20.0 * delta
+		# Тьма сопротивляется свету: в среднем отступает, но толкается рывками вперёд.
+		var jolt: float = maxf(0.0, sin(_boost_hold_time * 11.0))
+		_darkness_x += (RESIST_RECEDE - RESIST_PUSH * jolt) * delta
 		_sync_positions()
+		var cam_r: Camera2D = player.get_node_or_null("Camera2D")
+		if cam_r:
+			_shake_time += delta * 30.0
+			cam_r.offset = Vector2(sin(_shake_time) * 6.0 * jolt, sin(_shake_time * 0.6) * 4.0 * jolt)
 		if _boost_hold_time >= BOOST_REQUIRED:
 			_dispel_darkness(player)
 		return
@@ -255,17 +285,8 @@ func _trigger_penalty(player: Node) -> void:
 	_penalty_done = true
 	_active       = false
 	_reset_camera(player)
-	var two_back := _room_two_back()
-	if two_back.is_empty():
-		GameManager.change_room("door_back")
-	else:
-		GameManager.change_room_direct(two_back, "door_back")
-
-func _room_two_back() -> String:
-	var r1 := GameManager.get_door_target(GameManager.current_room, "door_back")
-	if r1.is_empty():
-		return ""
-	return GameManager.get_door_target(r1, "door_back")
+	# Тьма настигла — возвращаемся в начало ЭТОЙ же комнаты, а не отбрасывает назад.
+	GameManager.change_room_direct(GameManager.current_room, "door_forward")
 
 func _reset_camera(player: Node) -> void:
 	var cam: Camera2D = player.get_node_or_null("Camera2D")
@@ -289,6 +310,10 @@ func _add_back_zone() -> void:
 	add_child(area)
 	area.body_entered.connect(func(body: Node2D):
 		if body.is_in_group("player"):
+			# Выход влево из dark_c2 без лампы → «Фонарик сдох…» в entry_c3
+			if _mode == "lamp_retreat":
+				GameManager.lamp_needed = true
+				GameManager.pending_flashlight_dead = true
 			GameManager.change_room("door_back")
 	)
 

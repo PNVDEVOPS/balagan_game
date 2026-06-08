@@ -71,6 +71,14 @@ var _grid_ctrl: Control
 var _moves_label: Label
 var _tween: Tween
 
+# ---- Текстуры фигур ----
+const TEX_CHEST_PATH := "res://assets/sprites/items/chest.png"   # шкатулка
+const TEX_LOGS_PATH  := "res://assets/sprites/items/logs.png"    # дрова (полено)
+const TEX_COAL_PATH  := "res://assets/sprites/items/coal.png"    # уголёк
+var _tex_chest: Texture2D = null
+var _tex_logs:  Texture2D = null
+var _tex_coal:  Texture2D = null
+
 # ---- Публичный API ----
 
 func open() -> void:
@@ -85,8 +93,17 @@ func close() -> void:
 
 func _ready() -> void:
 	layer = 20
+	_load_textures()
 	_build_ui()
 	_reset_board()
+
+func _load_textures() -> void:
+	if ResourceLoader.exists(TEX_CHEST_PATH):
+		_tex_chest = load(TEX_CHEST_PATH)
+	if ResourceLoader.exists(TEX_LOGS_PATH):
+		_tex_logs = load(TEX_LOGS_PATH)
+	if ResourceLoader.exists(TEX_COAL_PATH):
+		_tex_coal = load(TEX_COAL_PATH)
 
 func _reset_board() -> void:
 	if _tween:
@@ -160,20 +177,6 @@ func _build_ui() -> void:
 	vbox.add_theme_constant_override("separation", 6)
 	margin.add_child(vbox)
 
-	var title := Label.new()
-	title.text = "Тащи золото к синей метке"
-	title.add_theme_font_size_override("font_size", 13)
-	title.modulate = C_TITLE
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(title)
-
-	_moves_label = Label.new()
-	_moves_label.text = "Ходы: 0"
-	_moves_label.add_theme_font_size_override("font_size", 11)
-	_moves_label.modulate = C_MOVES
-	_moves_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(_moves_label)
-
 	var grid_wrap := CenterContainer.new()
 	vbox.add_child(grid_wrap)
 
@@ -226,10 +229,36 @@ func _on_grid_draw() -> void:
 			p.col * CELL_SIZE + off.x, p.row * CELL_SIZE + off.y,
 			p.w * CELL_SIZE,           p.h * CELL_SIZE
 		)
-		_grid_ctrl.draw_rect(rect.grow(-3.0), _piece_color(p.id, p.w, p.h))
+		var inner := rect.grow(-3.0)
+		var tex := _piece_texture(p)
+		if tex:
+			# Горизонтальное полено — поворачиваем вертикальную текстуру дров на 90°,
+			# иначе волокно растянуто поперёк и выглядит неправильно.
+			if p.id != "chest" and p.w > p.h:
+				_draw_log_horizontal(tex, inner)
+			else:
+				_grid_ctrl.draw_texture_rect(tex, inner, false)
+		else:
+			_grid_ctrl.draw_rect(inner, _piece_color(p.id, p.w, p.h))
 		if i == _selected:
-			_grid_ctrl.draw_rect(rect.grow(-3.0), C_SELECT)
-		_grid_ctrl.draw_rect(rect.grow(-3.0), C_PIECE_EDGE, false, 1.5)
+			_grid_ctrl.draw_rect(inner, C_SELECT)
+		_grid_ctrl.draw_rect(inner, C_PIECE_EDGE, false, 1.5)
+
+func _piece_texture(p: Piece) -> Texture2D:
+	if p.id == "chest":
+		return _tex_chest
+	if p.w >= 2 or p.h >= 2:
+		return _tex_logs
+	return _tex_coal
+
+# Рисует текстуру дров, повёрнутую на 90° (для горизонтального полена).
+func _draw_log_horizontal(tex: Texture2D, rect: Rect2) -> void:
+	var center := rect.position + rect.size * 0.5
+	_grid_ctrl.draw_set_transform(center, PI * 0.5, Vector2.ONE)
+	# Локальный прямоугольник с переставленными сторонами: после поворота ляжет в rect.
+	var local := Rect2(-rect.size.y * 0.5, -rect.size.x * 0.5, rect.size.y, rect.size.x)
+	_grid_ctrl.draw_texture_rect(tex, local, false)
+	_grid_ctrl.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 func _piece_color(id: String, w: int, h: int) -> Color:
 	if id == "chest":
@@ -296,7 +325,8 @@ func _end_drag(pos: Vector2) -> void:
 
 	if target_col != _drag_start_col or target_row != _drag_start_row:
 		_moves += 1
-		_moves_label.text = "Ходы: %d" % _moves
+		if _moves_label:
+			_moves_label.text = "Ходы: %d" % _moves
 		_animate_to(_drag_piece, _drag_start_col, _drag_start_row, target_col, target_row)
 	else:
 		_grid_ctrl.queue_redraw()
@@ -403,18 +433,6 @@ func _trigger_win() -> void:
 	tw.tween_property(_grid_ctrl, "modulate", Color(1.5, 1.4, 0.8), 0.35)
 	tw.tween_property(_grid_ctrl, "modulate", Color(1.0, 1.0, 1.0), 0.45)
 	await tw.finished
-
-	var lbl := Label.new()
-	lbl.text = "Шкатулка свободна!"
-	lbl.add_theme_font_size_override("font_size", 18)
-	lbl.modulate = Color(0.90, 0.75, 0.30)
-	lbl.set_anchors_preset(Control.PRESET_CENTER)
-	lbl.offset_left   = -120.0
-	lbl.offset_right  =  120.0
-	lbl.offset_top    =   10.0
-	lbl.offset_bottom =   44.0
-	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(lbl)
 
 	await get_tree().create_timer(1.0).timeout
 	puzzle_solved.emit(_moves)

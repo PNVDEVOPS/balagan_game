@@ -135,7 +135,7 @@ func _show_line() -> void:
 		if not t.is_empty():
 			parts.append(t)
 	_text.text = "\n\n".join(parts)
-	_hint.text = "[E] закрыть"
+	_hint.text = "Пробел — закрыть"
 
 func _advance() -> void:
 	_close()
@@ -154,6 +154,7 @@ func _on_click(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _is_open:
 		return
-	if event.is_action_pressed("advance_dialogue") or event.is_action_pressed("ui_accept"):
+	# Закрываем записку пробелом/Enter (E её открывает — на него не закрываем)
+	if event.is_action_pressed("advance_dialogue"):
 		_advance()
 		get_viewport().set_input_as_handled()

@@ -6,8 +6,8 @@ signal qte_success()
 signal qte_failure()
 
 const MAX_CHARGE := 100.0
-const PUMP_PER_PRESS := 34.0    # +за каждое нажатие F (≈3 нажатия до пика)
-const PUMP_DECAY := 55.0        # спад мощности в секунду без нажатий
+const PUMP_PER_PRESS := 46.0    # +за каждое нажатие F (≈2 нажатия до пика)
+const PUMP_DECAY := 24.0        # спад мощности в секунду без нажатий (медленнее — реже жать)
 const PEAK_CHARGE := 80.0       # с этого уровня включается пик (boost)
 const PEAK_RELEASE := 45.0      # ниже этого — пик гаснет (гистерезис, чтобы не дёргалось)
 
@@ -42,11 +42,26 @@ var _base_x: float = 0.0
 
 func _ready() -> void:
 	_base_x = position.x
+	# Гладкий свет, несмотря на глобальный NEAREST-фильтр проекта.
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	_generate_cone_texture()
 	texture_scale = _base_scale
 	energy = _base_energy
 	_resolve_kind()
 	_apply_kind()
+	_maybe_hint_lamp()
+
+# Когда фонарь сдох (после dark_c2, лампы ещё нет) — напоминаем, что делать.
+# В тёмных комнатах молчим: там свою подсказку даёт room_corridor_dark_logic.
+func _maybe_hint_lamp() -> void:
+	if _kind != LightKind.DARK:
+		return
+	if not GameManager.lamp_needed or Inventory.has_item("oil_lamp"):
+		return
+	if GameManager.current_room.begins_with("dark"):
+		return
+	await get_tree().create_timer(0.6).timeout
+	SubtitleManager.show_subtitle("Фонарик сдох. Нужна масляная лампа из прихожей.", SubtitleManager.Pos.TOP_CENTER)
 
 # Пересчитать режим света после изменения инвентаря (подбор фонаря/лампы)
 # в той же комнате — без этого свет остаётся в старом режиме до смены комнаты.
@@ -82,38 +97,40 @@ func _apply_kind() -> void:
 			energy = _base_energy
 
 func _generate_cone_texture() -> void:
-	# 128x128 image — cone pointing RIGHT from center
-	# Sharp triangular edges, 18° half-angle
+	# Мягкий реалистичный конус, направленный ВПРАВО от центра (апекс = позиция света).
+	# Гладкие края (пенумбра), тёплый продольный спад, свет «разгорается» от линзы —
+	# без яркого пятна у самой руки.
+	# Подстройка формы: HALF_ANGLE — раствор, REACH — дальность, START — где разгорается.
 	const IMG := 128
-	const HALF_F := float(IMG) / 2.0
-	const MAX_D := HALF_F * 0.75        # how far the beam reaches
-	const COS_HALF := 0.9511            # cos(18°)
+	const C := float(IMG) * 0.5         # центр = апекс конуса
+	const HALF_ANGLE := 0.42            # ~24° половина раствора (радианы)
+	const REACH := 52.0                 # дальность луча в пикселях текстуры
+	const START := 0.12                 # доля длины на разгорание (нет пятна у руки)
 
 	var image := Image.create(IMG, IMG, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0, 0, 0, 0))
 
 	for y in range(IMG):
 		for x in range(IMG):
-			var dx := float(x) - HALF_F
-			var dy := float(y) - HALF_F
-
+			var dx := float(x) - C
+			var dy := float(y) - C
 			if dx <= 0.0:
 				continue
-
 			var dist := sqrt(dx * dx + dy * dy)
-			if dist < 0.5 or dist > MAX_D:
+			if dist > REACH:
 				continue
-
-			var cos_a := dx / dist          # cosine of angle from rightward axis
-			if cos_a < COS_HALF:
+			# Угловой спад: ярко по оси, мягко гаснет к краю конуса (пенумбра)
+			var ang := atan2(absf(dy), dx)
+			var angular := 1.0 - smoothstep(HALF_ANGLE * 0.35, HALF_ANGLE, ang)
+			if angular <= 0.0:
 				continue
-
-			# Linear brightness falloff along the beam length; sharp angular edges
-			var brightness := 1.0 - dist / MAX_D
-			# Tiny soft fringe at the tip (makes it feel less harsh)
-			if dist < 6.0:
-				brightness = 1.0
-			image.set_pixel(x, y, Color(1.0, 1.0, 1.0, brightness))
+			# Продольный профиль: разгорается от линзы, к концу плавно в ноль
+			var d := dist / REACH
+			var along := smoothstep(0.0, START, d) * (1.0 - smoothstep(0.45, 1.0, d))
+			var bright := angular * along
+			if bright <= 0.0:
+				continue
+			image.set_pixel(x, y, Color(1.0, 1.0, 1.0, clampf(bright, 0.0, 1.0)))
 
 	texture = ImageTexture.create_from_image(image)
 

@@ -5,6 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5"]
 [ext_resource type="Script" uid="uid://cpjkte3x2o1qw" path="res://scripts/rooms/room_main_hall_logic.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://pickable001" path="res://scenes/objects/pickable.tscn" id="7"]
+[ext_resource type="Texture2D" uid="uid://c8j5kdmusoxr7" path="res://assets/sprites/rooms/main_hall/1.png" id="9_8h8r2"]
+[ext_resource type="Texture2D" uid="uid://dvdx4dng45x6n" path="res://assets/sprites/rooms/main_hall/2.png" id="10_73ehn"]
+[ext_resource type="Texture2D" uid="uid://bxggcfbdbcw7d" path="res://assets/sprites/rooms/main_hall/3.png" id="11_mcl2x"]
+[ext_resource type="Texture2D" uid="uid://ddu6v1b61pj84" path="res://assets/sprites/rooms/main_hall/4.png" id="12_t2qom"]
+[ext_resource type="Texture2D" uid="uid://dpxp6a1cwjxma" path="res://assets/sprites/rooms/main_hall/5.png" id="13_bls43"]
+[ext_resource type="Texture2D" uid="uid://bfi8u2g5rlgea" path="res://assets/sprites/rooms/main_hall/6.png" id="14_fuy0b"]
+[ext_resource type="Texture2D" uid="uid://x23vo4nb0xrj" path="res://assets/sprites/rooms/main_hall/7.png" id="15_16yid"]
+[ext_resource type="Texture2D" uid="uid://ddfxbrcmlpyqx" path="res://assets/sprites/rooms/main_hall/8.png" id="16_8v6y2"]
+[ext_resource type="Texture2D" uid="uid://cj18wv6gf3p83" path="res://assets/sprites/rooms/main_hall/9.png" id="17_m2s0f"]
+[ext_resource type="Texture2D" uid="uid://cq5xa425kimmm" path="res://assets/sprites/rooms/entry/1.png" id="18_2rxx8"]
+[ext_resource type="Texture2D" uid="uid://ca3byeps62eip" path="res://assets/sprites/items/haryskhal.png" id="haryskhal"]
 [ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
 [ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
 [ext_resource type="Texture2D" uid="uid://cumptnkm4bgc3" path="res://assets/sprites/manor/window_double.png" id="manor_window"]
@@ -21,14 +32,14 @@ size = Vector2(60, 360)
 script = ExtResource("6")
 
 [node name="Background" type="TextureRect" parent="." unique_id=2010495703]
-offset_right = 2400.0
+offset_right = 1195.0
 offset_bottom = 252.0
 texture = ExtResource("manor_wall")
 stretch_mode = 1
 
 [node name="FloorVisual" type="TextureRect" parent="." unique_id=349864924]
 offset_top = 252.0
-offset_right = 2400.0
+offset_right = 1195.0
 offset_bottom = 363.0
 texture = ExtResource("manor_floor")
 expand_mode = 2
@@ -48,14 +59,65 @@ position = Vector2(0, -176)
 shape = SubResource("RectangleShape2D_left")
 
 [node name="Window1" type="Sprite2D" parent="." unique_id=1810000001]
-position = Vector2(320, 131)
+visible = false
+position = Vector2(320, 158.8)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("manor_window")
 
 [node name="Window2" type="Sprite2D" parent="." unique_id=1810000002]
-position = Vector2(1100, 131)
+position = Vector2(954.95325, 158.8)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("manor_window")
+
+[node name="1" type="Sprite2D" parent="." unique_id=921020111]
+position = Vector2(439.39758, 130)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("9_8h8r2")
+
+[node name="2" type="Sprite2D" parent="." unique_id=1420927090]
+position = Vector2(142.99997, 131)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("10_73ehn")
+
+[node name="3" type="Sprite2D" parent="." unique_id=1988486630]
+position = Vector2(693.9532, 147)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("11_mcl2x")
+
+[node name="4" type="Sprite2D" parent="." unique_id=1447880876]
+position = Vector2(806.9532, 147)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("12_t2qom")
+
+[node name="5" type="Sprite2D" parent="." unique_id=309715011]
+position = Vector2(773.95325, 30)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("13_bls43")
+
+[node name="6" type="Sprite2D" parent="." unique_id=342437801]
+position = Vector2(484.39758, 218)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("14_fuy0b")
+
+[node name="7" type="Sprite2D" parent="." unique_id=167776591]
+position = Vector2(221, 199)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("15_16yid")
+
+[node name="8" type="Sprite2D" parent="." unique_id=826428608]
+position = Vector2(528.3976, 109)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("16_8v6y2")
+
+[node name="9" type="Sprite2D" parent="." unique_id=508541016]
+position = Vector2(308.99997, 155)
+scale = Vector2(0.83235806, 0.83416057)
+texture = ExtResource("17_m2s0f")
+
+[node name="10" type="Sprite2D" parent="." unique_id=1670471970]
+position = Vector2(620.00006, 251)
+scale = Vector2(0.6666667, 0.6666667)
+texture = ExtResource("18_2rxx8")
 
 [node name="Player" parent="." unique_id=1035253463 instance=ExtResource("1")]
 position = Vector2(80, 260)
@@ -66,33 +128,33 @@ position = Vector2(80, 260)
 position = Vector2(80, 260)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1674324491]
-position = Vector2(2400, 180)
+position = Vector2(1185, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=763442234]
 position = Vector2(0, 360)
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=2081614143]
-position = Vector2(2380, 180)
+position = Vector2(1165, 180)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2081614144]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="NoteEnv5" parent="." unique_id=242742008 instance=ExtResource("5")]
-position = Vector2(700, 255)
-examine_text = ""
+position = Vector2(220, 255)
 interaction_text = "Осмотреть рисунок"
 
 [node name="RitualPoem" parent="." unique_id=794592435 instance=ExtResource("5")]
-position = Vector2(1300, 255)
+visible = false
+position = Vector2(454.39758, 255)
 interaction_text = "Прочитать стихи"
 
 [node name="RiddleKamyolk" parent="." unique_id=569354130 instance=ExtResource("5")]
-position = Vector2(1700, 255)
+position = Vector2(691.95325, 255)
 interaction_text = "Прочитать загадку"
 
 [node name="Kamyolk" parent="." unique_id=1334760201 instance=ExtResource("5")]
-position = Vector2(2000, 255)
+position = Vector2(806.95325, 255)
 interaction_text = "Осмотреть камелёк"
 
 [node name="AmuletPickable" parent="." unique_id=1043989766 instance=ExtResource("7")]
@@ -102,6 +164,7 @@ monitoring = false
 item_id = "amulet"
 item_name = "Харысхал"
 pickup_text = "Харысхал. Тёплый на ощупь — будто жил в огне все эти годы."
+item_sprite = ExtResource("haryskhal")
 
 [node name="LoopFallenPicture" type="ColorRect" parent="." unique_id=1427627737]
 visible = false

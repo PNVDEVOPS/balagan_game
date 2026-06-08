@@ -4,6 +4,17 @@
 [ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="4_exam"]
+[ext_resource type="Texture2D" uid="uid://cq5xa425kimmm" path="res://assets/sprites/rooms/entry/1.png" id="8_ive00"]
+[ext_resource type="Texture2D" uid="uid://m5g80csjrwmt" path="res://assets/sprites/rooms/entry/2.png" id="9_uhwmh"]
+[ext_resource type="Texture2D" uid="uid://cse4bro7e361i" path="res://assets/sprites/rooms/entry/3.png" id="10_aqjh6"]
+[ext_resource type="Texture2D" uid="uid://d1qojppukctsr" path="res://assets/sprites/rooms/entry/4.png" id="11_qu2dt"]
+[ext_resource type="Texture2D" uid="uid://dsceor7mrp7nr" path="res://assets/sprites/rooms/entry/5.png" id="12_i6jdg"]
+[ext_resource type="Texture2D" uid="uid://kbmthbocv423" path="res://assets/sprites/rooms/entry/6.png" id="13_so5s8"]
+[ext_resource type="Texture2D" uid="uid://t73xc0xvj3a6" path="res://assets/sprites/rooms/entry/8.png" id="14_cvuo0"]
+[ext_resource type="Texture2D" uid="uid://cfaq851ptw1ef" path="res://assets/sprites/rooms/entry/9.png" id="15_emlxi"]
+[ext_resource type="Texture2D" uid="uid://rma0yplae0pg" path="res://assets/sprites/rooms/entry/10.png" id="16_aqjh6"]
+[ext_resource type="Texture2D" uid="uid://dxxf1l1ey4phi" path="res://assets/sprites/rooms/entry/11.png" id="17_qu2dt"]
+[ext_resource type="Texture2D" uid="uid://dfoaqpn57iqkh" path="res://assets/sprites/items/lamp_hand.png" id="18_qu2dt"]
 [ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
 [ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
 [ext_resource type="Texture2D" uid="uid://cumptnkm4bgc3" path="res://assets/sprites/manor/window_double.png" id="manor_window"]
@@ -26,22 +37,72 @@ size = Vector2(60, 140)
 script = ExtResource("1_entry")
 
 [node name="Background" type="TextureRect" parent="." unique_id=1315570580]
-offset_right = 1280.0
+offset_right = 825.0
 offset_bottom = 268.0
 texture = ExtResource("manor_wall")
 stretch_mode = 1
 
 [node name="FloorVisual" type="TextureRect" parent="." unique_id=1315570581]
 offset_top = 268.0
-offset_right = 1280.0
+offset_right = 824.0
 offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
 
 [node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900001]
-position = Vector2(698, 131)
-scale = Vector2(0.7, 0.7)
+position = Vector2(564.5585, 186.00002)
+scale = Vector2(0.60781246, 0.60781246)
 texture = ExtResource("manor_window")
+
+[node name="1" type="Sprite2D" parent="." unique_id=1961266957]
+position = Vector2(158, 258.5)
+scale = Vector2(0.6845238, 0.68333346)
+texture = ExtResource("8_ive00")
+
+[node name="2" type="Sprite2D" parent="." unique_id=116545637]
+position = Vector2(193, 223)
+scale = Vector2(0.5835581, 0.5835582)
+texture = ExtResource("9_uhwmh")
+
+[node name="3" type="Sprite2D" parent="." unique_id=337626191]
+position = Vector2(462.55844, 176)
+scale = Vector2(0.8831169, 0.77272725)
+texture = ExtResource("10_aqjh6")
+
+[node name="4" type="Sprite2D" parent="." unique_id=362690111]
+position = Vector2(257, 196)
+scale = Vector2(0.5915493, 0.50869566)
+texture = ExtResource("11_qu2dt")
+
+[node name="5" type="Sprite2D" parent="." unique_id=465954155]
+position = Vector2(327.00003, 193)
+scale = Vector2(0.43333337, 0.46069652)
+texture = ExtResource("12_i6jdg")
+
+[node name="6" type="Sprite2D" parent="." unique_id=492457031]
+position = Vector2(412, 145)
+scale = Vector2(0.7647059, 0.7647059)
+texture = ExtResource("13_so5s8")
+
+[node name="8" type="Sprite2D" parent="." unique_id=1691153746]
+position = Vector2(659.00006, 112.99999)
+scale = Vector2(0.6823529, 0.68235296)
+texture = ExtResource("14_cvuo0")
+
+[node name="9" type="Sprite2D" parent="." unique_id=157936344]
+position = Vector2(388, 231.00002)
+scale = Vector2(0.538194, 0.4946893)
+texture = ExtResource("15_emlxi")
+
+[node name="10" type="Sprite2D" parent="." unique_id=343559849]
+position = Vector2(668.69336, 212.04498)
+scale = Vector2(0.6460699, 0.64606994)
+texture = ExtResource("16_aqjh6")
+
+[node name="11" type="Sprite2D" parent="." unique_id=1392859386]
+position = Vector2(666.4193, 190)
+scale = Vector2(0.8888889, 0.88888884)
+texture = ExtResource("17_qu2dt")
 
 [node name="Player" parent="." unique_id=1035253464 instance=ExtResource("2_player")]
 position = Vector2(80, 276)
@@ -62,7 +123,7 @@ position = Vector2(0, -176)
 shape = SubResource("LeftWallShape")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392012]
-position = Vector2(1280, 350)
+position = Vector2(805, 350)
 
 [node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392013]
 position = Vector2(0, -176)
@@ -72,7 +133,7 @@ shape = SubResource("RightWallShape")
 position = Vector2(80, 276)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=746070553]
-position = Vector2(1280, 180)
+position = Vector2(805, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=1437339109]
 position = Vector2(0, 360)
@@ -85,35 +146,34 @@ collision_layer = 0
 shape = SubResource("ExitDoorShape")
 
 [node name="ForwardZone" type="Area2D" parent="." unique_id=1545464917]
-position = Vector2(1240, 235)
+position = Vector2(765, 235)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForwardZone" unique_id=613535758]
 shape = SubResource("FwdShape")
 
 [node name="ClothesExaminable" parent="." unique_id=563221368 instance=ExtResource("4_exam")]
-position = Vector2(300, 271)
+position = Vector2(257, 271)
 examine_text = "Довольно старинного вида одежда."
 interaction_text = "Осмотреть"
 
 [node name="WindowEntry" parent="." unique_id=2105272201 instance=ExtResource("4_exam")]
-position = Vector2(700, 271)
+position = Vector2(575.5585, 270)
 examine_text = "Дорога едва видна под снегом. Следы уже замело. Обратного пути нет."
 interaction_text = "Посмотреть в окно"
 
 [node name="NoteEntry1" parent="." unique_id=2105272202 instance=ExtResource("4_exam")]
-position = Vector2(500, 271)
+position = Vector2(466.55844, 270)
 interaction_text = "Осмотреть записку"
 
 [node name="OilLampSprite" type="Polygon2D" parent="." unique_id=1900002]
-position = Vector2(920, 256)
-color = Color(0.82, 0.62, 0.27, 1)
+position = Vector2(668, 190)
+color = Color(0.81960785, 0.61960787, 0.27058825, 0)
+texture = ExtResource("18_qu2dt")
+texture_offset = Vector2(6, 16)
+texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-8, 14, -5, -4, 5, -4, 8, 14)
 
-[node name="OilLampGlass" type="Polygon2D" parent="OilLampSprite" unique_id=1900004]
-color = Color(0.95, 0.82, 0.45, 1)
-polygon = PackedVector2Array(-4, -4, -2, -12, 2, -12, 4, -4)
-
 [node name="OilLampExaminable" parent="." unique_id=1900003 instance=ExtResource("4_exam")]
-position = Vector2(920, 271)
+position = Vector2(667.5585, 272)
 interaction_text = "Осмотреть лампу"

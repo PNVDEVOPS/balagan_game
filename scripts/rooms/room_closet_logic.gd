@@ -44,7 +44,7 @@ func _ready() -> void:
 		DialogueManager.show_text("", _get_loop_text(_back_trigger_count))
 	else:
 		SubtitleManager.show_subtitle(
-			"Ты не должен быть здесь.",
+			"Тут холодно",
 			SubtitleManager.Pos.MID_LEFT
 		)
 
@@ -67,9 +67,10 @@ func _add_back_zone() -> void:
 func _on_back_zone(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
-	# Во время квеста лампы чулан пропускает назад (за лампой в Entry); иначе — петля
+	# Во время квеста лампы чулан ведёт СРАЗУ в прихожую за лампой —
+	# минуя dark_c1 и коридор entry_c1 (короткий обратный путь). Иначе — петля.
 	if GameManager.lamp_needed and not Inventory.has_item("oil_lamp"):
-		GameManager.change_room("door_back")
+		GameManager.change_room_direct("entry", "door_back")
 		return
 	_back_trigger_count += 1
 	GameManager.change_room("door_exit")

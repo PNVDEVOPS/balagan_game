@@ -21,6 +21,8 @@ var puzzle_unblock_solved: bool = false
 # Квест масляной лампы (тьма dark_c2 → лампа → камелёк)
 var lamp_needed: bool = false   # игрока уже отшвырнуло тьмой, нужен свет
 var kamylok_lit: bool = false   # камелёк зажжён лампой, зал освещён
+# Игрок только что выбежал из dark_c2 влево — в коридоре entry_c3 показать «Фонарик сдох…»
+var pending_flashlight_dead: bool = false
 
 var _room_graph_original: Dictionary = {}
 var _screen_fade: Node = null

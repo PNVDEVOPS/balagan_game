@@ -13,16 +13,21 @@ const ARTIFACT_NAMES: Dictionary = {
 	"doll": "куклу",
 	"earring": "серёжку"
 }
+const HARYSHAL_TEX := "res://assets/ui/haryshal.png"
+# Визуалы камелька: спрайт «4» — затухший (поленья), спрайт «3» — горящий.
+const HEARTH_COLD_NODE := "4"
+const HEARTH_LIT_NODE  := "3"
 
 func _ready() -> void:
 	_apply_loop_visuals()
 	_setup_puzzle()
+	_set_hearth_lit(GameManager.kamylok_lit)   # сначала затухший, после — горящий
 	_add_back_zone()
 	call_deferred("_refresh_lighting")
 
 	if _all_artifacts_collected():
 		await get_tree().process_frame
-		SubtitleManager.show_subtitle("Ты дошёл.", SubtitleManager.Pos.TOP_CENTER)
+		SubtitleManager.show_subtitle("Зачем ты здесь?.", SubtitleManager.Pos.TOP_CENTER)
 
 	var exit_zone := get_node_or_null("ExitZone")
 	if exit_zone:
@@ -112,7 +117,7 @@ func _on_kamylok_examined() -> void:
 		DialogueManager.show_text("", "Камелёк ждёт.")
 		return
 	if kamylok_state == KamylokState.BURNING:
-		DialogueManager.show_text("", "Огонь горит ровно. Тепло наконец.")
+		DialogueManager.show_text("", "Огонь горит. Тепло наконец.")
 		return
 	if kamylok_state == KamylokState.RITUAL_READY:
 		DialogueManager.show_text("", "Пламя стало другим — тихое, почти прозрачное. Ждёт даров.")
@@ -142,24 +147,39 @@ func _on_puzzle_solved(_moves: int) -> void:
 	if amulet_node:
 		amulet_node.queue_free()
 	# 1) подбор артефакта (харысхал)
-	DialogueManager.show_text("", "Под золой — что-то блестит. Само ложится в ладонь.")
+	DialogueManager.show_text("", "В шкатулке что-то лежит.")
 	await DialogueManager.dialogue_finished
 	GameManager.collect_artifact("amulet")
-	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в огне все эти годы.")
-	await DialogueManager.dialogue_finished
-	# 2) огонь зажигается
+	# Попап о получении харысхала (картинка-амулет)
+	var hary_tex: Texture2D = load(HARYSHAL_TEX) if ResourceLoader.exists(HARYSHAL_TEX) else null
+	ItemPopup.show_item("Харысхал", "Подвесной амулет, тёплая на ощупь — будто жила в огне все эти годы.", hary_tex)
+	await get_tree().create_timer(3.0).timeout   # дать рассмотреть попап
+	# 2) огонь зажигается (затухший камелёк → горящий)
 	await _ignite_kamyolk()
 	# 3) появляется Кыдаана + конец демо
 	await _demo_amulet_sequence()
 
 func _fire_lit() -> void:
-	DialogueManager.show_text("", "Огонь занимается медленно, потом ярко — камелёк снова живёт.")
+	DialogueManager.show_text("", "Огонь занимается медленно, потом вспыхивает, освещая зал.")
 	await DialogueManager.dialogue_finished
 	await get_tree().create_timer(2.0).timeout
+
+# Переключает визуал камелька: затухший (поленья) ↔ горящий.
+# Горящий ставим ровно на место затухшего — огонь зажигается в том же очаге (без сдвига).
+func _set_hearth_lit(lit: bool) -> void:
+	var cold := get_node_or_null(HEARTH_COLD_NODE)
+	var hot := get_node_or_null(HEARTH_LIT_NODE)
+	if cold and hot:
+		hot.position = cold.position
+	if cold:
+		cold.visible = not lit
+	if hot:
+		hot.visible = lit
 
 # Камелёк вспыхивает после подбора харысхала — освещает зал, лампа больше не нужна
 func _ignite_kamyolk() -> void:
 	GameManager.kamylok_lit = true
+	_set_hearth_lit(true)                       # затухший камелёк → горящий
 	if Inventory.has_item("oil_lamp"):
 		Inventory.remove_item("oil_lamp")
 	DialogueManager.show_text("", "Камелёк вспыхивает сам — пламя встаёт высоко, тепло и свет заполняют зал.")
@@ -181,7 +201,7 @@ func _refresh_lighting() -> void:
 
 func _on_amulet_picked_up() -> void:
 	GameManager.collect_artifact("amulet")
-	DialogueManager.show_text("", "Харысхал. Косточка, тёплая на ощупь — будто жила в огне все эти годы.")
+	DialogueManager.show_text("", "Харысхал. Подвесной амулет, тёплая на ощупь — будто жила в огне все эти годы.")
 	await DialogueManager.dialogue_finished
 	await _demo_amulet_sequence()
 
@@ -190,31 +210,95 @@ func _demo_amulet_sequence() -> void:
 	if player and player.has_method("freeze"):
 		player.freeze()
 
-	# Появление духа
-	var silhouette := Sprite2D.new()
-	var tex_path := "res://assets/sprites/ghost_figure.webp"
-	if ResourceLoader.exists(tex_path):
-		silhouette.texture = load(tex_path)
-	silhouette.modulate = Color(0.2, 0.2, 0.5, 0.0)
-	silhouette.position = Vector2(1400, 200)
-	silhouette.scale = Vector2(1.8, 1.8)
-	add_child(silhouette)
-	var tw_in := create_tween()
-	tw_in.tween_property(silhouette, "modulate:a", 0.75, 2.5)
-	await tw_in.finished
+	# Атмосфера как в тёмных комнатах: зум, плёночный шум, виньетка
+	_kydaana_atmosphere(player)
 
-	# Диалог Кыдааны (заглушка — текст заменить в chapter2_balagan.json → kydaana_demo_end)
+	# Кыдаана возникает справа от персонажа — проигрываем анимацию появления
+	var ky := _spawn_kydaana(player)
+	var tw_in := create_tween()
+	tw_in.tween_property(ky, "modulate:a", 1.0, 0.4)
+	ky.play("appear")
+	if ky.sprite_frames and ky.sprite_frames.get_frame_count("appear") > 0:
+		await ky.animation_finished
+	else:
+		await get_tree().create_timer(1.2).timeout
+	ky.play("idle")
+
+	# Небольшая задержка после отрисовки появления — потом реплика
+	await get_tree().create_timer(0.7).timeout
+
+	# Диалог Кыдааны (текст в chapter2_balagan.json → kydaana_demo_end)
 	DialogueManager.start_dialogue("chapter2_balagan/kydaana_demo_end")
 	await DialogueManager.dialogue_finished
 
-	# Дух уходит
+	# Кыдаана растворяется
 	var tw_out := create_tween()
-	tw_out.tween_property(silhouette, "modulate:a", 0.0, 2.0)
+	tw_out.tween_property(ky, "modulate:a", 0.0, 1.5)
 	await tw_out.finished
-	silhouette.queue_free()
+	ky.queue_free()
 
 	# Карточка «Конец демоверсии»
 	await _show_demo_end_card()
+
+# Строит кадры Кыдааны из PNG: appear (одноразово) → idle (цикл)
+func _build_kydaana_frames() -> SpriteFrames:
+	var sf := SpriteFrames.new()
+	if sf.has_animation("default"):
+		sf.remove_animation("default")
+	sf.add_animation("appear")
+	sf.set_animation_loop("appear", false)
+	sf.set_animation_speed("appear", 9.0)
+	for i in range(1, 12):
+		var ap := "res://assets/sprites/kydaana/appear/%d.png" % i
+		if ResourceLoader.exists(ap):
+			sf.add_frame("appear", load(ap))
+	sf.add_animation("idle")
+	sf.set_animation_loop("idle", true)
+	sf.set_animation_speed("idle", 2.0)
+	for i in range(1, 3):
+		var ip := "res://assets/sprites/kydaana/idle/%d.png" % i
+		if ResourceLoader.exists(ip):
+			sf.add_frame("idle", load(ip))
+	return sf
+
+func _spawn_kydaana(player: Node) -> AnimatedSprite2D:
+	var ky := AnimatedSprite2D.new()
+	ky.sprite_frames = _build_kydaana_frames()
+	ky.z_index = 40
+	ky.centered = true
+	# Кадр 1000x1253; масштаб 0.18 → ~180x225. Ставим справа, ступни у пола (y≈262).
+	# Кадр 1000x1253. Масштаб подобран так, чтобы рост был вровень с игроком (~72px).
+	const KY_SCALE := 0.13
+	const FLOOR_Y := 262.0
+	var px: float = player.global_position.x if player else 806.0
+	ky.scale = Vector2(KY_SCALE, KY_SCALE)
+	ky.modulate = Color(1, 1, 1, 0)
+	add_child(ky)
+	# Ставим справа от игрока, ступни у пола.
+	ky.global_position = Vector2(px + 130.0, FLOOR_Y - (1253.0 * KY_SCALE) * 0.5)
+	return ky
+
+# Зум камеры + усиление виньетки и плёночного шума (как в room_corridor_dark)
+func _kydaana_atmosphere(player: Node) -> void:
+	var cam: Camera2D = player.get_node_or_null("Camera2D") if player else null
+	if cam:
+		var tw := create_tween()
+		tw.tween_property(cam, "zoom", Vector2(1.12, 1.12), 1.2)
+	var hud := get_node_or_null("HUD")
+	if not hud:
+		return
+	var v := hud.get_node_or_null("Vignette")
+	if v and v.material is ShaderMaterial:
+		var vm: ShaderMaterial = v.material.duplicate()
+		v.material = vm
+		var tw2 := create_tween()
+		tw2.tween_method(func(s: float): vm.set_shader_parameter("strength", s), 0.38, 0.85, 1.2)
+	var g := hud.get_node_or_null("Grain")
+	if g and g.material is ShaderMaterial:
+		var gm: ShaderMaterial = g.material.duplicate()
+		g.material = gm
+		var tw3 := create_tween()
+		tw3.tween_method(func(s: float): gm.set_shader_parameter("strength", s), 0.06, 0.16, 1.2)
 
 func _show_demo_end_card() -> void:
 	var overlay := CanvasLayer.new()

@@ -26,6 +26,11 @@ func start_chapter(chapter: Chapter) -> void:
 	var scene_path := _get_chapter_scene(chapter)
 	var room_id := _get_chapter_room(chapter)
 
+	# Уходим с улицы (ROAD) — гасим уличный эмбиент и музыку начала.
+	if chapter != Chapter.ROAD:
+		AudioManager.stop_ambient(0.8)
+		AudioManager.stop_music(0.8)
+
 	await _fade_out()
 
 	GameManager.current_room = room_id

@@ -121,10 +121,18 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not container.visible:
 		return
-	if event.is_action_pressed("advance_dialogue"):
-		if is_typing:
-			text_label.text = full_text
-			is_typing = false
-		else:
-			DialogueManager.advance()
-		get_viewport().set_input_as_handled()
+	# Любая клавиша или левый клик мыши продвигают реплику дальше
+	var advance := false
+	if event is InputEventKey and event.pressed and not event.echo:
+		advance = true
+	elif event is InputEventMouseButton and event.pressed \
+			and event.button_index == MOUSE_BUTTON_LEFT:
+		advance = true
+	if not advance:
+		return
+	if is_typing:
+		text_label.text = full_text
+		is_typing = false
+	else:
+		DialogueManager.advance()
+	get_viewport().set_input_as_handled()

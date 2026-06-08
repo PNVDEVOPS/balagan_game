@@ -2,9 +2,22 @@
 
 [ext_resource type="Script" uid="uid://x07dl1ermy2p" path="res://scripts/rooms/room_storage_logic.gd" id="1_stor"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="2_exam"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/window_single.png" id="manor_window"]
+[ext_resource type="Texture2D" uid="uid://by6jwdfqx0u5t" path="res://assets/sprites/rooms/storage/1.png" id="6_g6bjt"]
+[ext_resource type="Texture2D" uid="uid://d0chnqw2q1lef" path="res://assets/sprites/rooms/storage/2.png" id="7_3p3m7"]
+[ext_resource type="Texture2D" uid="uid://na60ailoi4ns" path="res://assets/sprites/rooms/storage/3.png" id="8_eb7m0"]
+[ext_resource type="Texture2D" uid="uid://0us44lddacx8" path="res://assets/sprites/rooms/storage/4.png" id="9_kv7ir"]
+[ext_resource type="Texture2D" uid="uid://b0ev217aq6dmm" path="res://assets/sprites/rooms/storage/5.png" id="10_eoral"]
+[ext_resource type="Texture2D" uid="uid://c27jp5ske32oe" path="res://assets/sprites/rooms/storage/6.png" id="11_llxk4"]
+[ext_resource type="Texture2D" uid="uid://jkiatcbcoxb8" path="res://assets/sprites/rooms/storage/7.png" id="12_p0q86"]
+[ext_resource type="Texture2D" uid="uid://yyiifrxa3thx" path="res://assets/sprites/rooms/storage/8.png" id="13_chx5l"]
+[ext_resource type="Texture2D" uid="uid://bnstjaa2eq8r6" path="res://assets/sprites/rooms/storage/9.png" id="14_b2wf1"]
+[ext_resource type="Texture2D" uid="uid://c04dss81hl3qc" path="res://assets/sprites/rooms/storage/10.png" id="15_35pat"]
+[ext_resource type="Texture2D" uid="uid://cx4xi6yym8dxf" path="res://assets/sprites/rooms/storage/11.png" id="16_t7cwt"]
+[ext_resource type="Texture2D" uid="uid://bk7fn5uxh7gfc" path="res://assets/sprites/rooms/storage/12.png" id="17_soj17"]
+[ext_resource type="Texture2D" uid="uid://cw35chqh60214" path="res://assets/sprites/rooms/storage/13.png" id="18_o6kf8"]
+[ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" uid="uid://b2nwlyuftr0ne" path="res://assets/sprites/manor/window_single.png" id="manor_window"]
 
 [sub_resource type="RectangleShape2D" id="FwdShape"]
 size = Vector2(60, 140)
@@ -18,7 +31,7 @@ offset_bottom = 360.0
 texture = ExtResource("manor_wall")
 stretch_mode = 1
 
-[node name="FloorVisual" type="TextureRect" parent="."]
+[node name="FloorVisual" type="TextureRect" parent="." unique_id=1453168208]
 offset_top = 248.0
 offset_right = 640.0
 offset_bottom = 360.0
@@ -52,6 +65,72 @@ examine_text = "На бересте — несколько слов."
 interaction_text = "Прочитать"
 
 [node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900006]
-position = Vector2(180, 154)
+position = Vector2(114.00002, 154)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("manor_window")
+
+[node name="1" type="Sprite2D" parent="." unique_id=768463550]
+position = Vector2(289, 139)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("6_g6bjt")
+
+[node name="2" type="Sprite2D" parent="." unique_id=1237345800]
+position = Vector2(289, 139)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("7_3p3m7")
+
+[node name="3" type="Sprite2D" parent="." unique_id=1934412283]
+position = Vector2(356, 162)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("8_eb7m0")
+
+[node name="4" type="Sprite2D" parent="." unique_id=174950086]
+position = Vector2(116.000015, 56.000023)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("9_kv7ir")
+
+[node name="5" type="Sprite2D" parent="." unique_id=1860057667]
+position = Vector2(289, 139)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("10_eoral")
+
+[node name="6" type="Sprite2D" parent="." unique_id=176106512]
+position = Vector2(261, 168.00002)
+rotation = 1.5707964
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("11_llxk4")
+
+[node name="7" type="Sprite2D" parent="." unique_id=426989096]
+position = Vector2(585, 37.00001)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("12_p0q86")
+
+[node name="8" type="Sprite2D" parent="." unique_id=354346389]
+position = Vector2(196, 73.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("13_chx5l")
+
+[node name="9" type="Sprite2D" parent="." unique_id=805819328]
+position = Vector2(455, 144.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("14_b2wf1")
+
+[node name="10" type="Sprite2D" parent="." unique_id=428602139]
+position = Vector2(392, 132.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("15_35pat")
+
+[node name="11" type="Sprite2D" parent="." unique_id=654999260]
+position = Vector2(550, 188.00002)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("16_t7cwt")
+
+[node name="12" type="Sprite2D" parent="." unique_id=370894877]
+position = Vector2(203.00003, 211)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("17_soj17")
+
+[node name="13" type="Sprite2D" parent="." unique_id=788551460]
+position = Vector2(445.00003, 230)
+scale = Vector2(0.79999506, 0.79999506)
+texture = ExtResource("18_o6kf8")

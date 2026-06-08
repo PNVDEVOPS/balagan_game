@@ -5,7 +5,7 @@
 [ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="3"]
 [ext_resource type="Shader" path="res://assets/shaders/film_grain.gdshader" id="4"]
 [ext_resource type="Shader" path="res://assets/shaders/menu_bg.gdshader" id="5"]
-[ext_resource type="Texture2D" path="res://assets/ui/logo_yor.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/ui/title_main.png" id="6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_menubg"]
 shader = ExtResource("5")
@@ -72,9 +72,9 @@ anchor_top = 1.0
 anchor_right = 0.0
 anchor_bottom = 1.0
 offset_left = 30.0
-offset_top = -285.0
-offset_right = 162.0
-offset_bottom = -205.0
+offset_top = -300.0
+offset_right = 230.0
+offset_bottom = -200.0
 grow_horizontal = 1
 grow_vertical = 0
 texture = ExtResource("6")

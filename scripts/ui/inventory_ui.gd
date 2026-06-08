@@ -12,12 +12,19 @@ const ITEM_NAMES: Dictionary = {
 	"oil_lamp": "Лампа",
 }
 
+# Иконки предметов в ячейках (рисуются 1:1, с сохранением пропорций)
+const ITEM_ICONS: Dictionary = {
+	"flashlight": "res://assets/sprites/items/flashlight_hand.png",
+	"oil_lamp":   "res://assets/sprites/items/lamp_hand.png",
+}
+
 @onready var inventory_panel: PanelContainer = $InventoryPanel
 @onready var bag_button: Button = $BagButton
 @onready var slots_row: HBoxContainer = $InventoryPanel/SlotsRow
 
 var is_open: bool = false
 var _slots: Array[Button] = []
+var _icons: Array[TextureRect] = []
 
 func _ready() -> void:
 	_apply_panel_style()
@@ -39,9 +46,10 @@ func _build_slots() -> void:
 	var slot_tex := load("res://assets/ui/inv_slot.png") as Texture2D
 	for i in SLOT_COUNT:
 		var slot := Button.new()
-		slot.custom_minimum_size = Vector2(28, 22)
+		slot.custom_minimum_size = Vector2(30, 30)   # квадрат 1:1
 		slot.focus_mode = Control.FOCUS_NONE
 		slot.flat = false
+		slot.clip_text = true
 		slot.add_theme_font_size_override("font_size", 8)
 		if slot_tex:
 			var style := StyleBoxTexture.new()
@@ -54,6 +62,18 @@ func _build_slots() -> void:
 			slot.add_theme_stylebox_override("disabled", style)
 			slot.add_theme_stylebox_override("hover",    style)
 			slot.add_theme_stylebox_override("pressed",  style)
+		# Иконка предмета поверх ячейки, с сохранением пропорций (1:1)
+		var icon := TextureRect.new()
+		icon.set_anchors_preset(Control.PRESET_FULL_RECT)
+		icon.offset_left = 4.0
+		icon.offset_top = 4.0
+		icon.offset_right = -4.0
+		icon.offset_bottom = -4.0
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		slot.add_child(icon)
+		_icons.append(icon)
 		slot.pressed.connect(_on_slot_pressed.bind(i))
 		slots_row.add_child(slot)
 		_slots.append(slot)
@@ -66,11 +86,20 @@ func toggle() -> void:
 func _refresh() -> void:
 	for i in _slots.size():
 		var slot: Button = _slots[i]
+		var icon: TextureRect = _icons[i]
 		if i < Inventory.items.size():
-			slot.text = ITEM_NAMES.get(Inventory.items[i], Inventory.items[i])
+			var item_id: String = Inventory.items[i]
+			var tex_path: String = ITEM_ICONS.get(item_id, "")
+			if tex_path != "" and ResourceLoader.exists(tex_path):
+				icon.texture = load(tex_path)
+				slot.text = ""                       # есть иконка — текст не нужен
+			else:
+				icon.texture = null
+				slot.text = ITEM_NAMES.get(item_id, item_id)
 			slot.modulate = Color.WHITE
 			slot.disabled = false
 		else:
+			icon.texture = null
 			slot.text = ""
 			slot.modulate = Color(0.35, 0.35, 0.4, 0.8)
 			slot.disabled = true

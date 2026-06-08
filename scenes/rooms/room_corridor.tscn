@@ -5,9 +5,19 @@
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://laika001" path="res://scenes/characters/laika.tscn" id="4_laika"]
 [ext_resource type="PackedScene" uid="uid://2uqwlc1065aa" path="res://scenes/objects/examinable.tscn" id="5_exam"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
-[ext_resource type="Texture2D" path="res://assets/sprites/manor/window_single.png" id="manor_window"]
+[ext_resource type="Texture2D" uid="uid://wr7cghss88c7" path="res://assets/sprites/rooms/corridor/1.png" id="9_ktijb"]
+[ext_resource type="Texture2D" uid="uid://csaxfbl110vpd" path="res://assets/sprites/rooms/corridor/2.png" id="10_b4ups"]
+[ext_resource type="Texture2D" uid="uid://738a5jxe5uxg" path="res://assets/sprites/rooms/corridor/3.png" id="11_li7eq"]
+[ext_resource type="Texture2D" uid="uid://du2pirbxwogmo" path="res://assets/sprites/rooms/corridor/4.png" id="12_ivfon"]
+[ext_resource type="Texture2D" uid="uid://dfaifqv8kn85f" path="res://assets/sprites/rooms/corridor/5.png" id="13_0ymvh"]
+[ext_resource type="Texture2D" uid="uid://dw6b5lkk7y26o" path="res://assets/sprites/rooms/corridor/6.png" id="14_0w0a1"]
+[ext_resource type="Texture2D" uid="uid://chqhpop4jheoi" path="res://assets/sprites/rooms/corridor/7.png" id="15_5owpo"]
+[ext_resource type="Texture2D" uid="uid://c2lmo2tmwerf4" path="res://assets/sprites/rooms/corridor/8.png" id="16_5t314"]
+[ext_resource type="Texture2D" uid="uid://by5di0armwcot" path="res://assets/sprites/rooms/corridor/9.png" id="17_w7q2m"]
+[ext_resource type="Texture2D" uid="uid://dsceor7mrp7nr" path="res://assets/sprites/rooms/entry/5.png" id="18_ajvn8"]
+[ext_resource type="Texture2D" uid="uid://c71vj1jk4432u" path="res://assets/sprites/manor/floor_planks.png" id="manor_floor"]
+[ext_resource type="Texture2D" uid="uid://brri0fohd4m5q" path="res://assets/sprites/manor/wall_logs.png" id="manor_wall"]
+[ext_resource type="Texture2D" uid="uid://b2nwlyuftr0ne" path="res://assets/sprites/manor/window_single.png" id="manor_window"]
 
 [sub_resource type="WorldBoundaryShape2D" id="FloorShape"]
 
@@ -27,27 +37,77 @@ size = Vector2(80, 160)
 script = ExtResource("1_corr")
 
 [node name="Background" type="TextureRect" parent="." unique_id=769216410]
-offset_right = 1600.0
+offset_right = 1239.0
 offset_bottom = 252.0
 texture = ExtResource("manor_wall")
 stretch_mode = 1
 
 [node name="FloorVisual" type="TextureRect" parent="." unique_id=769216411]
 offset_top = 252.0
-offset_right = 1600.0
+offset_right = 1239.0
 offset_bottom = 360.0
 texture = ExtResource("manor_floor")
 stretch_mode = 1
 
 [node name="WindowSprite" type="Sprite2D" parent="." unique_id=1900002]
-position = Vector2(332, 131)
+position = Vector2(262, 160.8)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("manor_window")
 
 [node name="WindowSprite2" type="Sprite2D" parent="." unique_id=1900003]
-position = Vector2(1000, 131)
+position = Vector2(977, 160.8)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("manor_window")
+
+[node name="1" type="Sprite2D" parent="." unique_id=228581664]
+position = Vector2(372, 136.00002)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("9_ktijb")
+
+[node name="2" type="Sprite2D" parent="." unique_id=563106965]
+position = Vector2(415.00003, 132)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("10_b4ups")
+
+[node name="3" type="Sprite2D" parent="." unique_id=1453214824]
+position = Vector2(374.00003, 180.00002)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("11_li7eq")
+
+[node name="4" type="Sprite2D" parent="." unique_id=1103889125]
+position = Vector2(548, 162)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("12_ivfon")
+
+[node name="5" type="Sprite2D" parent="." unique_id=793271052]
+position = Vector2(146.00002, 162.01233)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("13_0ymvh")
+
+[node name="6" type="Sprite2D" parent="." unique_id=351786448]
+position = Vector2(416, 184)
+scale = Vector2(0.83894247, 0.83894247)
+texture = ExtResource("14_0w0a1")
+
+[node name="7" type="Sprite2D" parent="." unique_id=732650322]
+position = Vector2(463, 165)
+scale = Vector2(0.88000035, 0.88000035)
+texture = ExtResource("15_5owpo")
+
+[node name="8" type="Sprite2D" parent="." unique_id=1825145968]
+position = Vector2(645.00006, 162.01233)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("16_5t314")
+
+[node name="9" type="Sprite2D" parent="." unique_id=865749533]
+position = Vector2(809, 162.01233)
+scale = Vector2(0.7189426, 0.7189426)
+texture = ExtResource("17_w7q2m")
+
+[node name="10" type="Sprite2D" parent="." unique_id=252243297]
+position = Vector2(871.00006, 171.00002)
+scale = Vector2(0.6333333, 0.6333333)
+texture = ExtResource("18_ajvn8")
 
 [node name="Player" parent="." unique_id=1035253465 instance=ExtResource("2_player")]
 position = Vector2(80, 260)
@@ -68,7 +128,7 @@ position = Vector2(0, -176)
 shape = SubResource("LeftWallShape")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1847392014]
-position = Vector2(1600, 350)
+position = Vector2(1218, 350)
 
 [node name="RightWallShape" type="CollisionShape2D" parent="RightWall" unique_id=1847392015]
 position = Vector2(0, -176)
@@ -78,34 +138,34 @@ shape = SubResource("RightWallShape")
 position = Vector2(80, 260)
 
 [node name="RoomRight" type="Marker2D" parent="." unique_id=1299071123]
-position = Vector2(1600, 180)
+position = Vector2(1218, 180)
 
 [node name="RoomBottom" type="Marker2D" parent="." unique_id=755932259]
 position = Vector2(0, 360)
 
 [node name="ExitZone" type="Area2D" parent="." unique_id=1412378077]
-position = Vector2(1560, 235)
+position = Vector2(1178, 235)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone" unique_id=2066047497]
 shape = SubResource("ExitShape")
 
 [node name="WindowExamine" parent="." unique_id=156421091 instance=ExtResource("5_exam")]
-position = Vector2(330, 252)
+position = Vector2(260, 252)
 examine_text = "Темно за окном."
 interaction_text = "Посмотреть в окно"
 
 [node name="NoteCorr1" parent="." unique_id=156421092 instance=ExtResource("5_exam")]
-position = Vector2(700, 252)
+position = Vector2(549, 252)
 interaction_text = "Осмотреть записку"
 
 [node name="LaikaTrigger" type="Area2D" parent="." unique_id=874890696]
-position = Vector2(900, 235)
+position = Vector2(804, 235)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaikaTrigger" unique_id=1636203791]
 shape = SubResource("LaikaTriggerShape")
 
 [node name="Laika" parent="." unique_id=157373864 instance=ExtResource("4_laika")]
-position = Vector2(1073, 260)
+position = Vector2(977, 260)
 auto_appear = false
